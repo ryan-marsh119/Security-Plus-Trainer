@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: securityplus
+      POSTGRES_USER: secplus_user
+      POSTGRES_PASSWORD: secplus_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # backend and frontend services will be added in Phase 4 / Phase 6
+
+volumes:
+  postgres_data:
