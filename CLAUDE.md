@@ -59,11 +59,37 @@ npm start
 
 > Emerge as you work — keep this updated.
 
+## Schema Notes (from Phase 1)
+
+Core tables and their purpose — see `security_plus_trainer/resources/edu_platform_research.md` for full DDL.
+
+| Table | Purpose |
+|-------|---------|
+| `domains` | 5 SY0-701 exam domains with weight % |
+| `objectives` | Sub-objectives within each domain (e.g. 1.1, 2.3) |
+| `questions` | All question content; `question_type` enum covers MC, multi-select, true_false, drag_drop, fill_blank, pbq_simulation, ordering |
+| `answer_choices` | Choice rows for MC/multi-select; `is_correct` flag |
+| `answer_keys` | JSONB `answer_data` — canonical answer for all types |
+| `users` | Auth; handled by Django's built-in User model |
+| `user_question_progress` | SM-2 spaced repetition state per user per question |
+| `exam_sessions` | Practice exam or study session records |
+| `session_answers` | Per-question responses within a session |
+| `user_domain_progress` | Aggregated accuracy per user per domain |
+
+**Key design decisions:**
+- Answer keys use JSONB to support all question types without a polymorphic mess
+- SM-2 algorithm for spaced repetition (`ease_factor`, `interval_days`, `repetitions`, `due_date`)
+- `user_question_progress.card_state`: new → learning → review → mastered
+- `answer_keys.hint` — shown on first wrong attempt; full `explanation` on second (Brilliant two-strike rule)
+- `objectives.concept_card` — 2–4 sentence explanation shown after a pretest question attempt
+- Session builder must interleave objectives within a domain (no blocked drilling)
+
 ## Phase Log
 
 > Record loops back to earlier phases here so future-Claude understands the history.
 
 - **Phase 0** (2026-05-17): Project initialized. Git repo created. Virtualenv: `venv/`. Docker Compose for Postgres configured.
+- **Phase 1** (2026-05-17): Platform research complete. Schema design finalized. SM-2 spaced repetition chosen. See `security_plus_trainer/resources/edu_platform_research.md`.
 
 ## Security+ Domain Tracker (Objectives Touched)
 
@@ -72,3 +98,4 @@ npm start
 | Phase | Domains Touched |
 |-------|----------------|
 | Phase 0 | — |
+| Phase 1 | All 5 domains (schema design maps to all) |
