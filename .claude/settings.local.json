@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:lognpacific.com)",
+      "WebFetch(domain:www.examcompass.com)",
+      "WebFetch(domain:www.comptia.org)",
+      "Bash(python -c \"import os; [os.makedirs\\(p, exist_ok=True\\) for p in ['backend/questions/management', 'backend/questions/management/commands']]\")"
+    ]
+  }
+}

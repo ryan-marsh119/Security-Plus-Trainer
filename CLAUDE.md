@@ -30,20 +30,52 @@ security_plus_trainer/
 
 ## How to Run
 
-> Fill in as Phase 0 progresses.
-
 ```bash
 # Start PostgreSQL via Docker Compose
 docker compose up -d db
 
-# Backend (Django)
+# Backend (Django dev server)
 cd backend
-python manage.py runserver
+../venv/Scripts/python manage.py migrate
+../venv/Scripts/python manage.py runserver
 
-# Frontend (React)
+# Import questions from CSVs (after migrations)
+../venv/Scripts/python manage.py import_questions
+
+# Frontend (Vite dev server — http://localhost:5173)
 cd frontend
-npm start
+npm run dev
 ```
+
+## Auth Strategy
+
+Session-based (Django sessions + CSRF). Rationale: single-domain SPA, no mobile client, simpler than JWT. CSRF token sent in cookie, React reads it via `document.cookie` and attaches as `X-CSRFToken` header on mutating requests.
+
+## API
+
+**Base URL:** `/api/v1/`
+
+All endpoints require authentication (session cookie) except `POST /auth/login/` and `POST /auth/register/`.
+
+## Frontend Stack
+
+| Tool | Role |
+|------|------|
+| Vite + React | Build tool + UI framework |
+| React Router v6 | Client-side routing |
+| Zustand | State (sessionStore, userStore) |
+| Axios | API client with CSRF interceptor |
+| Tailwind CSS v4 | Utility-first styling |
+
+## Dashboard Milestones
+
+| Milestone | Trigger |
+|-----------|---------|
+| Novice | < 20% of questions seen |
+| Apprentice | ≥ 20% seen, ≥ 60% accuracy |
+| Practitioner | ≥ 40% seen, ≥ 70% accuracy |
+| Professional | ≥ 60% seen, ≥ 80% accuracy |
+| Expert | ≥ 80% seen, ≥ 85% accuracy |
 
 ## Conventions & Rules
 
@@ -91,6 +123,7 @@ Core tables and their purpose — see `security_plus_trainer/resources/edu_platf
 - **Phase 0** (2026-05-17): Project initialized. Git repo created. Virtualenv: `venv/`. Docker Compose for Postgres configured.
 - **Phase 1** (2026-05-17): Platform research complete. Schema design finalized. SM-2 spaced repetition chosen. See `security_plus_trainer/resources/edu_platform_research.md`.
 - **Phase 2** (2026-05-18): 248 questions total across all 5 domains. Initial 100 knowledge-based + 148 web-sourced (CompTIA official site + lognpacific.com free practice tests). Domain 4 grew from 24 → 118 questions (major gap filled). CSVs at `security_plus_trainer/resources/domain_*.csv`. See `extraction_log.txt`, `coverage_map.md`, `generate_questions.py`, `generate_web_questions.py`.
+- **Phase 3** (2026-05-18): Full-stack scaffold complete. Django backend: questions/progress/users apps with models, views, serializers, URLs, and import_questions management command. Frontend: Vite + React + Tailwind v4 + React Router v6 + Zustand + Axios. All stub pages (Login, Register, Dashboard, StudySession, PracticeExam, PBQHub, PBQSession, Results) wired in App.jsx. `python manage.py check` passes. Frontend builds cleanly. See `resources/architecture.md` for full design doc.
 
 ## Security+ Domain Tracker (Objectives Touched)
 

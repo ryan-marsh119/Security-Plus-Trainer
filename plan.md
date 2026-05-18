@@ -179,7 +179,8 @@ Deliverables must include:
   answer_explanation fields
 - Django model method signatures: get_answer_key(), get_answer_explanation(),
   show_correct_answers(), and calculate_score()
-- Complete list of pages and user journey
+- Complete list of pages and user journey, including a dedicated PBQ Practice page
+  categorized by domain (see PBQ requirements below)
 - Dashboard with progress tracking based on exam objectives, divided into at least 5
   clear milestones
 - High-level API plan
@@ -195,12 +196,27 @@ Save all architecture output to security_plus_trainer/resources/:
 Keep SQL queries simple and the overall design clean and maintainable.
 ```
 
-**Deliverables** (all saved to `security_plus_trainer/resources/`):
-- [ ] `architecture.md` — Django app structure, React component tree, API spec, dashboard design, answer-key strategy
-- [ ] `requests.txt` — any gaps that need Phase 2 to re-extract (if applicable)
-- [ ] Updated CLAUDE.md with schema diagram, API base URL, auth flow
+**PBQ Practice Page Requirements:**
+PBQs appear at the START of the real CompTIA exam (3–6 questions) and are the hardest
+question type. The platform must include a dedicated `/pbq` practice area with:
+- Domain selector — 5 cards (one per SY0-701 domain) showing available PBQ count
+- Three PBQ interaction types (from `pbq_resources.md`):
+  - **Interactive** — drag-and-drop matching/ordering (IoC matching, firewall rule ordering,
+    device placement in a network diagram)
+  - **Simulation** — simplified tool/dashboard interface (WAP config, ACL rule builder,
+    log analysis)
+  - **Fill-in-the-blank** — command syntax completion (nmap flags, ACL syntax, cipher names)
+- Separate progress tracking for PBQs vs. standard MC questions
+- No timer in practice mode; show domain objective tag after each attempt
+- Phase 5 content note: PBQ questions are currently low in the question bank — Phase 5
+  must add ≥ 5 PBQ questions per domain before go-live
 
-**Security+ tie-in:** Designing authentication (session vs JWT), authorization (user vs admin views), and data integrity directly touches Domain 1 and Domain 4.
+**Deliverables** (all saved to `security_plus_trainer/resources/`):
+- [ ] `architecture.md` — Django app structure, React component tree (including PBQ components), API spec, dashboard design, answer-key strategy
+- [ ] `requests.txt` — any gaps that need Phase 2 to re-extract (if applicable)
+- [ ] Updated CLAUDE.md with schema diagram, API base URL, auth flow, PBQ page spec
+
+**Security+ tie-in:** Designing authentication (session vs JWT), authorization (user vs admin views), and data integrity directly touches Domain 1 and Domain 4. Building PBQ drag-and-drop scenarios for firewall ACL configuration and network topology exercises directly reinforces Domains 3 and 4.
 
 ---
 
