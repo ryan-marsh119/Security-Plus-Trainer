@@ -103,7 +103,7 @@ Security+ study application.
 
 **Agent Name:** `SecurityPlusContentArchitect`
 
-**Goal:** Extract SY0-701 objectives, official CompTIA questions (or PBQs), YouTube resources, and practice tests from the PDFs in `/resources/`. Map to the 6 exam domains. Flag hallucinations and coverage gaps.
+**Goal:** Extract SY0-701 objectives, official CompTIA questions (or PBQs), YouTube resources, and practice tests from the PDFs in `/resources/`. Map to the 6 exam domains. Flag hallucinations and coverage gaps. Links for YouTube resources and practice test sites can be found in the links.md file in the `/resources/`.
 
 **Critical Note:** Claude can drop words from answers or pick the wrong correct choice. Don't over-trust this phase. Phase 7 (Evals) is what makes extraction trustworthy. For now, treat this as "structured extraction with manual spot-checking."
 

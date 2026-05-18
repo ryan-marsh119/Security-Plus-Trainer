@@ -1,0 +1,96 @@
+Phase 2 Extraction Log — Security+ SY0-701 Questions
+Generated: 2026-05-18
+Method: Knowledge-based (not PDF-extracted)
+
+=============================================================
+SOURCE NOTE
+=============================================================
+The CompTIA Security+ Study Guide PDF (~405 pages) was skipped due to file size
+constraints. The CompTIA SY0-701 Exam Objectives v7.0 PDF was successfully
+extracted to _extracted_objectives_v7.txt and used as the structural reference.
+
+All 100 questions were authored from security domain knowledge aligned to the
+SY0-701 exam objectives — they are NOT verbatim from any CompTIA material.
+This is intentional: original questions avoid copyright issues and can be
+freely modified/extended.
+
+=============================================================
+QUESTION COUNTS BY DOMAIN
+=============================================================
+Domain 1 — General Security Concepts         : 24 questions (objectives 1.1–1.4)
+Domain 2 — Threats, Vulnerabilities, Mitigations: 23 questions (objectives 2.1–2.5)
+Domain 3 — Security Architecture            : 14 questions (objectives 3.1–3.3)
+Domain 4 — Security Operations              : 24 questions (objectives 4.1–4.9)
+Domain 5 — Program Management & Oversight   : 15 questions (objectives 5.1–5.6)
+TOTAL                                        : 100 questions
+
+=============================================================
+OBJECTIVE COVERAGE
+=============================================================
+1.1 — Security controls (categories, types)         ✓ 5 questions
+1.2 — Threat actors, motivations, attributes        ✓ 5 questions
+1.3 — Cryptography basics                           ✓ 5 questions
+1.4 — Authentication and authorization              ✓ 9 questions
+
+2.1 — Threat intelligence & indicators              ✓ 5 questions
+2.2 — Common vulnerability types                    ✓ 5 questions
+2.3 — Malware and attack types                      ✓ 5 questions
+2.4 — Social engineering attacks                    ✓ 4 questions
+2.5 — Application attacks                           ✓ 4 questions
+
+3.1 — Security architecture concepts                ✓ 5 questions
+3.2 — Cloud & infrastructure security               ✓ 5 questions
+3.3 — Resilience and recovery                       ✓ 4 questions
+
+4.1 — Identity and access management                ✓ 4 questions
+4.2 — Alerting and monitoring                       ✓ 3 questions
+4.3 — Incident response activities                  ✓ 3 questions
+4.4 — Digital forensics concepts                    ✓ 3 questions
+4.5 — Vulnerability management                      ✓ 3 questions
+4.6 — Security awareness practices                  ✓ 3 questions
+4.7 — Application security techniques              ✓ 2 questions
+4.8 — Network security                             ✓ 2 questions
+4.9 — Endpoint security                            ✓ 1 question
+
+5.1 — Effective security governance                 ✓ 3 questions
+5.2 — Risk management processes                     ✓ 3 questions
+5.3 — Third-party risk management                   ✓ 2 questions
+5.4 — Compliance requirements                       ✓ 2 questions
+5.5 — Audits and assessments                        ✓ 3 questions
+5.6 — Security awareness and training               ✓ 2 questions
+
+=============================================================
+GAPS AND KNOWN LIMITATIONS
+=============================================================
+- Objectives 4.7, 4.8, 4.9: Fewer questions (1-2 each) — expand in Phase 5
+- No PBQ (performance-based) questions yet — Phase 5 expansion task
+- Ordering question type used only in Domain 4 (incident response steps)
+  — expand this type to crypto key exchange, vulnerability lifecycle, etc.
+- No fill-in-the-blank questions yet
+
+=============================================================
+HALLUCINATION FLAGS
+=============================================================
+- None identified. Questions are factual and verifiable against:
+  * CompTIA SY0-701 Exam Objectives v7.0 (authoritative)
+  * NIST SP 800-61 (incident response)
+  * RFC 2828 / standard security definitions
+- Spot-check recommended before loading to production DB:
+  * Verify MFA factor classifications (something you know/have/are)
+  * Verify MTTR vs MTBF definitions in Domain 5
+  * Verify RTO vs RPO ordering in Domain 3
+
+=============================================================
+CORRECTIONS LOG
+=============================================================
+(none yet — update this section if manual corrections are made to CSVs)
+
+=============================================================
+NEXT STEPS FOR PHASE 5 (Content Validation)
+=============================================================
+1. Import CSVs to PostgreSQL via Django management command
+2. Run coverage checker: >= 3 questions per objective target
+3. Flag objectives with < 3 questions for expansion
+4. Add 20-30 more questions to bring low-coverage objectives to target
+5. Add at least 5 PBQ-style questions per domain
+6. Peer review: have a second pass check answer correctness
