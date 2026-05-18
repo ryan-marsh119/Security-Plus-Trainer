@@ -5,7 +5,8 @@ from .models import ExamSession, SessionAnswer, UserQuestionProgress, UserDomain
 class ExamSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExamSession
-        fields = ['id', 'session_type', 'started_at', 'completed_at']
+        fields = ['id', 'session_type', 'domain_filter', 'started_at', 'completed_at']
+        read_only_fields = ['started_at', 'completed_at']
 
 
 class SessionAnswerSerializer(serializers.ModelSerializer):

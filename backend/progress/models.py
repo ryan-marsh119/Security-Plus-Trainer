@@ -46,13 +46,10 @@ class ExamSession(models.Model):
         answered_ids = self.session_answers.values_list('question_id', flat=True)
 
         if self.session_type == 'exam':
-            return (
-                Question.objects
-                .filter(domain_filter=self.domain_filter)
-                .exclude(id__in=answered_ids)
-                .order_by('?')
-                .first()
-            )
+            qs = Question.objects.exclude(id__in=answered_ids)
+            if self.domain_filter:
+                qs = qs.filter(objective__domain=self.domain_filter)
+            return qs.order_by('?').first()
 
         # Study mode: SM-2 due-date priority
         qs = Question.objects.exclude(id__in=answered_ids)

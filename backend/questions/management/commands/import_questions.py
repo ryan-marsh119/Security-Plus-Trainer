@@ -19,7 +19,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        resources_dir = Path(__file__).resolve().parents[5] / 'resources'
+        resources_dir = Path(__file__).resolve().parents[4] / 'security_plus_trainer' / 'resources'
 
         if options['csv']:
             csv_files = [Path(options['csv'])]

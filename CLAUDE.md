@@ -124,6 +124,11 @@ Core tables and their purpose — see `security_plus_trainer/resources/edu_platf
 - **Phase 1** (2026-05-17): Platform research complete. Schema design finalized. SM-2 spaced repetition chosen. See `security_plus_trainer/resources/edu_platform_research.md`.
 - **Phase 2** (2026-05-18): 248 questions total across all 5 domains. Initial 100 knowledge-based + 148 web-sourced (CompTIA official site + lognpacific.com free practice tests). Domain 4 grew from 24 → 118 questions (major gap filled). CSVs at `security_plus_trainer/resources/domain_*.csv`. See `extraction_log.txt`, `coverage_map.md`, `generate_questions.py`, `generate_web_questions.py`.
 - **Phase 3** (2026-05-18): Full-stack scaffold complete. Django backend: questions/progress/users apps with models, views, serializers, URLs, and import_questions management command. Frontend: Vite + React + Tailwind v4 + React Router v6 + Zustand + Axios. All stub pages (Login, Register, Dashboard, StudySession, PracticeExam, PBQHub, PBQSession, Results) wired in App.jsx. `python manage.py check` passes. Frontend builds cleanly. See `resources/architecture.md` for full design doc.
+- **Phase 4** (2026-05-18): Database live. Migrations applied (19 total). `seed_domains` command creates 5 domains + 28 SY0-701 objectives. `import_questions` loads all 248 questions (41/29/21/118/39 by domain). Admin registered for all models. API endpoints verified end-to-end: login → session → next question → submit answer (two-strike hint system confirmed). Local superuser: admin / admin1234 (dev only).
+
+## Known Issues & Workarounds
+
+- Vite dev server proxy (`/api → localhost:8000`) handles CSRF correctly in dev; Django admin must be hit first in raw HTTP clients to seed the CSRF cookie (API clients like Axios handle this automatically via the CSRF interceptor in `src/api/client.js`).
 
 ## Security+ Domain Tracker (Objectives Touched)
 
@@ -134,3 +139,4 @@ Core tables and their purpose — see `security_plus_trainer/resources/edu_platf
 | Phase 0 | — |
 | Phase 1 | All 5 domains (schema design maps to all) |
 | Phase 2 | All 5 domains — 248 questions total; 41/29/21/118/39 by domain |
+| Phase 4 | All 5 domains — full API confirmed (login, session, question, answer, progress) |
