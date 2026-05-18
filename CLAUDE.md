@@ -90,7 +90,7 @@ Core tables and their purpose — see `security_plus_trainer/resources/edu_platf
 
 - **Phase 0** (2026-05-17): Project initialized. Git repo created. Virtualenv: `venv/`. Docker Compose for Postgres configured.
 - **Phase 1** (2026-05-17): Platform research complete. Schema design finalized. SM-2 spaced repetition chosen. See `security_plus_trainer/resources/edu_platform_research.md`.
-- **Phase 2** (2026-05-18): 100 questions generated across all 5 domains and 19 SY0-701 objectives. CSVs at `security_plus_trainer/resources/domain_*.csv`. Source method: knowledge-based (SY0-701 objectives v7 used as structure reference; study guide PDF skipped due to size). See `extraction_log.txt` and `coverage_map.md`. Domain 4 objectives 4.7–4.9 are low-coverage — expansion priority in Phase 5.
+- **Phase 2** (2026-05-18): 248 questions total across all 5 domains. Initial 100 knowledge-based + 148 web-sourced (CompTIA official site + lognpacific.com free practice tests). Domain 4 grew from 24 → 118 questions (major gap filled). CSVs at `security_plus_trainer/resources/domain_*.csv`. See `extraction_log.txt`, `coverage_map.md`, `generate_questions.py`, `generate_web_questions.py`.
 
 ## Security+ Domain Tracker (Objectives Touched)
 
@@ -100,4 +100,4 @@ Core tables and their purpose — see `security_plus_trainer/resources/edu_platf
 |-------|----------------|
 | Phase 0 | — |
 | Phase 1 | All 5 domains (schema design maps to all) |
-| Phase 2 | All 5 domains — 100 questions total; 24/23/14/24/15 by domain |
+| Phase 2 | All 5 domains — 248 questions total; 41/29/21/118/39 by domain |
