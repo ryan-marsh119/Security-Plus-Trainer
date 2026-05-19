@@ -1,3 +1,23 @@
+/**
+ * App.jsx
+ *
+ * Root component. Sets up React Router and calls fetchMe() on mount so the
+ * app can restore auth state from an existing session cookie without forcing
+ * the user to log in again after a page refresh.
+ *
+ * Route structure:
+ *   /login          -- public
+ *   /register       -- public
+ *   /dashboard      -- requires auth
+ *   /study          -- requires auth; starts a study-mode session
+ *   /exam           -- requires auth; starts a timed exam-mode session
+ *   /pbq            -- requires auth; PBQ domain selector hub
+ *   /pbq/:domainId  -- requires auth; PBQ practice for a specific domain
+ *                      (domainId can be 'all' for cross-domain)
+ *   /results        -- requires auth; displays score after session completion
+ *   *               -- redirects to /dashboard (authenticated) or /login (not)
+ */
+
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import useUserStore from './store/userStore'
@@ -10,6 +30,12 @@ import PBQHub from './pages/PBQHub'
 import PBQSession from './pages/PBQSession'
 import Results from './pages/Results'
 
+/**
+ * Route guard — redirects unauthenticated users to /login.
+ *
+ * @param {object} props
+ * @param {ReactNode} props.children -- the protected page component
+ */
 function RequireAuth({ children }) {
   const user = useUserStore((s) => s.user)
   if (!user) return <Navigate to="/login" replace />
@@ -19,6 +45,7 @@ function RequireAuth({ children }) {
 export default function App() {
   const { user, fetchMe } = useUserStore()
 
+  // Attempt to restore session from cookie on every full page load
   useEffect(() => {
     fetchMe()
   }, [])

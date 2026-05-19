@@ -1,3 +1,28 @@
+"""
+management/commands/import_questions.py
+
+Imports Security+ questions from the domain CSV files in resources/.
+Must be run after seed_domains has populated Domain and Objective rows.
+
+Usage:
+    python manage.py import_questions                  # all domain_*.csv files
+    python manage.py import_questions --csv path/to/file.csv
+    python manage.py import_questions --dry-run        # validate without writing
+
+CSV columns required:
+    objective_code          -- dot-notation code matching an existing Objective (e.g. '4.8')
+    question_text           -- full question prompt
+    question_type           -- one of the Question.QUESTION_TYPES values
+    difficulty              -- 'easy' | 'medium' | 'hard'
+    answer_choices_json     -- JSON array of {"text": "..."} objects
+    correct_answer_key_json -- JSON dict matching Question.check_answer() shape
+    hint                    -- (optional) shown on first wrong attempt
+    explanation             -- (optional) shown on correct answer or second wrong attempt
+
+Idempotency: rows are skipped if a question with the same (objective, question_text)
+already exists, so the command is safe to re-run.
+"""
+
 import csv
 import json
 from pathlib import Path
@@ -19,6 +44,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        # Resolve path: backend/questions/management/commands/ → project root → resources/
         resources_dir = Path(__file__).resolve().parents[4] / 'security_plus_trainer' / 'resources'
 
         if options['csv']:
@@ -44,7 +70,17 @@ class Command(BaseCommand):
             f'Done: {total_created} questions created, {total_skipped} skipped'
         ))
 
-    def _import_csv(self, csv_path, dry_run):
+    def _import_csv(self, csv_path: Path, dry_run: bool) -> tuple[int, int]:
+        """
+        Processes a single CSV file.
+
+        Args:
+            csv_path -- absolute Path to the CSV file
+            dry_run  -- if True, count rows but do not write to the database
+
+        Returns:
+            (created, skipped) -- tuple of integer counts
+        """
         created = skipped = 0
 
         with open(csv_path, newline='', encoding='utf-8') as f:
@@ -59,6 +95,7 @@ class Command(BaseCommand):
                     continue
 
                 question_text = row['question_text'].strip()
+                # Skip duplicates — safe to re-run without creating doubles
                 if Question.objects.filter(objective=objective, question_text=question_text).exists():
                     skipped += 1
                     continue
