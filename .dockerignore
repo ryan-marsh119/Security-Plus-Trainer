@@ -1,0 +1,20 @@
+.git
+.gitignore
+venv
+**/__pycache__
+**/*.pyc
+**/*.pyo
+node_modules
+frontend/node_modules
+frontend/dist
+backend/staticfiles
+.env
+*.env
+!.env.example
+.claude
+.idea
+.vscode
+# Large/irrelevant content from the resources vault — only the CSVs are needed.
+security_plus_trainer/**/*.pdf
+security_plus_trainer/.obsidian
+security_plus_trainer/bugs
