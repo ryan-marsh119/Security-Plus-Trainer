@@ -52,6 +52,16 @@ export default function QuestionWrapper({ question, examMode = false }) {
     fetchNextQuestion()
   }
 
+  /**
+   * Clears the feedback and re-enables the choices for a second attempt on the
+   * SAME question (two-strike rule: retry allowed after the first wrong answer).
+   */
+  const handleRetry = () => {
+    setSelected(null)
+    setSubmitted(false)
+    setResult(null)
+  }
+
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm">
       {/* Question metadata badge */}
@@ -64,7 +74,7 @@ export default function QuestionWrapper({ question, examMode = false }) {
       <p className="text-lg font-medium text-gray-800 mb-6">{question.question_text}</p>
 
       {/* Render the appropriate input component for the question type */}
-      {question.question_type === 'multiple_choice' && (
+      {(question.question_type === 'multiple_choice' || question.question_type === 'true_false') && (
         <MultipleChoice
           choices={question.answer_choices}
           selected={selected}
@@ -97,6 +107,15 @@ export default function QuestionWrapper({ question, examMode = false }) {
           {/* Explanation: shown after correct answer or second wrong attempt */}
           {result.explanation && !examMode && (
             <p className="text-sm text-gray-600 mt-2">{result.explanation}</p>
+          )}
+          {/* "Try Again" on the first wrong attempt (study/PBQ mode only) */}
+          {!result.correct && result.attempt_number < 2 && !examMode && (
+            <button
+              onClick={handleRetry}
+              className="mt-4 w-full bg-blue-600 text-white rounded-xl py-2 font-semibold hover:bg-blue-700"
+            >
+              Try Again
+            </button>
           )}
           {/* "Next Question" appears once the question is resolved */}
           {(result.correct || result.attempt_number >= 2 || examMode) && (

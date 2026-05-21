@@ -11,11 +11,31 @@ Why session auth instead of JWT?
 """
 
 from django.contrib.auth import authenticate, login, logout
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import RegisterSerializer, UserSerializer
+
+
+@method_decorator(ensure_csrf_cookie, name='dispatch')
+class CsrfView(APIView):
+    """
+    GET /api/v1/auth/csrf/
+
+    Seeds the csrftoken cookie so the SPA can attach X-CSRFToken on its first
+    mutating request (e.g. login). Without this, a fresh browser has no CSRF
+    cookie and the initial login POST is rejected with 403.
+
+    Response:
+        200 -- {'detail': 'CSRF cookie set'} and sets the csrftoken cookie
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        return Response({'detail': 'CSRF cookie set'})
 
 
 class LoginView(APIView):

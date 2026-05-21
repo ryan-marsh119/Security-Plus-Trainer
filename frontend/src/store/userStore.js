@@ -23,10 +23,14 @@ import client from '../api/client'
 const useUserStore = create((set) => ({
   user: null,
   isLoading: false,
+  // false until the initial fetchMe() settles; route guards wait on this so a
+  // page refresh doesn't redirect to /login before the session is restored.
+  authChecked: false,
 
   /**
    * Rehydrates auth state on page load by hitting GET /auth/me/.
    * If no session cookie exists, the 403 is caught and user stays null.
+   * Always sets authChecked so route guards can render once this resolves.
    */
   fetchMe: async () => {
     try {
@@ -34,6 +38,8 @@ const useUserStore = create((set) => ({
       set({ user: data })
     } catch {
       set({ user: null })
+    } finally {
+      set({ authChecked: true })
     }
   },
 

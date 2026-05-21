@@ -21,9 +21,11 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import useUserStore from './store/userStore'
+import client from './api/client'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
+import Domains from './pages/Domains'
 import StudySession from './pages/StudySession'
 import PracticeExam from './pages/PracticeExam'
 import PBQHub from './pages/PBQHub'
@@ -32,12 +34,22 @@ import Results from './pages/Results'
 
 /**
  * Route guard — redirects unauthenticated users to /login.
+ * Waits for the initial fetchMe() to settle (authChecked) so a page refresh
+ * doesn't bounce a logged-in user to /login before the session is restored.
  *
  * @param {object} props
  * @param {ReactNode} props.children -- the protected page component
  */
 function RequireAuth({ children }) {
   const user = useUserStore((s) => s.user)
+  const authChecked = useUserStore((s) => s.authChecked)
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500">Loading…</p>
+      </div>
+    )
+  }
   if (!user) return <Navigate to="/login" replace />
   return children
 }
@@ -45,9 +57,9 @@ function RequireAuth({ children }) {
 export default function App() {
   const { user, fetchMe } = useUserStore()
 
-  // Attempt to restore session from cookie on every full page load
+  // On every full page load: seed the CSRF cookie, then restore session from cookie.
   useEffect(() => {
-    fetchMe()
+    client.get('/auth/csrf/').finally(fetchMe)
   }, [])
 
   return (
@@ -56,6 +68,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
+        <Route path="/domains" element={<RequireAuth><Domains /></RequireAuth>} />
         <Route path="/study" element={<RequireAuth><StudySession /></RequireAuth>} />
         <Route path="/exam" element={<RequireAuth><PracticeExam /></RequireAuth>} />
         <Route path="/pbq" element={<RequireAuth><PBQHub /></RequireAuth>} />

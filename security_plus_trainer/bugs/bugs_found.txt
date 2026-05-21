@@ -1,0 +1,44 @@
+login page
+	- created a user with credentials:
+		- username: ryan
+		- email: test@email.com
+		- password: password
+	
+		- getting a 403 error when trying to access the different testing options on the dashboard
+		- logged out and attempted to log back in
+		- getting a 403 error when attempting to log in
+		- went into the container db and verified the user 'ryan' exists
+
+	- added some constants to the settings.py file to allow origins, login seems to work now
+	- refreshing the page, even if logged in, sends the user back to the login page
+
+dashboard
+	- domains button does not work
+
+study mode
+	- I believe clicking the right answer is not saying correct, its saying incorrect and the next button is not appearing
+	- ex, Which authentication factor is considered LEAST secure?
+		- I answered "Something you know" and it says incorrect with the hint:
+		"Hint: Passwords can be guessed, reused, or stolen. Compare to physical tokens or biometrics." but there is not button to continue
+		- googling this question shows that I was correct, but no next button showed and it also says "Incorrect" in red
+
+Practice exam
+	- seems to have similar issues to the study mode page, saying incorrect when correct answers are selected
+	- there IS a next question button appearing that works though, unlike the study mode
+
+PBQ Practice
+	- hint seems to be disabling the buttons, instead of allowing the user to select a second choice
+	- True or False questions are not showing "True" or "False" buttons for the user to select
+	- these seem to be just regular questions, not PBQ style questions. What makes these questions "PBQ's" ?
+	- saying "Incorrect" for correct answers. ex:
+	"A developer deploys a new internal tool to production servers without submitting a change request or notifying the IT security team. This is most accurately described as:
+
+		-A supply chain attack
+		-Shadow IT -> selected!
+		-Insider threat
+		-A zero-day vulnerability
+Incorrect
+
+Hint: The tool is real and used for legitimate purposes — the problem is it bypassed formal approval processes.
+		- now there is no "next question" button for me to press, I also can't select another option if to see if thats a correct choice
+		

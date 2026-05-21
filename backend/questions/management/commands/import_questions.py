@@ -112,16 +112,27 @@ class Command(BaseCommand):
                 )
 
                 answer_choices_raw = json.loads(row['answer_choices_json'])
+                # Map each CSV-local choice id to the real DB primary key so the
+                # answer key references actual AnswerChoice PKs, not CSV ids.
+                csv_id_to_pk = {}
                 for i, choice in enumerate(answer_choices_raw):
-                    AnswerChoice.objects.create(
+                    created_choice = AnswerChoice.objects.create(
                         question=question,
                         text=choice['text'],
                         order=i + 1,
                     )
+                    csv_id_to_pk[choice.get('id', i + 1)] = created_choice.pk
+
+                answer_data = json.loads(row['correct_answer_key_json'])
+                for id_field in ('correct_ids', 'ordered_ids'):
+                    if id_field in answer_data:
+                        answer_data[id_field] = [
+                            csv_id_to_pk.get(cid, cid) for cid in answer_data[id_field]
+                        ]
 
                 AnswerKey.objects.create(
                     question=question,
-                    answer_data=json.loads(row['correct_answer_key_json']),
+                    answer_data=answer_data,
                     hint=row.get('hint', ''),
                     explanation=row.get('explanation', ''),
                 )
