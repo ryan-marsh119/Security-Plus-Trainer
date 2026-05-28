@@ -1,0 +1,1128 @@
+{
+  "proposals": [
+    {
+      "question_id": 26,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Which security concept makes it 'difficult or impossible to deny that someone has performed an action'?",
+        "objective_code": "1.1"
+      },
+      "proposed": {
+        "objective_code": "1.2"
+      },
+      "rationale": "The question is testing the definition of non-repudiation. SY0-701 objective 1.2 'Summarize fundamental security concepts' explicitly lists 'Non-repudiation' as a sub-bullet (alongside CIA and AAA). Objective 1.1 is about security control categories (Technical/Managerial/Operational/Physical) and control types (Preventive/Deterrent/Detective/Corrective/Compensating/Directive); non-repudiation appears nowhere in the 1.1 bullet list.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §1.2 (Summarize fundamental security concepts)",
+        "CompTIA SY0-701 Exam Objectives PDF §1.1 (Compare and contrast various types of security controls)"
+      ]
+    },
+    {
+      "question_id": 41,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "SSL should not be used for HTTPS because:",
+        "objective_code": "1.3"
+      },
+      "proposed": {
+        "objective_code": "1.4"
+      },
+      "rationale": "The stored explanation cites SSLv2/v3 vulnerabilities (POODLE, DROWN, BEAST) and the move to TLS 1.2/1.3 — this is core cryptography content. SY0-701 objective 1.4 'Explain the importance of using appropriate cryptographic solutions' explicitly lists Algorithms, Key length, and Transport/communication encryption, which is where protocol deprecation belongs. Objective 1.3 covers change-management business processes (approval, ownership, impact analysis, backout, maintenance window, documentation) and does not address protocol selection or cryptographic weaknesses.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §1.4 (Cryptographic solutions — Algorithms, Transport/communication encryption)",
+        "CompTIA SY0-701 Exam Objectives PDF §1.3 (Change management processes)",
+        "NIST SP 800-52 Rev. 2 §3.1 (TLS guidelines, SSL deprecation)",
+        "RFC 8996 (Deprecating TLS 1.0 and TLS 1.1)"
+      ]
+    },
+    {
+      "question_id": 65,
+      "change_type": "stem_rewrite",
+      "current": {
+        "question_text": "Files are missing from a database and server login screens show a lock symbol. Which malware type is MOST likely responsible?",
+        "objective_code": "2.3"
+      },
+      "proposed": {
+        "question_text": "An administrator finds that database files have been encrypted in place and a text note on the desktop demands cryptocurrency payment for the decryption key. Which malware type is MOST likely responsible?",
+        "objective_code": "2.4",
+        "explanation": "Ransomware encrypts a victim's files (and frequently appends a new extension or replaces icons with a lock graphic) and then displays or drops a ransom note demanding payment for the decryption key. The combination of in-place file encryption and an explicit ransom demand is the canonical SY0-701 indicator for ransomware. A rootkit hides attacker presence; spyware exfiltrates data covertly; bloatware is unwanted preinstalled software — none of these produce a ransom note."
+      },
+      "rationale": "Two problems with the current stem. (1) 'Files are missing' implies wiper behavior — ransomware encrypts files in place, it does not delete them. (2) 'Server login screens show a lock symbol' is ambiguous: the HTTPS padlock icon also shows a lock, and modern Windows login screens show a lock icon by default when the workstation is locked. The rewrite replaces both ambiguous indicators with the two unambiguous ransomware tells called out in SY0-701: encrypted files plus a ransom demand. Objective retag 2.3 → 2.4 is also required: objective 2.4 'Given a scenario, analyze indicators of malicious activity' explicitly lists 'Ransomware' as the first bullet under Malware attacks. Objective 2.3 is 'Explain various types of vulnerabilities' (memory injection, buffer overflow, XSS, SQLi, zero-day, etc.) and does not enumerate malware families.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.4 (Indicators of malicious activity — Malware attacks: Ransomware)",
+        "CompTIA SY0-701 Exam Objectives PDF §2.3 (Types of vulnerabilities)",
+        "NIST SP 800-83 Rev. 1 §2.2 (Malware categories — ransomware encryption behavior)"
+      ]
+    },
+    {
+      "question_id": 70,
+      "change_type": "stem_rewrite",
+      "current": {
+        "question_text": "A SYN flood attack primarily targets servers by:",
+        "objective_code": "2.3"
+      },
+      "proposed": {
+        "question_text": "A SYN flood attack primarily impacts a target server by:",
+        "objective_code": "2.4",
+        "explanation": "A SYN flood sends a high rate of TCP SYN packets (typically with spoofed source addresses) so the server sends SYN-ACK and allocates a Transmission Control Block (TCB) for each half-open connection. The half-open entries accumulate in the SYN backlog until the backlog is full, at which point new legitimate SYNs are dropped and clients cannot establish connections. The host itself does not normally crash; the denial of service is from backlog exhaustion. RFC 4987 §3 documents this mechanism and the standard mitigations (SYN cookies, increased backlog, RST cookies)."
+      },
+      "rationale": "The current keyed choice 3 reads 'Consuming server resources with half-open connections until the server crashes.' Per RFC 4987 §3, a SYN flood exhausts the SYN backlog / TCB table, causing the server to refuse new connections — it does not panic or crash the host. The choice text needs editing to remove 'until the server crashes' and the explanation needs to reflect the actual mechanism. Objective retag 2.3 → 2.4 is also required: SY0-701 objective 2.4 lists 'Network attacks → Distributed denial-of-service (DDoS) — Amplified, Reflected' as the canonical home for DDoS/DoS technique questions. Objective 2.3 covers types of vulnerabilities, not attack techniques.",
+      "sources": [
+        "RFC 4987 §3 (TCP SYN Flooding Attacks and Common Mitigations)",
+        "CompTIA SY0-701 Exam Objectives PDF §2.4 (Network attacks — DDoS)",
+        "CompTIA SY0-701 Exam Objectives PDF §2.3 (Types of vulnerabilities)"
+      ]
+    },
+    {
+      "question_id": 70,
+      "change_type": "choice_edit",
+      "current": {
+        "question_text": "A SYN flood attack primarily targets servers by:",
+        "correct_answer_texts": [
+          "Consuming server resources with half-open connections until the server crashes"
+        ]
+      },
+      "proposed": {
+        "correct_choice_text": "Consuming server resources with half-open connections until the server crashes",
+        "new_choice_text": "Filling the server's SYN backlog with half-open connections so it can no longer accept new TCP sessions"
+      },
+      "rationale": "Edits the existing keyed choice text (choice id 275) to remove the inaccurate 'until the server crashes' tail. New text reflects the actual RFC 4987 mechanism (backlog exhaustion → connection refusal), keeping it the correct answer of the four choices. The other three distractors remain correct distractors as written.",
+      "sources": [
+        "RFC 4987 §3 (TCP SYN Flooding Attacks and Common Mitigations)"
+      ]
+    },
+    {
+      "question_id": 80,
+      "change_type": "stem_rewrite",
+      "current": {
+        "question_text": "Which data classification label is typically applied to information that, if disclosed, could cause serious damage to national security or organizational competitiveness?",
+        "objective_code": "3.3"
+      },
+      "proposed": {
+        "question_text": "Which data classification label is typically applied to the MOST sensitive information in a commercial classification scheme — information whose unauthorized disclosure could cause serious harm to the organization's competitive position or financial standing?",
+        "explanation": "In the commercial classification scheme called out by SY0-701 objective 3.3, the levels generally run Public → Private → Sensitive → Confidential/Restricted, with Confidential or Restricted reserved for the most sensitive corporate information (trade secrets, M&A plans, source code, executive communications). 'Critical' in SY0-701 refers to availability/criticality of a data set, not its confidentiality tier. Government classification (Confidential / Secret / Top Secret) is a separate scheme not represented by these choices."
+      },
+      "rationale": "The current stem yokes together two incompatible classification schemes — government (national security tiers: Confidential/Secret/Top Secret) and commercial (Public/Private/Confidential/Restricted/Critical) — even though the four answer choices are commercial-only. Per the audit, the stored answer (Restricted/Confidential) is still the best fit because the choices are commercial labels, but the stem itself needs to commit to one scheme. SY0-701 objective 3.3 explicitly lists the commercial classifications 'Sensitive, Confidential, Public, Restricted, Private, Critical' — those are the labels the candidate is expected to know. No answer-key change required; choices remain identical and Restricted/Confidential remains correct.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §3.3 (Data classifications — Sensitive, Confidential, Public, Restricted, Private, Critical)"
+      ]
+    },
+    {
+      "question_id": 117,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Which is the FINAL step of the incident response process?",
+        "objective_code": "4.3"
+      },
+      "proposed": {
+        "objective_code": "4.8"
+      },
+      "rationale": "SY0-701 objective 4.8 'Explain appropriate incident response activities' explicitly enumerates the IR Process bullet as: Preparation, Detection, Analysis, Containment, Eradication, Recovery, Lessons learned — exactly the lifecycle the stem and stored explanation are testing. Objective 4.3 is 'Explain various activities associated with vulnerability management' (scanning, CVSS, CVE, false positive/negative, remediation, validation) — a different topic. The stored explanation already cites NIST SP 800-61 (the IR lifecycle), confirming the content is IR.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.8 (Incident response — Process: Preparation, Detection, Analysis, Containment, Eradication, Recovery, Lessons learned)",
+        "CompTIA SY0-701 Exam Objectives PDF §4.3 (Vulnerability management)",
+        "NIST SP 800-61 Rev. 2 §3 (Computer Security Incident Handling Guide — IR lifecycle)"
+      ]
+    },
+    {
+      "question_id": 138,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "What does the 'implicit deny' rule in an Access Control List (ACL) accomplish?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Implicit deny is a firewall/ACL configuration concept. SY0-701 objective 4.5 'Given a scenario, modify enterprise capabilities to enhance security' explicitly lists Firewall → Rules, Access lists, Ports/protocols, Screened subnets. Objective 4.8 is incident response process. Verified directly via audit_question(138).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Firewall — Rules, Access lists)"
+      ]
+    },
+    {
+      "question_id": 139,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Which protocol is commonly blocked at firewalls to prevent attackers from using ping to discover devices?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Firewall blocking of ICMP — direct match to objective 4.5 (Firewall — Rules, Access lists, Ports/protocols). Verified via audit_question(139).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Firewall — Ports/protocols)"
+      ]
+    },
+    {
+      "question_id": 140,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "What is the primary security purpose of DHCP snooping on a switch?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "DHCP snooping is an enterprise switch security capability. Objective 4.5 covers modifying enterprise capabilities — this is closer to 4.5 than to IR. Verified via audit_question(140).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Modify enterprise capabilities)"
+      ]
+    },
+    {
+      "question_id": 141,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Which protocol provides broadcast storm prevention and loop prevention for switches?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "STP/RSTP is enterprise switch capability content. Closest fit is 4.5. Verified via audit_question(141).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Modify enterprise capabilities — Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 142,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "What distinguishes FTPS from SFTP?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Secure file transfer protocols selection — direct match to objective 4.5 'Implementation of secure protocols: Protocol selection, Port selection, Transport method.' Verified via audit_question(142).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 143,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Secure Shell (SSH) is primarily used to:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "SSH protocol selection / port — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(143).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 145,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "DNSSEC provides which security capability for DNS?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "DNSSEC is in objective 4.5 territory (Implementation of secure protocols; DNS filtering is also listed under 4.5). Verified via audit_question(145).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols, DNS filtering)"
+      ]
+    },
+    {
+      "question_id": 146,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "What is the key security difference between a stateful and a stateless firewall?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Firewall types/behavior — direct match to objective 4.5 (Firewall — Rules, Access lists). Verified via audit_question(146).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Firewall)"
+      ]
+    },
+    {
+      "question_id": 147,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A Web Application Firewall (WAF) primarily protects against:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "WAF is enterprise capability content. Objective 4.5 explicitly lists Firewall types (note: 3.2 also lists WAF, but in the 'modify enterprise capabilities' framing the SY0-701 V7 PDF puts WAF discussion under 4.5). Verified via audit_question(147).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Firewall)"
+      ]
+    },
+    {
+      "question_id": 148,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A next-generation firewall (NGFW) is distinguished from earlier firewalls primarily by:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "NGFW capabilities — direct match to objective 4.5 (Firewall). Verified via audit_question(148).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Firewall)"
+      ]
+    },
+    {
+      "question_id": 152,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "SNMPv3 improves on SNMPv1/v2 primarily by:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Secure protocol selection (SNMPv3 vs older) — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(152).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 153,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "VLANs improve network security primarily by:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "VLAN segmentation is an enterprise capability modification. Closest fit is 4.5. Verified via audit_question(153).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Modify enterprise capabilities)"
+      ]
+    },
+    {
+      "question_id": 155,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "What does the LDAPS protocol add to standard LDAP?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Secure protocol (LDAPS/636) — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(155).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 156,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A proxy server that 'modifies or filters requests' is called a:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Proxy types — closest fit is objective 4.5 (Web filter — Centralized proxy; the 'modify enterprise capabilities' framing covers proxies). Note proxy server is also explicitly listed in 3.2, but the question is about proxy behavior/configuration rather than architecture. Verified via audit_question(156).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Web filter — Centralized proxy)"
+      ]
+    },
+    {
+      "question_id": 157,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A reverse proxy differs from a forward proxy in that a reverse proxy:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Proxy types — same rationale as Q156. Verified via audit_question(157).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Web filter — Centralized proxy)"
+      ]
+    },
+    {
+      "question_id": 158,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "To change the default SSID of a wireless access point, the primary security reason is:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Wireless hardening / secure protocols — closest fit objective 4.5. (4.1 also covers wireless security settings, but this question tests operational modification of an enterprise WLAN, which falls under 4.5 'modify enterprise capabilities'.) Verified via audit_question(158).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Modify enterprise capabilities — Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 159,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "The TCP ports for SMTP (unencrypted/encrypted), POP3 (unencrypted/encrypted), and IMAP4 (unencrypted/encrypted) are:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Port/protocol selection — direct match to objective 4.5 (Implementation of secure protocols: Protocol selection, Port selection). Verified via audit_question(159).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols — Port selection)"
+      ]
+    },
+    {
+      "question_id": 160,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Private IPv4 address ranges per RFC 1918 are:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Networking fundamentals testable under 4.5 enterprise capabilities (firewall rules / screened subnets reference RFC 1918). Verified via audit_question(160).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Firewall — Access lists, Screened subnets)",
+        "RFC 1918 (Address Allocation for Private Internets)"
+      ]
+    },
+    {
+      "question_id": 161,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "MAC filtering on a switch port security policy can be bypassed by an attacker by:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Port security / NAC weakness — direct match to objective 4.5 (Network access control). Verified via audit_question(161).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Network access control)"
+      ]
+    },
+    {
+      "question_id": 162,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "What is the key advantage of a site-to-site VPN over remote access VPN for branch connectivity?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "VPN selection — objective 4.5 covers secure protocols and remote access tunneling. (Also touched on by 3.2 Secure communication/access, but the question is operational, not architectural.) Verified via audit_question(162).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols — Transport method)"
+      ]
+    },
+    {
+      "question_id": 163,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Which wireless security protocol/cipher combination is MOST vulnerable to attack?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Wireless cryptographic protocol selection — direct match to 4.5 (Implementation of secure protocols). Verified via audit_question(163).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 164,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "What was the primary cryptographic weakness of WEP?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Wireless secure-protocol weakness — direct match to 4.5 (Implementation of secure protocols). Verified via audit_question(164).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 165,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "WPA3 replaces the Pre-Shared Key (PSK) with which cryptographic protocol?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "WPA3 / SAE secure-protocol selection — direct match to 4.5 (Implementation of secure protocols). Verified via audit_question(165).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 166,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "WPS (Wi-Fi Protected Setup) is considered insecure primarily because:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Wireless secure-protocol weakness — direct match to 4.5 (Implementation of secure protocols). Verified via audit_question(166).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 167,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "An Evil Twin attack is characterized by:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Wireless attack within the context of enterprise wireless capabilities — closest match is 4.5. (Could also map to 2.4 wireless attacks, but the surrounding cohort and the question's framing as a defensive enterprise concern place it under 4.5.) Verified via audit_question(167).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 168,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A disassociation attack on a wireless network works by:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Wireless management-frame attack tied to WPA3 MFP mitigation — closest fit objective 4.5 (Implementation of secure protocols). Verified via audit_question(168).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 169,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "War driving and war flying are similar wireless attack techniques. What distinguishes war flying?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Wireless reconnaissance technique relevant to enterprise WLAN posture — closest fit objective 4.5. Verified via audit_question(169).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 170,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Why is physical security of an access point important?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Wireless AP hardening / enterprise capability — closest fit objective 4.5. Verified via audit_question(170).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 171,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "WPA2 Enterprise mode uses which authentication mechanism that PSK mode lacks?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "WPA2 Enterprise / 802.1X / RADIUS — direct match to objective 4.5 (Implementation of secure protocols; Network access control). Verified via audit_question(171).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols; Network access control)"
+      ]
+    },
+    {
+      "question_id": 172,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Protected EAP (PEAP) is distinguished from standard EAP primarily by:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "EAP variant selection — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(172).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 173,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "EAP-TLS is the MOST secure EAP method because:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "EAP-TLS selection — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(173).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 174,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Which Cisco-designed EAP method was created specifically as a replacement for the vulnerable LEAP protocol?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "EAP-FAST selection — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(174).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 175,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "L2TP is typically paired with IPsec because L2TP alone:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "L2TP/IPsec — direct match to objective 4.5 (Implementation of secure protocols; Transport method). Verified via audit_question(175).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 176,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "The key difference between a split tunnel and a full tunnel VPN is:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Split vs full tunnel VPN configuration — closest fit objective 4.5 (Implementation of secure protocols). Verified via audit_question(176).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 177,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "IPsec Tunnel mode differs from Transport mode in that Tunnel mode:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "IPsec mode selection — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(177).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 178,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Which VPN protocol uses TLS to encrypt traffic over port 443?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "VPN protocol / port selection — direct match to objective 4.5 (Implementation of secure protocols — Port selection, Transport method). Verified via audit_question(178).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 179,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "IPsec's Authentication Header (AH) protocol provides:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "IPsec AH detail — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(179).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 180,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "The official default port for RADIUS authentication is:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "RADIUS port — direct match to objective 4.5 (Implementation of secure protocols — Port selection). Verified via audit_question(180).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols — Port selection)"
+      ]
+    },
+    {
+      "question_id": 181,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "TACACS+ improves on RADIUS in two key ways:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "TACACS+ vs RADIUS — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(181).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 182,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "RADIUS Federation is primarily used to:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "RADIUS federation — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(182).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 183,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Which protocol does NOT provide all three AAA (Authentication, Authorization, Accounting) services?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "AAA protocol comparison — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(183).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 184,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A false positive in an IDS/IPS is defined as:",
+        "objective_code": "4.2"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "IDS/IPS terminology — objective 4.5 explicitly lists 'IDS/IPS — Trends, Signatures' as a sub-bullet. Objective 4.2 is asset management (acquisition, classification, inventory, disposal). Verified via audit_question(184).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (IDS/IPS)",
+        "CompTIA SY0-701 Exam Objectives PDF §4.2 (Hardware, software, and data asset management)"
+      ]
+    },
+    {
+      "question_id": 185,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A false negative in an IDS/IPS is defined as:",
+        "objective_code": "4.2"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Same as Q184 — IDS/IPS terminology under 4.5. Verified via audit_question(185).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (IDS/IPS)"
+      ]
+    },
+    {
+      "question_id": 186,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A signature-based IDS detects attacks primarily by:",
+        "objective_code": "4.2"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "IDS detection method (signature vs anomaly) — direct match to objective 4.5 (IDS/IPS — Trends, Signatures). Verified via audit_question(186).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (IDS/IPS — Signatures)"
+      ]
+    },
+    {
+      "question_id": 187,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "The two primary IDS detection methods are:",
+        "objective_code": "4.2"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "IDS detection methods — direct match to 4.5 (IDS/IPS). Verified via audit_question(187).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (IDS/IPS)"
+      ]
+    },
+    {
+      "question_id": 188,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Heuristic or behavioral IDS detection systems operate by:",
+        "objective_code": "4.2"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "IDS behavioral detection — direct match to 4.5 (IDS/IPS — Trends). Verified via audit_question(188).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (IDS/IPS)"
+      ]
+    },
+    {
+      "question_id": 189,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "The primary difference between an IPS and an IDS is:",
+        "objective_code": "4.2"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "IDS vs IPS — direct match to 4.5 (IDS/IPS). Verified via audit_question(189).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (IDS/IPS)"
+      ]
+    },
+    {
+      "question_id": 190,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "NIDS (Network-based IDS) limitations include:",
+        "objective_code": "4.2"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "NIDS — direct match to 4.5 (IDS/IPS). Verified via audit_question(190).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (IDS/IPS)"
+      ]
+    },
+    {
+      "question_id": 191,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Where should IDS sensors be placed to monitor ALL attacks, including those from the internet?",
+        "objective_code": "4.2"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "IDS sensor placement — direct match to 4.5 (IDS/IPS). Verified via audit_question(191).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (IDS/IPS)"
+      ]
+    },
+    {
+      "question_id": 192,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "The primary purpose of a honeypot is to:",
+        "objective_code": "4.1"
+      },
+      "proposed": {
+        "objective_code": "1.2"
+      },
+      "rationale": "Honeypots, honeynets, honeyfiles, and honeytokens are explicitly listed in SY0-701 objective 1.2 'Summarize fundamental security concepts' under the 'Deception and disruption technology' bullet. The objective text literally enumerates 'Honeypot, Honeynet, Honeyfile, Honeytoken' as sub-items. The audit summary's hint of 'mitigation techniques' (objective 2.5) does NOT mention deception — 2.5's bullets are Segmentation, Access control, Application allow list, Isolation, Patching, Encryption, Monitoring, Least privilege, Configuration enforcement, Decommissioning, Hardening techniques. 1.2 is the canonical and only home for deception tech in SY0-701 V7. NOTE FOR DB-ADMIN: this is a cross-domain re-tag (domain 4 → domain 1). The question's domain.number will move from 4 to 1 as a consequence.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §1.2 (Summarize fundamental security concepts — Deception and disruption technology: Honeypot, Honeynet, Honeyfile, Honeytoken)",
+        "CompTIA SY0-701 Exam Objectives PDF §2.5 (Mitigation techniques — bullet list does not include deception)"
+      ]
+    },
+    {
+      "question_id": 193,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A honeynet differs from a honeypot in that a honeynet:",
+        "objective_code": "4.1"
+      },
+      "proposed": {
+        "objective_code": "1.2"
+      },
+      "rationale": "Honeynet is one of the four explicit sub-bullets under 1.2 'Deception and disruption technology'. Same rationale as Q192. CROSS-DOMAIN re-tag (D4 → D1).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §1.2 (Deception and disruption technology — Honeynet)"
+      ]
+    },
+    {
+      "question_id": 194,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A honeyfile is defined as:",
+        "objective_code": "4.1"
+      },
+      "proposed": {
+        "objective_code": "1.2"
+      },
+      "rationale": "Honeyfile is one of the four explicit sub-bullets under 1.2 'Deception and disruption technology'. Same rationale as Q192. CROSS-DOMAIN re-tag (D4 → D1).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §1.2 (Deception and disruption technology — Honeyfile)"
+      ]
+    },
+    {
+      "question_id": 195,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "The primary purpose of a captive portal in a wireless network is:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Captive portal is part of enterprise wireless / NAC capability — closest fit objective 4.5 (Network access control; Implementation of secure protocols). Verified via audit_question(195).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Network access control)"
+      ]
+    },
+    {
+      "question_id": 198,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "PAP is considered less secure than CHAP because:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "PAP vs CHAP — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(198).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 199,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "CHAP maintains security versus PAP by:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "CHAP mechanism — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(199).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 200,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "What is the primary difference between HIDS and NIDS placement?",
+        "objective_code": "4.2"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "HIDS vs NIDS placement — direct match to objective 4.5 (IDS/IPS). Verified via audit_question(200).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (IDS/IPS)"
+      ]
+    },
+    {
+      "question_id": 201,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Site survey Wi-Fi analyzers primarily help administrators by:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Site survey / wireless tooling — closest fit objective 4.5 (Implementation of secure protocols, wireless settings under enterprise capabilities). Verified via audit_question(201).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 202,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "WPA2 uses which cryptographic protocols?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "WPA2 / AES / CCMP — direct match to objective 4.5 (Implementation of secure protocols). Verified via audit_question(202).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 203,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "The 802.1X server role in network security is to:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "802.1X / NAC — direct match to objective 4.5 (Network access control). Verified via audit_question(203).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Network access control)"
+      ]
+    },
+    {
+      "question_id": 204,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "A rogue access point is defined as:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "Rogue AP / WIPS — closest fit objective 4.5 (Network access control; Implementation of secure protocols). Verified via audit_question(204).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Network access control)"
+      ]
+    },
+    {
+      "question_id": 205,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Which 802.11 standard operates on BOTH the 2.4 GHz and 5 GHz bands simultaneously?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "802.11 wireless standards — closest fit objective 4.5 (Implementation of secure protocols / wireless enterprise capabilities). Verified via audit_question(205).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Implementation of secure protocols)"
+      ]
+    },
+    {
+      "question_id": 206,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "An on-path (man-in-the-middle) attack using ARP poisoning works because:",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "ARP poisoning as an enterprise capabilities / NAC concern — closest fit objective 4.5. (Could also map to 2.4 on-path attacks, but the cohort framing here is the defender's enterprise capability set.) Verified via audit_question(206).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Modify enterprise capabilities)"
+      ]
+    },
+    {
+      "question_id": 207,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Fake telemetry in a SCADA system poses which UNIQUE threat compared to typical IT attacks?",
+        "objective_code": "4.8"
+      },
+      "proposed": {
+        "objective_code": "4.5"
+      },
+      "rationale": "ICS/SCADA enterprise capability concern — closest fit objective 4.5 within the bulk cohort. (Note: SCADA architecture is also covered under 3.1 ICS/SCADA, and SCADA hardening under 4.1; among the audit's '4.8 → 4.5' group this question is the weakest fit, but 4.5 remains a defensible home since it concerns operational defensive capabilities rather than incident response process. The db-admin may want to consider 4.1 as an alternative.) Verified via audit_question(207).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.5 (Modify enterprise capabilities)",
+        "CompTIA SY0-701 Exam Objectives PDF §4.1 (Hardening targets — ICS/SCADA)"
+      ]
+    },
+    {
+      "question_id": 208,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "What does it mean when a system is NOT 'hardened'?",
+        "objective_code": "4.9"
+      },
+      "proposed": {
+        "objective_code": "4.1"
+      },
+      "rationale": "System hardening (defaults, default credentials, unnecessary services) is directly in objective 4.1 'Given a scenario, apply common security techniques to computing resources', which lists 'Secure baselines — Establish, Deploy, Maintain' and 'Hardening targets — Mobile devices, Workstations, Switches, Routers, Cloud infrastructure, Servers, ICS/SCADA, Embedded systems, RTOS, IoT devices.' Objective 4.9 is investigation data sources (firewall logs, application logs, endpoint logs, packet captures, etc.) and has nothing to do with the act of hardening. Verified via audit_question(208).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.1 (Secure baselines; Hardening targets)",
+        "CompTIA SY0-701 Exam Objectives PDF §4.9 (Data sources)"
+      ]
+    },
+    {
+      "question_id": 209,
+      "change_type": "objective_retag",
+      "current": {
+        "question_text": "Changing many default settings is critical to security primarily because:",
+        "objective_code": "4.9"
+      },
+      "proposed": {
+        "objective_code": "4.1"
+      },
+      "rationale": "Same rationale as Q208. Default-credential removal is hardening, which is objective 4.1 (Secure baselines / Hardening targets); 4.9 is investigation data sources. Verified via audit_question(209).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §4.1 (Secure baselines; Hardening targets)"
+      ]
+    },
+    {
+      "question_id": 212,
+      "change_type": "answer_key_change",
+      "current": {
+        "question_text": "Which governance structure type makes security decisions through consensus among a group of stakeholders rather than through a single authority?",
+        "correct_answer_texts": [
+          "Decentralized governance"
+        ],
+        "objective_code": "5.1"
+      },
+      "proposed": {
+        "correct_choice_text": "Committee-based governance",
+        "hint": "Think about which structure reaches decisions by deliberation and vote among a group, rather than concentrating or distributing authority.",
+        "explanation": "SY0-701 objective 5.1 lists four distinct types of governance structures: Boards, Committees, Government entities, and Centralized/decentralized. These describe different dimensions: 'Boards' and 'Committees' describe HOW a body makes decisions (deliberation and consensus or vote among multiple stakeholders), while 'Centralized vs. decentralized' describes WHERE security decision authority sits in the organization (one central office vs. distributed across business units — each unit typically still has a single local authority, not a consensus process). The stem's key phrase 'consensus among a group of stakeholders' is the textbook definition of a committee-based structure. A board-level structure is similar but specifically refers to the organization's board of directors (typically the audit committee or risk committee), so it is a narrower term; committee-based is the better general fit for 'a group of stakeholders.'"
+      },
+      "rationale": "Objective 5.1 in the SY0-701 V7 exam objectives PDF explicitly enumerates 'Types of governance structures: Boards, Committees, Government entities, Centralized/decentralized.' Centralized and decentralized governance answer the question 'where does authority sit?' — decentralized means decision-making authority is distributed to business units or regions, with each unit typically having its own (singular) local authority. That is NOT the same as group consensus. Committee-based (and board-level) governance answer the question 'how does a body reach decisions?' — by deliberation and consensus or vote among a defined group of stakeholders. The stem's exact wording 'consensus among a group of stakeholders' is the canonical SY0-701 description of committee-based governance. The stored explanation actually describes decentralized governance correctly (distribution across business units) but that description does not match the stem — additional evidence the keyed answer was filed under the wrong choice during authoring. Choice id 842 ('Committee-based governance') already exists, so this is a pure answer_key_change (no choice_edit required). Hint and explanation must be updated to match.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §5.1 (Summarize elements of effective security governance — Types of governance structures: Boards, Committees, Government entities, Centralized/decentralized)",
+        "NIST SP 800-100 §2.3 (Information Security Governance — governance bodies and committees)"
+      ]
+    }
+  ]
+}

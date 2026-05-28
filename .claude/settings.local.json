@@ -4,7 +4,10 @@
       "WebFetch(domain:lognpacific.com)",
       "WebFetch(domain:www.examcompass.com)",
       "WebFetch(domain:www.comptia.org)",
-      "Bash(python -c \"import os; [os.makedirs\\(p, exist_ok=True\\) for p in ['backend/questions/management', 'backend/questions/management/commands']]\")"
+      "Bash(python -c \"import os; [os.makedirs\\(p, exist_ok=True\\) for p in ['backend/questions/management', 'backend/questions/management/commands']]\")",
+      "mcp__security-plus-trainer__list_questions",
+      "mcp__security-plus-trainer__list_domains",
+      "mcp__security-plus-trainer__audit_question"
     ]
   }
 }
