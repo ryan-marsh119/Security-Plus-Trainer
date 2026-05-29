@@ -1,0 +1,154 @@
+{
+  "proposals": [
+    {
+      "question_id": 282,
+      "change_type": "choice_edit",
+      "current": {
+        "objective_code": "1.4",
+        "question_text": "Place the steps of creating and verifying a digital signature on a message in order.",
+        "choice_text": "Sender encrypts the hash with their PRIVATE key to produce the signature",
+        "choice_pk": 1119
+      },
+      "proposed": {
+        "choice_text": "Sender signs the hash with their PRIVATE key (per FIPS 186-5) to produce the signature"
+      },
+      "rationale": "The 'encrypt with private key' framing is RSA-PKCS#1/PSS specific. FIPS 186-5 §3 uses the neutral verbs 'sign' and 'verify' so the choice text applies equally to RSA, ECDSA, and EdDSA. v2 audit Q282.",
+      "sources": ["FIPS 186-5 §3", "RFC 8032 §5 (EdDSA)", "SY0-701 Exam Objectives PDF §1.4"]
+    },
+    {
+      "question_id": 282,
+      "change_type": "choice_edit",
+      "current": {
+        "objective_code": "1.4",
+        "question_text": "Place the steps of creating and verifying a digital signature on a message in order.",
+        "choice_text": "Recipient decrypts the signature with the sender's PUBLIC key to recover the original hash",
+        "choice_pk": 1121
+      },
+      "proposed": {
+        "choice_text": "Recipient uses the sender's PUBLIC key to verify the signature and recover the original hash"
+      },
+      "rationale": "Same FIPS 186-5 / ECDSA-EdDSA generality concern as the sign-side edit. 'Verify' is the canonical verb in the standard.",
+      "sources": ["FIPS 186-5 §3", "SY0-701 Exam Objectives PDF §1.4"]
+    },
+    {
+      "question_id": 282,
+      "change_type": "explanation_update",
+      "current": {
+        "objective_code": "1.4",
+        "question_text": "Place the steps of creating and verifying a digital signature on a message in order."
+      },
+      "proposed": {
+        "explanation": "SY0-701 Objective 1.4 lists Digital signatures as a required cryptographic concept. NIST FIPS 186-5 §3 (Digital Signature Standard) defines signing as: hash the message, then transform the hash with the signer's private key; verification uses the public key to validate the signature against a freshly computed hash of the received message. This sign/verify primitive applies to RSA-PKCS#1, RSA-PSS, ECDSA (FIPS 186-5 §6), and EdDSA (RFC 8032 §5) — older 'encrypt with private key / decrypt with public key' framing is RSA-specific. The sequence simultaneously provides integrity (hash comparison), authentication (only the private key holder can sign), and non-repudiation (Objective 1.2). Source: CompTIA Security+ SY0-701 Exam Objectives (7.0) §1.4; NIST FIPS 186-5 §3; RFC 8032."
+      },
+      "rationale": "Adds the ECDSA/EdDSA-vs-RSA framing the v2 audit flagged on Q282 so the explanation no longer implies the older RSA-only mental model.",
+      "sources": ["FIPS 186-5 §3, §6", "RFC 8032 §5"]
+    },
+    {
+      "question_id": 283,
+      "change_type": "choice_edit",
+      "current": {
+        "objective_code": "1.4",
+        "question_text": "A web server needs a TLS certificate from a public CA. Place the certificate enrollment steps in the correct order.",
+        "choice_text": "CA signs and issues the X.509 certificate, optionally publishing it via OCSP/CRL infrastructure",
+        "choice_pk": 1126
+      },
+      "proposed": {
+        "choice_text": "CA signs and issues the X.509 certificate, embedding OCSP responder and CRL distribution-point URLs and (for public CAs) publishing the cert to Certificate Transparency logs"
+      },
+      "rationale": "Original step 4 implied OCSP/CRL are publication channels for the certificate itself. Per RFC 5280 §4.2.1.13 (CRL Distribution Points) and §4.2.2.1 (Authority Information Access / OCSP), those URLs are EMBEDDED in the issued cert for clients to consult revocation status. Public-cert PUBLICATION happens via Certificate Transparency (RFC 6962). v2 audit Q283.",
+      "sources": ["RFC 5280 §4.2.1.13 and §4.2.2.1", "RFC 6962 §3 (Certificate Transparency)", "SY0-701 Exam Objectives PDF §1.4"]
+    },
+    {
+      "question_id": 283,
+      "change_type": "explanation_update",
+      "current": {
+        "objective_code": "1.4",
+        "question_text": "A web server needs a TLS certificate from a public CA. Place the certificate enrollment steps in the correct order."
+      },
+      "proposed": {
+        "explanation": "SY0-701 Objective 1.4 lists 'Certificate signing request (CSR) generation' explicitly under Certificates. The canonical PKI enrollment lifecycle per RFC 5280 §3 and NIST SP 800-32 §3 is: key-pair generation on the requester, CSR creation embedding the public key and subject (PKCS#10 / RFC 2986), submission to the CA, CA validation and signing, then certificate installation on the server. At issuance the CA embeds the AIA / CRL Distribution Point URLs into the cert (RFC 5280 §4.2.1.13, §4.2.2.1) so clients can later check revocation status — OCSP and CRLs are revocation channels, not publication channels for the cert itself. Public CAs additionally publish issued certs to Certificate Transparency logs (RFC 6962). The private key never leaves the requesting host — this is foundational to non-repudiation. Source: CompTIA Security+ SY0-701 Exam Objectives (7.0) §1.4; RFC 5280 §3, §4.2; RFC 2986 §1; RFC 6962; NIST SP 800-32 §3."
+      },
+      "rationale": "Clarifies that OCSP/CRL are revocation channels and Certificate Transparency is the publication channel, aligning with the choice-edit above.",
+      "sources": ["RFC 5280 §3 and §4.2", "RFC 6962", "NIST SP 800-32 §3"]
+    },
+    {
+      "question_id": 291,
+      "change_type": "stem_rewrite",
+      "current": {
+        "objective_code": "2.4",
+        "question_text": "Which of the following are password / credential attacks listed under SY0-701 Objective 2.4? (Select THREE.)"
+      },
+      "proposed": {
+        "question_text": "Which of the following are attacks listed under SY0-701 Objective 2.4 (as opposed to attacks listed under a different objective)? (Select THREE.)"
+      },
+      "rationale": "SY0-701 §2.4 keeps Password attacks (Spraying, Brute force) and Cryptographic attacks (Downgrade, Collision, Birthday) in separate sub-bullets. The original stem grouped Birthday under 'password / credential attacks' which is taxonomically wrong. Dropping the qualifier keeps the answer key valid (all three are §2.4 attacks) and removes the imprecision. v2 audit Q291.",
+      "sources": ["CompTIA SY0-701 Exam Objectives PDF §2.4 (Password attacks; Cryptographic attacks)", "NIST SP 800-107r1 §4.2"]
+    },
+    {
+      "question_id": 309,
+      "change_type": "stem_rewrite",
+      "current": {
+        "objective_code": "2.1",
+        "question_text": "According to the Carnegie Mellon CERT Insider Threat Center model, place the stages an insider typically progresses through before committing a malicious act."
+      },
+      "proposed": {
+        "question_text": "Based on the behavioral 'pathway to violence' model from targeted-violence threat-assessment research, place the stages an insider typically progresses through before committing a malicious act."
+      },
+      "rationale": "Original stem attributes the grievance → ideation → planning → preparation → action sequence to the CMU CERT Insider Threat Center. CERT's actual canonical model (Shaw/Stock 'Critical Pathway to Insider Risk') uses different stage labels (Predispositions → Stressors → Concerning Behaviors → Org Response → Hostile Act). The sequence in the question matches the FBI / U.S. Secret Service NTAC 'pathway to violence' framework (Calhoun & Weston 2003). v2 audit Q309.",
+      "sources": ["Calhoun & Weston, 'Contemporary Threat Management' (2003)", "U.S. Secret Service NTAC Operational Guide (2018)", "Shaw & Stock, 'Behavioral Risk Indicators of Malicious Insider Theft of Intellectual Property' (CMU SEI 2011)"]
+    },
+    {
+      "question_id": 309,
+      "change_type": "explanation_update",
+      "current": {
+        "objective_code": "2.1",
+        "question_text": "According to the Carnegie Mellon CERT Insider Threat Center model, place the stages an insider typically progresses through before committing a malicious act."
+      },
+      "proposed": {
+        "explanation": "SY0-701 §2.1 covers insider threat actors. The grievance → ideation → planning → preparation → action progression comes from the behavioral 'pathway to violence' literature (Calhoun & Weston, 2003) and is operationalized in the U.S. Secret Service National Threat Assessment Center's guidance on targeted-violence prevention. Early detection at grievance or ideation enables prevention before tools or access are acquired. Note: CMU SEI CERT publishes a distinct 'Critical Pathway to Insider Risk' (Shaw, Ruby & Post; refined with Stock) whose stages are Personal Predispositions → Stressors → Concerning Behaviors → Problematic Organizational Responses → Hostile Act — closely related but separately named. Both frameworks are widely used in insider-threat programs. Source: Calhoun & Weston (2003); USSS NTAC Operational Guide (2018); CMU SEI Insider Threat Center; CompTIA Security+ SY0-701 Exam Objectives (7.0) §2.1."
+      },
+      "rationale": "Re-attributes correctly and notes the CERT Critical Pathway model is related but distinct so a student who looks up CERT does not get confused by mismatched stage labels.",
+      "sources": ["Calhoun & Weston (2003)", "USSS NTAC Operational Guide (2018)", "Shaw & Stock (CMU SEI 2011)"]
+    },
+    {
+      "question_id": 325,
+      "change_type": "answer_key_change",
+      "current": {
+        "objective_code": "3.2",
+        "question_text": "A packet from the public internet is destined for an internal web application. Order the perimeter defense-in-depth layers in the sequence the packet traverses on its way to the server.",
+        "stored_ordered_ids": [1308, 1309, 1310, 1311, 1312],
+        "stored_ordered_texts": [
+          "Edge router with ingress ACL (basic Layer-3/4 filtering and bogon/anti-spoofing rules)",
+          "Inline IDS/IPS sensor",
+          "Stateful perimeter firewall enforcing zone policy",
+          "Web application firewall / reverse proxy performing HTTP inspection",
+          "Internal web server in the application zone"
+        ]
+      },
+      "proposed": {
+        "ordered_choice_texts": [
+          "Edge router with ingress ACL (basic Layer-3/4 filtering and bogon/anti-spoofing rules)",
+          "Stateful perimeter firewall enforcing zone policy",
+          "Inline IDS/IPS sensor",
+          "Web application firewall / reverse proxy performing HTTP inspection",
+          "Internal web server in the application zone"
+        ]
+      },
+      "rationale": "The original answer placed the IDS/IPS BEFORE the stateful perimeter firewall. Per NIST SP 800-41r1 §3.2 and the Cisco SAFE perimeter blueprint, the firewall is the primary policy boundary and drops most unwanted traffic cheaply; IPS performs deeper signature/behavior inspection on already-filtered traffic. Both topologies exist in practice (NIST SP 800-94 §6 acknowledges either placement), but Security+ study materials (Sybex SY0-701 OCG, CompTIA OCG, Pearson) consistently teach firewall-before-IPS. v2 audit Q325 flagged this as non-canonical for the exam. Change only the answer-key sequence; choice texts and CSV-local IDs stay as-is.",
+      "sources": ["NIST SP 800-41r1 §3.2 (Firewall Topology Architecture)", "NIST SP 800-94 §6", "Cisco SAFE Reference Guide", "Sybex CompTIA Security+ SY0-701 Official Study Guide"]
+    },
+    {
+      "question_id": 325,
+      "change_type": "explanation_update",
+      "current": {
+        "objective_code": "3.2",
+        "question_text": "A packet from the public internet is destined for an internal web application. Order the perimeter defense-in-depth layers in the sequence the packet traverses on its way to the server."
+      },
+      "proposed": {
+        "explanation": "SY0-701 Objective 3.2 covers Device placement, Security zones, and the network appliance catalog (IDS/IPS, firewall, WAF, proxy). The canonical Security+ defense-in-depth chain (Sybex SY0-701 OCG; CompTIA OCG; NIST SP 800-41r1 §3.2) layers cheapest-first to most-specific: edge router ACLs handle bogons and anti-spoofing at L3/L4, the stateful perimeter firewall enforces inter-zone policy and drops the bulk of unwanted traffic, then an IDS/IPS performs deeper signature and behavior inspection on the already-permitted flows, and a WAF/reverse proxy applies HTTP-aware rules immediately in front of the application. NIST SP 800-94 §6 acknowledges that some topologies place the IPS in front of the firewall (e.g., to scrub before the firewall consumes session-table space), but firewall-before-IPS is the dominant exam pattern. Each layer narrows the attack surface."
+      },
+      "rationale": "Aligns explanation with the corrected answer key (firewall-before-IPS).",
+      "sources": ["NIST SP 800-41r1 §3.2", "NIST SP 800-94 §6", "SY0-701 Exam Objectives PDF §3.2"]
+    }
+  ]
+}

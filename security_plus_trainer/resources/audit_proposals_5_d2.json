@@ -1,0 +1,756 @@
+{
+  "new_questions": [
+    {
+      "ref": "Q-MS-01",
+      "domain_number": 2,
+      "objective_code": "2.1",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "Which of the following motivations are MOST commonly associated with hacktivist threat actors? (Select THREE.)",
+      "choices": [
+        "Philosophical or political beliefs",
+        "Service disruption to draw public attention",
+        "Revenge against an organization perceived as unethical",
+        "Long-term espionage on behalf of a foreign government",
+        "Financial gain through ransomware extortion",
+        "Acquiring intellectual property for competitive advantage"
+      ],
+      "correct_choice_texts": [
+        "Philosophical or political beliefs",
+        "Service disruption to draw public attention",
+        "Revenge against an organization perceived as unethical"
+      ],
+      "hint": "Hacktivists are ideologically driven, not profit-driven.",
+      "explanation": "Per SY0-701 Objective 2.1, hacktivist motivations center on philosophical/political beliefs, disruption/chaos, and revenge. Long-term espionage and IP theft characterize nation-state actors; financial extortion characterizes organized crime. See CompTIA SY0-701 Exam Objectives PDF §2.1 (Motivations) and MITRE ATT&CK Groups (e.g., Anonymous-associated activity).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.1 (Motivations bullet group)",
+        "MITRE ATT&CK Groups – https://attack.mitre.org/groups/"
+      ]
+    },
+    {
+      "ref": "Q-MS-02",
+      "domain_number": 2,
+      "objective_code": "2.1",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "Which of the following attributes distinguish a nation-state advanced persistent threat (APT) from less-resourced actors? (Select THREE.)",
+      "choices": [
+        "Sophisticated, often custom-developed tooling",
+        "Long dwell time and persistent access objectives",
+        "Substantial funding and dedicated personnel",
+        "Reliance on publicly available script kits",
+        "Primarily opportunistic targeting",
+        "Motivation limited to immediate financial gain"
+      ],
+      "correct_choice_texts": [
+        "Sophisticated, often custom-developed tooling",
+        "Long dwell time and persistent access objectives",
+        "Substantial funding and dedicated personnel"
+      ],
+      "hint": "APT = Advanced (custom tools), Persistent (long-term), Threat (well-resourced).",
+      "explanation": "SY0-701 §2.1 lists nation-state actors with high capability and resources; MITRE characterizes APT groups by long dwell time, custom malware, and strategic targeting. Public scripts and opportunistic targeting describe unskilled attackers. See CompTIA SY0-701 Exam Objectives PDF §2.1 and MITRE ATT&CK Groups (APT28, APT29, etc.).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.1",
+        "MITRE ATT&CK Groups – https://attack.mitre.org/groups/"
+      ]
+    },
+    {
+      "ref": "Q-MS-03",
+      "domain_number": 2,
+      "objective_code": "2.2",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "Which of the following are classified as human (social engineering) threat vectors in SY0-701 Objective 2.2? (Select THREE.)",
+      "choices": [
+        "Vishing",
+        "Pretexting",
+        "MFA fatigue",
+        "Open service ports",
+        "VM escape",
+        "Default credentials"
+      ],
+      "correct_choice_texts": [
+        "Vishing",
+        "Pretexting",
+        "MFA fatigue"
+      ],
+      "hint": "Human vectors target the person, not a port, hypervisor, or default config.",
+      "explanation": "SY0-701 §2.2 enumerates human vectors/social engineering: phishing, vishing, smishing, misinformation/disinformation, impersonation, business email compromise, pretexting, watering hole, brand impersonation, and typosquatting, plus MFA fatigue. Open ports, VM escape, and default credentials are non-human vectors. See CompTIA SY0-701 Exam Objectives PDF §2.2 (Human vectors/social engineering).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.2",
+        "NIST SP 800-61r2 §2 (incident vectors)"
+      ]
+    },
+    {
+      "ref": "Q-MS-04",
+      "domain_number": 2,
+      "objective_code": "2.2",
+      "question_type": "multi_select",
+      "difficulty": "easy",
+      "question_text": "Which of the following are examples of message-based threat vectors? (Select THREE.)",
+      "choices": [
+        "Email phishing",
+        "SMS text smishing",
+        "Instant messaging payload delivery",
+        "USB drive autorun",
+        "Bluetooth pairing attack",
+        "Open RDP port scanning"
+      ],
+      "correct_choice_texts": [
+        "Email phishing",
+        "SMS text smishing",
+        "Instant messaging payload delivery"
+      ],
+      "hint": "Message-based = arrives as a message in an inbox/channel.",
+      "explanation": "SY0-701 §2.2 explicitly lists message-based vectors: email, short message service (SMS), and instant messaging (IM). USB is a removable-device vector; Bluetooth pairing is an unsecure-network vector; open ports are an attack-surface vector. See CompTIA SY0-701 Exam Objectives PDF §2.2 (Message-based).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.2 (Message-based vectors)"
+      ]
+    },
+    {
+      "ref": "Q-MS-05",
+      "domain_number": 2,
+      "objective_code": "2.3",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "Which of the following are application-layer vulnerability types listed in SY0-701 Objective 2.3? (Select THREE.)",
+      "choices": [
+        "Buffer overflow",
+        "Memory injection",
+        "Race condition (TOCTOU)",
+        "VM escape",
+        "End-of-life firmware",
+        "Jailbreaking"
+      ],
+      "correct_choice_texts": [
+        "Buffer overflow",
+        "Memory injection",
+        "Race condition (TOCTOU)"
+      ],
+      "hint": "Application vulnerabilities live in the program's own code or runtime.",
+      "explanation": "SY0-701 §2.3 'Application' bullet enumerates memory injection, buffer overflow, race conditions (including time-of-check/time-of-use), and malicious update. VM escape is virtualization (CWE-1041); EOL firmware is hardware/legacy; jailbreaking is mobile. See CompTIA SY0-701 Exam Objectives PDF §2.3 (Application), MITRE CWE-120 (buffer overflow), CWE-367 (TOCTOU).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.3 (Application)",
+        "MITRE CWE-120 / CWE-367"
+      ]
+    },
+    {
+      "ref": "Q-MS-06",
+      "domain_number": 2,
+      "objective_code": "2.3",
+      "question_type": "multi_select",
+      "difficulty": "hard",
+      "question_text": "Which of the following are virtualization-specific vulnerabilities relevant to SY0-701 Objective 2.3? (Select TWO.)",
+      "choices": [
+        "Virtual machine escape",
+        "Resource reuse across tenants",
+        "SQL injection in the guest application",
+        "Sideloading a mobile APK",
+        "Buffer overflow in a desktop application"
+      ],
+      "correct_choice_texts": [
+        "Virtual machine escape",
+        "Resource reuse across tenants"
+      ],
+      "hint": "Think hypervisor boundary failures and memory not zeroed between VMs.",
+      "explanation": "SY0-701 §2.3 'Virtualization' lists virtual machine escape and resource reuse as the canonical hypervisor-layer vulnerabilities. SQL injection is web-application, sideloading is mobile, and buffer overflow is application. See CompTIA SY0-701 Exam Objectives PDF §2.3 (Virtualization) and NIST SP 800-125 (hypervisor security).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.3 (Virtualization)",
+        "NIST SP 800-125 – Security for Full Virtualization Technologies"
+      ]
+    },
+    {
+      "ref": "Q-MS-07",
+      "domain_number": 2,
+      "objective_code": "2.4",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "Which of the following are listed as indicators of malicious activity in SY0-701 Objective 2.4? (Select THREE.)",
+      "choices": [
+        "Account lockout",
+        "Impossible travel",
+        "Missing logs",
+        "Patched operating system",
+        "Successful single sign-on event",
+        "Routine scheduled backup completion"
+      ],
+      "correct_choice_texts": [
+        "Account lockout",
+        "Impossible travel",
+        "Missing logs"
+      ],
+      "hint": "Look for anomalies and gaps, not normal benign telemetry.",
+      "explanation": "SY0-701 §2.4 'Indicators' lists account lockout, concurrent session usage, blocked content, impossible travel, resource consumption, resource inaccessibility, out-of-cycle logging, published/documented, and missing logs. Patched OS and routine backups are benign. See CompTIA SY0-701 Exam Objectives PDF §2.4 (Indicators) and NIST SP 800-61r2 §3.2.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.4 (Indicators)",
+        "NIST SP 800-61r2 §3.2 (Detection and analysis – signs of incident)"
+      ]
+    },
+    {
+      "ref": "Q-MS-08",
+      "domain_number": 2,
+      "objective_code": "2.4",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "Which of the following are password / credential attacks listed under SY0-701 Objective 2.4? (Select THREE.)",
+      "choices": [
+        "Spraying",
+        "Brute force",
+        "Birthday collision against a hash",
+        "Buffer overflow",
+        "Cross-site scripting",
+        "Jailbreaking"
+      ],
+      "correct_choice_texts": [
+        "Spraying",
+        "Brute force",
+        "Birthday collision against a hash"
+      ],
+      "hint": "These are all credential/cryptographic attacks, not memory or web injection.",
+      "explanation": "SY0-701 §2.4 lists password attacks (spraying, brute force) under credential replay/abuse and cryptographic attacks including birthday and collision. Buffer overflow and XSS are application vulnerabilities (§2.3); jailbreaking is a mobile vulnerability. See CompTIA SY0-701 Exam Objectives PDF §2.4 (Password attacks / Cryptographic attacks) and NIST SP 800-63B §5.1.1.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.4",
+        "NIST SP 800-63B §5.1.1 (Memorized Secret authenticators)"
+      ]
+    },
+    {
+      "ref": "Q-MS-09",
+      "domain_number": 2,
+      "objective_code": "2.5",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "Which of the following are mitigation techniques used to secure the enterprise under SY0-701 Objective 2.5? (Select THREE.)",
+      "choices": [
+        "Segmentation",
+        "Least privilege",
+        "Patching",
+        "Phishing",
+        "VM escape",
+        "Race condition"
+      ],
+      "correct_choice_texts": [
+        "Segmentation",
+        "Least privilege",
+        "Patching"
+      ],
+      "hint": "Mitigations reduce risk; the other options are attacks or vulnerabilities.",
+      "explanation": "SY0-701 §2.5 enumerates segmentation, access control (ACL/permissions), application allow list, isolation, patching, encryption, monitoring, least privilege, configuration enforcement, and decommissioning. Phishing is a §2.2 vector; VM escape and race condition are §2.3 vulnerabilities. See CompTIA SY0-701 Exam Objectives PDF §2.5 and NIST SP 800-53r5 controls AC-6 (Least Privilege), SI-2 (Flaw Remediation), SC-7 (Boundary Protection).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.5",
+        "NIST SP 800-53r5 AC-6, SI-2, SC-7"
+      ]
+    },
+    {
+      "ref": "Q-MS-10",
+      "domain_number": 2,
+      "objective_code": "2.5",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "Which of the following are valid hardening targets explicitly listed in SY0-701 Objective 2.5? (Select THREE.)",
+      "choices": [
+        "Mobile devices",
+        "Workstations",
+        "Cloud infrastructure",
+        "Threat intelligence feeds",
+        "Marketing brochures",
+        "Penetration test reports"
+      ],
+      "correct_choice_texts": [
+        "Mobile devices",
+        "Workstations",
+        "Cloud infrastructure"
+      ],
+      "hint": "Hardening targets are systems and devices you can configure.",
+      "explanation": "SY0-701 §2.5 'Hardening targets' explicitly lists mobile devices, workstations, switches, routers, cloud infrastructure, servers, ICS/SCADA, embedded systems, RTOS, and IoT devices. Threat feeds and reports are inputs/artifacts, not hardening targets. See CompTIA SY0-701 Exam Objectives PDF §2.5 (Hardening targets) and CIS Benchmarks / DISA STIGs.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.5 (Hardening targets)",
+        "CIS Benchmarks – https://www.cisecurity.org/cis-benchmarks",
+        "DISA STIGs – https://public.cyber.mil/stigs/"
+      ]
+    },
+    {
+      "ref": "Q-TF-01",
+      "domain_number": 2,
+      "objective_code": "2.1",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "question_text": "True or False: SY0-701 Objective 2.1 lists 'shadow IT' as a category of threat actor.",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "correct_choice_text": "True",
+      "hint": "Re-read the bullet list of actor types in 2.1.",
+      "explanation": "SY0-701 §2.1 explicitly enumerates threat actors: nation-state, unskilled attacker, hacktivist, insider threat, organized crime, and shadow IT. Shadow IT — unsanctioned systems/services introduced by employees outside IT governance — is treated as a threat actor on the exam. See CompTIA SY0-701 Exam Objectives PDF §2.1 (Threat actors).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.1 (Threat actors)"
+      ]
+    },
+    {
+      "ref": "Q-TF-02",
+      "domain_number": 2,
+      "objective_code": "2.1",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "question_text": "True or False: An 'unskilled attacker' in SY0-701 Objective 2.1 typically relies on pre-built tools or scripts rather than developing custom exploits.",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "correct_choice_text": "True",
+      "hint": "Think 'script kiddie.'",
+      "explanation": "SY0-701 §2.1 characterizes the unskilled attacker (script kiddie) by low capability/resources, using publicly available tooling rather than custom development. Sophistication and custom tooling characterize nation-state APTs. See CompTIA SY0-701 Exam Objectives PDF §2.1 (Attributes of actors).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.1 (Attributes of actors)"
+      ]
+    },
+    {
+      "ref": "Q-TF-03",
+      "domain_number": 2,
+      "objective_code": "2.2",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "question_text": "True or False: 'MFA fatigue' — repeatedly pushing authentication prompts until a user approves one — is classified by SY0-701 Objective 2.2 as a human (social engineering) threat vector.",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "correct_choice_text": "True",
+      "hint": "The attack relies on annoying a human into clicking approve.",
+      "explanation": "SY0-701 §2.2 lists MFA fatigue (a.k.a. push-bombing) under human/social-engineering vectors because success requires user interaction (approving a push). MITRE ATT&CK tracks this as T1621 Multi-Factor Authentication Request Generation. See CompTIA SY0-701 Exam Objectives PDF §2.2 and MITRE ATT&CK T1621.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.2",
+        "MITRE ATT&CK T1621 – https://attack.mitre.org/techniques/T1621/"
+      ]
+    },
+    {
+      "ref": "Q-TF-04",
+      "domain_number": 2,
+      "objective_code": "2.2",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "question_text": "True or False: Default credentials shipped on a device are NOT considered an attack surface under SY0-701 Objective 2.2.",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "correct_choice_text": "False",
+      "hint": "If the credentials are publicly documented, anyone on the network can try them.",
+      "explanation": "SY0-701 §2.2 explicitly lists 'default credentials' as an attack surface. Vendor-default usernames and passwords are widely published and routinely abused (e.g., Mirai's success against IoT). The correct answer is False — default credentials ARE an attack surface. See CompTIA SY0-701 Exam Objectives PDF §2.2 (Attack surfaces) and NIST SP 800-53r5 IA-5.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.2 (Attack surfaces)",
+        "NIST SP 800-53r5 IA-5 (Authenticator Management)"
+      ]
+    },
+    {
+      "ref": "Q-TF-05",
+      "domain_number": 2,
+      "objective_code": "2.3",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "question_text": "True or False: A zero-day vulnerability, by definition, has no vendor-provided patch available at the time it is exploited or disclosed.",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "correct_choice_text": "True",
+      "hint": "The vendor has had zero days to prepare a fix.",
+      "explanation": "Per SY0-701 §2.3, a zero-day is a vulnerability unknown to the vendor (or for which no patch yet exists), giving defenders zero days of warning. NIST defines a zero-day similarly in SP 800-150 (Guide to Cyber Threat Information Sharing). See CompTIA SY0-701 Exam Objectives PDF §2.3 (Zero-day) and NIST SP 800-150.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.3 (Zero-day)",
+        "NIST SP 800-150 – Guide to Cyber Threat Information Sharing"
+      ]
+    },
+    {
+      "ref": "Q-TF-06",
+      "domain_number": 2,
+      "objective_code": "2.3",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "question_text": "True or False: A time-of-check/time-of-use (TOCTOU) flaw is classified by SY0-701 Objective 2.3 as a memory-injection vulnerability.",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "correct_choice_text": "False",
+      "hint": "TOCTOU is about timing windows between two operations.",
+      "explanation": "TOCTOU is a race-condition vulnerability — the state of a resource changes between the check and the use — not a memory-injection vulnerability. SY0-701 §2.3 lists race conditions (including TOCTOU) as a distinct sub-bullet from memory injection. MITRE CWE-367 catalogs TOCTOU explicitly. See CompTIA SY0-701 Exam Objectives PDF §2.3 (Application – Race conditions) and MITRE CWE-367.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.3 (Application)",
+        "MITRE CWE-367 – TOCTOU Race Condition"
+      ]
+    },
+    {
+      "ref": "Q-TF-07",
+      "domain_number": 2,
+      "objective_code": "2.4",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "question_text": "True or False: A logic bomb is malware that executes its payload only when a specific trigger condition (such as a date, account state, or event) is met.",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "correct_choice_text": "True",
+      "hint": "The 'bomb' detonates on a condition, not immediately.",
+      "explanation": "SY0-701 §2.4 lists logic bombs as conditionally-activated malware. They lie dormant until a logical trigger (date, missing employee record, file deletion) fires the payload. MITRE ATT&CK tracks logic-bomb-style behavior under T1059 / T1546.005 conditional execution. See CompTIA SY0-701 Exam Objectives PDF §2.4 (Malware – Logic bomb).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.4 (Malware attacks)",
+        "MITRE ATT&CK T1546 – Event Triggered Execution"
+      ]
+    },
+    {
+      "ref": "Q-TF-08",
+      "domain_number": 2,
+      "objective_code": "2.4",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "question_text": "True or False: 'Impossible travel' — successful logins from two geographically distant locations within a span of time that no human could traverse — is listed as an indicator of malicious activity in SY0-701 Objective 2.4.",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "correct_choice_text": "True",
+      "hint": "It is one of the named indicators in 2.4.",
+      "explanation": "SY0-701 §2.4 explicitly lists 'impossible travel' under Indicators of malicious activity. It is a high-fidelity signal of credential compromise commonly surfaced by SIEMs and UEBA platforms. See CompTIA SY0-701 Exam Objectives PDF §2.4 (Indicators) and NIST SP 800-61r2 §3.2.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.4 (Indicators)",
+        "NIST SP 800-61r2 §3.2"
+      ]
+    },
+    {
+      "ref": "Q-TF-09",
+      "domain_number": 2,
+      "objective_code": "2.5",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "question_text": "True or False: Application allow-listing (whitelisting) operates on a default-deny model — only explicitly approved executables are permitted to run.",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "correct_choice_text": "True",
+      "hint": "If a binary is not on the list, it does not run.",
+      "explanation": "SY0-701 §2.5 lists application allow list as a mitigation. By design, allow-listing denies execution by default and permits only known-good binaries (by hash, path, or publisher). NIST SP 800-167 (Guide to Application Whitelisting) formalizes this default-deny posture. See CompTIA SY0-701 Exam Objectives PDF §2.5 and NIST SP 800-167 §2.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.5",
+        "NIST SP 800-167 – Guide to Application Whitelisting"
+      ]
+    },
+    {
+      "ref": "Q-TF-10",
+      "domain_number": 2,
+      "objective_code": "2.5",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "question_text": "True or False: Decommissioning a legacy or end-of-life system is NOT considered a mitigation technique under SY0-701 Objective 2.5.",
+      "choices": [
+        "True",
+        "False"
+      ],
+      "correct_choice_text": "False",
+      "hint": "Removing an unpatchable system removes its risk.",
+      "explanation": "SY0-701 §2.5 explicitly lists decommissioning as a mitigation technique. Retiring an EOL/unpatchable system eliminates the residual risk that monitoring or compensating controls cannot fully neutralize. The statement is therefore False. See CompTIA SY0-701 Exam Objectives PDF §2.5 and NIST SP 800-88r1 (Media sanitization on decommissioning).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.5 (Mitigation techniques)",
+        "NIST SP 800-88r1 – Guidelines for Media Sanitization"
+      ]
+    },
+    {
+      "ref": "Q-ORD-01",
+      "domain_number": 2,
+      "objective_code": "2.4",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "Place the seven phases of the Lockheed Martin Cyber Kill Chain in the correct order, from earliest to latest.",
+      "choices": [
+        "Reconnaissance",
+        "Weaponization",
+        "Delivery",
+        "Exploitation",
+        "Installation",
+        "Command and Control",
+        "Actions on Objectives"
+      ],
+      "ordered_choice_texts": [
+        "Reconnaissance",
+        "Weaponization",
+        "Delivery",
+        "Exploitation",
+        "Installation",
+        "Command and Control",
+        "Actions on Objectives"
+      ],
+      "hint": "An attacker must first study the target, then build, then deliver, before code can run.",
+      "explanation": "The Lockheed Martin Cyber Kill Chain defines seven sequential phases: Reconnaissance, Weaponization, Delivery, Exploitation, Installation, Command and Control (C2), and Actions on Objectives. It is referenced in SY0-701 §2.4 as a model for understanding attack progression. See Lockheed Martin – 'The Cyber Kill Chain' (https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.4",
+        "Lockheed Martin Cyber Kill Chain – https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html"
+      ]
+    },
+    {
+      "ref": "Q-ORD-02",
+      "domain_number": 2,
+      "objective_code": "2.4",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "Place the following MITRE ATT&CK Enterprise tactics in the typical macro-order an adversary progresses through them, from earliest to latest.",
+      "choices": [
+        "Reconnaissance",
+        "Initial Access",
+        "Execution",
+        "Privilege Escalation",
+        "Lateral Movement",
+        "Exfiltration"
+      ],
+      "ordered_choice_texts": [
+        "Reconnaissance",
+        "Initial Access",
+        "Execution",
+        "Privilege Escalation",
+        "Lateral Movement",
+        "Exfiltration"
+      ],
+      "hint": "Recon happens before access; movement and exfiltration come after a foothold and elevation.",
+      "explanation": "The MITRE ATT&CK Enterprise matrix orders tactics left-to-right roughly chronologically: Reconnaissance → Resource Development → Initial Access → Execution → Persistence → Privilege Escalation → Defense Evasion → Credential Access → Discovery → Lateral Movement → Collection → Command and Control → Exfiltration → Impact. The six selected here follow that macro-order. See MITRE ATT&CK Matrix for Enterprise (https://attack.mitre.org/matrices/enterprise/) — referenced as a threat-modeling framework under SY0-701 §2.4.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.4",
+        "MITRE ATT&CK Enterprise Matrix – https://attack.mitre.org/matrices/enterprise/"
+      ]
+    },
+    {
+      "ref": "Q-ORD-03",
+      "domain_number": 2,
+      "objective_code": "2.5",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "A new critical CVE is announced for a server in production. Place the following vulnerability-mitigation lifecycle steps in the correct order.",
+      "choices": [
+        "Detection of the affected asset via vulnerability scan",
+        "Containment by network segmentation or temporary isolation",
+        "Patch deployment from the vendor",
+        "Verification scan and continuous monitoring",
+        "Decommissioning if the component is end-of-life and cannot be patched"
+      ],
+      "ordered_choice_texts": [
+        "Detection of the affected asset via vulnerability scan",
+        "Containment by network segmentation or temporary isolation",
+        "Patch deployment from the vendor",
+        "Verification scan and continuous monitoring",
+        "Decommissioning if the component is end-of-life and cannot be patched"
+      ],
+      "hint": "You cannot mitigate what you have not detected; verify before retiring.",
+      "explanation": "SY0-701 §2.5 lists segmentation, isolation, patching, monitoring, and decommissioning as mitigation techniques and §4.3 describes vulnerability management lifecycle: identification → analysis → response → reporting. The order is detect → contain → patch → verify → decommission (only if unpatchable). See CompTIA SY0-701 Exam Objectives PDF §2.5 / §4.3 and NIST SP 800-40r4 (Guide to Enterprise Patch Management).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.5 and §4.3",
+        "NIST SP 800-40r4 – Guide to Enterprise Patch Management"
+      ]
+    },
+    {
+      "ref": "Q-ORD-04",
+      "domain_number": 2,
+      "objective_code": "2.3",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "question_text": "Place the stages of a software supply-chain compromise (SolarWinds-style) in the correct order.",
+      "choices": [
+        "Adversary compromises the software vendor's build environment",
+        "Malicious code is inserted into a legitimate signed update",
+        "Customers download and install the trojanized update",
+        "Backdoor activates and beacons to attacker command and control",
+        "Adversary pivots laterally and exfiltrates customer data"
+      ],
+      "ordered_choice_texts": [
+        "Adversary compromises the software vendor's build environment",
+        "Malicious code is inserted into a legitimate signed update",
+        "Customers download and install the trojanized update",
+        "Backdoor activates and beacons to attacker command and control",
+        "Adversary pivots laterally and exfiltrates customer data"
+      ],
+      "hint": "The vendor is breached first; downstream customers are the second-order victims.",
+      "explanation": "SY0-701 §2.2 'Supply chain' and §2.3 'Malicious update' describe this exact chain: adversary compromises a trusted vendor, plants malicious code in a signed update, customers ingest it, the backdoor activates, then the adversary moves laterally and exfiltrates. CISA's SUNBURST advisory documents this sequence for SolarWinds. See CompTIA SY0-701 Exam Objectives PDF §2.2/§2.3, CISA Alert AA20-352A, and MITRE ATT&CK T1195.002 (Compromise Software Supply Chain).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.2 (Supply chain) and §2.3",
+        "CISA Alert AA20-352A – Advanced Persistent Threat Compromise of Government Agencies, Critical Infrastructure, and Private Sector Organizations",
+        "MITRE ATT&CK T1195.002 – Compromise Software Supply Chain"
+      ]
+    },
+    {
+      "ref": "Q-ORD-05",
+      "domain_number": 2,
+      "objective_code": "2.5",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "Place the following server hardening steps in the order they should generally be performed when standing up a new system.",
+      "choices": [
+        "Inventory the asset and its role",
+        "Establish a secure configuration baseline",
+        "Apply CIS Benchmarks or DISA STIGs",
+        "Disable unused ports and services",
+        "Remove or change default credentials",
+        "Enroll the asset in continuous monitoring"
+      ],
+      "ordered_choice_texts": [
+        "Inventory the asset and its role",
+        "Establish a secure configuration baseline",
+        "Apply CIS Benchmarks or DISA STIGs",
+        "Disable unused ports and services",
+        "Remove or change default credentials",
+        "Enroll the asset in continuous monitoring"
+      ],
+      "hint": "You can't harden what you haven't inventoried; monitor last so the baseline is the reference.",
+      "explanation": "SY0-701 §2.5 'Hardening targets' and §4.1 secure baselines describe this flow: inventory → baseline → apply benchmark (CIS/STIG) → disable unused ports/services → eliminate defaults → continuous monitoring. NIST SP 800-128 (Security-Focused Configuration Management) formalizes the order. See CompTIA SY0-701 Exam Objectives PDF §2.5 / §4.1, NIST SP 800-128, and CIS Critical Security Controls v8 (Controls 1, 4).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.5 and §4.1",
+        "NIST SP 800-128 – Security-Focused Configuration Management",
+        "CIS Critical Security Controls v8"
+      ]
+    },
+    {
+      "ref": "Q-ORD-06",
+      "domain_number": 2,
+      "objective_code": "2.1",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "question_text": "According to the Carnegie Mellon CERT Insider Threat Center model, place the stages an insider typically progresses through before committing a malicious act.",
+      "choices": [
+        "Grievance against the organization",
+        "Ideation of a harmful action",
+        "Planning the act",
+        "Preparation (acquiring access or tools)",
+        "Action — execution of the malicious act"
+      ],
+      "ordered_choice_texts": [
+        "Grievance against the organization",
+        "Ideation of a harmful action",
+        "Planning the act",
+        "Preparation (acquiring access or tools)",
+        "Action — execution of the malicious act"
+      ],
+      "hint": "Anger comes before idea; idea before plan; plan before preparation; preparation before action.",
+      "explanation": "SY0-701 §2.1 covers insider threat actors. CERT's Insider Threat research models radicalization-style progression: grievance → ideation → planning → preparation → action. Early detection at grievance/ideation enables prevention before tools or access are acquired. See CompTIA SY0-701 Exam Objectives PDF §2.1 and Carnegie Mellon SEI CERT Insider Threat Center (https://insights.sei.cmu.edu/insider-threat/).",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.1",
+        "Carnegie Mellon SEI CERT Insider Threat Center – Common Sense Guide to Mitigating Insider Threats"
+      ]
+    },
+    {
+      "ref": "Q-ORD-07",
+      "domain_number": 2,
+      "objective_code": "2.2",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "Place the typical phishing-as-a-vector chain in order, from earliest to latest.",
+      "choices": [
+        "Attacker crafts a convincing lure and spoofed sender",
+        "Email is delivered to the target's inbox",
+        "User clicks the link or opens the attachment",
+        "Credentials are harvested or malware is staged on the host",
+        "Attacker establishes command and control or exfiltrates data"
+      ],
+      "ordered_choice_texts": [
+        "Attacker crafts a convincing lure and spoofed sender",
+        "Email is delivered to the target's inbox",
+        "User clicks the link or opens the attachment",
+        "Credentials are harvested or malware is staged on the host",
+        "Attacker establishes command and control or exfiltrates data"
+      ],
+      "hint": "The lure has to exist before it can land; the user has to click before code runs.",
+      "explanation": "SY0-701 §2.2 lists phishing as a message-based human vector. The chain maps onto Lockheed's kill chain: Weaponization (lure) → Delivery (email) → Exploitation (click) → Installation/Credential Access → Command and Control / Exfiltration. MITRE ATT&CK T1566 (Phishing) and T1078 (Valid Accounts) cover the post-click stages. See CompTIA SY0-701 Exam Objectives PDF §2.2 and MITRE ATT&CK T1566.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.2",
+        "MITRE ATT&CK T1566 – Phishing",
+        "Lockheed Martin Cyber Kill Chain"
+      ]
+    },
+    {
+      "ref": "Q-ORD-08",
+      "domain_number": 2,
+      "objective_code": "2.4",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "Place the typical stages of a ransomware attack on an enterprise workstation in the correct order.",
+      "choices": [
+        "Initial access via phishing or exposed remote service",
+        "Execution of the ransomware loader",
+        "Privilege escalation and credential access",
+        "Discovery and lateral movement to high-value hosts",
+        "Encryption of files and display of the ransom note",
+        "Extortion / data leak threat"
+      ],
+      "ordered_choice_texts": [
+        "Initial access via phishing or exposed remote service",
+        "Execution of the ransomware loader",
+        "Privilege escalation and credential access",
+        "Discovery and lateral movement to high-value hosts",
+        "Encryption of files and display of the ransom note",
+        "Extortion / data leak threat"
+      ],
+      "hint": "The ransom note is shown only after files have been encrypted.",
+      "explanation": "SY0-701 §2.4 lists ransomware under malware attacks. Modern double-extortion ransomware follows: initial access (T1566/T1133) → execution (T1059) → privilege escalation (T1068) → lateral movement (T1021) → impact via encryption (T1486) → exfiltration-driven extortion (T1567). See CompTIA SY0-701 Exam Objectives PDF §2.4, MITRE ATT&CK T1486 (Data Encrypted for Impact), and CISA #StopRansomware Guide.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.4",
+        "MITRE ATT&CK T1486 – Data Encrypted for Impact",
+        "CISA #StopRansomware Guide"
+      ]
+    },
+    {
+      "ref": "Q-ORD-09",
+      "domain_number": 2,
+      "objective_code": "2.3",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "Place the following steps of responsible vulnerability disclosure and patch deployment in the correct order.",
+      "choices": [
+        "Researcher discovers the vulnerability",
+        "Researcher privately notifies the vendor (coordinated disclosure)",
+        "Vendor develops and tests a patch",
+        "Vendor publishes the patch and a CVE advisory",
+        "Customers apply the patch and verify remediation"
+      ],
+      "ordered_choice_texts": [
+        "Researcher discovers the vulnerability",
+        "Researcher privately notifies the vendor (coordinated disclosure)",
+        "Vendor develops and tests a patch",
+        "Vendor publishes the patch and a CVE advisory",
+        "Customers apply the patch and verify remediation"
+      ],
+      "hint": "Private notification precedes public CVE; customers patch after the CVE drops.",
+      "explanation": "SY0-701 §2.3 covers vulnerability classification including 'published/documented' indicators, and §4.3 covers vulnerability management. ISO/IEC 29147 (Vulnerability disclosure) and NIST SP 800-216 codify this sequence: discovery → private vendor notification → patch development → coordinated public disclosure (CVE) → customer remediation. See CompTIA SY0-701 Exam Objectives PDF §2.3/§4.3, ISO/IEC 29147:2018, and NIST SP 800-216.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.3 and §4.3",
+        "ISO/IEC 29147:2018 – Vulnerability disclosure",
+        "NIST SP 800-216 – Recommendations for Federal Vulnerability Disclosure Guidelines"
+      ]
+    },
+    {
+      "ref": "Q-ORD-10",
+      "domain_number": 2,
+      "objective_code": "2.5",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "question_text": "A zero-day affecting an internet-facing application is announced with no patch available yet. Place the following incident-response mitigation steps in the correct order.",
+      "choices": [
+        "Detect exposure across the asset inventory",
+        "Isolate or segment the affected hosts from production",
+        "Apply a vendor-provided workaround or virtual patch (e.g., WAF rule)",
+        "Deploy the vendor patch when released and reboot the service",
+        "Run a verification scan and resume monitoring"
+      ],
+      "ordered_choice_texts": [
+        "Detect exposure across the asset inventory",
+        "Isolate or segment the affected hosts from production",
+        "Apply a vendor-provided workaround or virtual patch (e.g., WAF rule)",
+        "Deploy the vendor patch when released and reboot the service",
+        "Run a verification scan and resume monitoring"
+      ],
+      "hint": "Without a patch, you contain first; the real patch goes in once the vendor ships it.",
+      "explanation": "SY0-701 §2.5 mitigation techniques (segmentation, isolation, patching, monitoring) combined with §4.8 incident response (containment → eradication → recovery) yield this order: detect → isolate/segment → workaround/virtual patch → vendor patch → verify and monitor. NIST SP 800-61r2 §3.3 sets containment before eradication, and SP 800-40r4 covers the patch-deployment portion. See CompTIA SY0-701 Exam Objectives PDF §2.5 / §4.8, NIST SP 800-61r2 §3.3, NIST SP 800-40r4.",
+      "sources": [
+        "CompTIA SY0-701 Exam Objectives PDF §2.5 and §4.8",
+        "NIST SP 800-61r2 §3.3 – Containment, Eradication, and Recovery",
+        "NIST SP 800-40r4 – Guide to Enterprise Patch Management"
+      ]
+    }
+  ]
+}

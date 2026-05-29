@@ -1,0 +1,682 @@
+{
+  "new_questions": [
+    {
+      "objective_code": "3.1",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "An organization is moving an email workload from on-premises Exchange to Microsoft 365 (a SaaS offering). Under the cloud shared responsibility model, which responsibilities ALWAYS remain with the CUSTOMER even in a SaaS deployment? (Select THREE.)",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Identity and access management for the customer's user accounts",
+          "is_correct": true
+        },
+        {
+          "order": 2,
+          "text": "Classification and governance of the data placed into the service",
+          "is_correct": true
+        },
+        {
+          "order": 3,
+          "text": "Configuration of tenant-level security settings (sharing, conditional access, retention)",
+          "is_correct": true
+        },
+        {
+          "order": 4,
+          "text": "Patching of the underlying mail server operating system",
+          "is_correct": false
+        },
+        {
+          "order": 5,
+          "text": "Physical security of the data centers hosting the service",
+          "is_correct": false
+        },
+        {
+          "order": 6,
+          "text": "Replacement of failed storage hardware at the CSP site",
+          "is_correct": false
+        }
+      ],
+      "hint": "Even in SaaS, the customer never gives up ownership of WHO the users are, WHAT data lives there, or HOW the tenant is configured.",
+      "explanation": "CompTIA SY0-701 Objective 3.1 lists 'Responsibility matrix' under Cloud architecture. The shared responsibility model (CSA, NIST SP 800-145, and the responsibility matrices published by AWS/Azure/Google) is consistent: the customer is ALWAYS responsible for data, identities, and tenant-level configuration regardless of service model. In SaaS, the CSP additionally owns the OS, application code, runtime, physical hardware, and facility. NIST SP 800-144 §4.4 (Security and Privacy Issues in Public Cloud Computing) reinforces that 'the consumer remains accountable' for data and access controls even when operational responsibility is delegated."
+    },
+    {
+      "objective_code": "3.1",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "A platform team is debating whether to deploy a new microservice in a Docker container or in a dedicated virtual machine. Which statements correctly compare the SECURITY properties of containerization versus traditional virtualization? (Select THREE.)",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Containers share the host operating system kernel, so a kernel exploit can affect every container on the host",
+          "is_correct": true
+        },
+        {
+          "order": 2,
+          "text": "A type-1 hypervisor provides stronger workload isolation than container runtimes because each VM has its own kernel",
+          "is_correct": true
+        },
+        {
+          "order": 3,
+          "text": "Container images should be scanned for vulnerable libraries before they are promoted to production registries",
+          "is_correct": true
+        },
+        {
+          "order": 4,
+          "text": "Containers are immune to supply-chain attacks because they run as unprivileged processes by default",
+          "is_correct": false
+        },
+        {
+          "order": 5,
+          "text": "Virtual machines and containers offer equivalent isolation guarantees as long as both run on a hardened host",
+          "is_correct": false
+        },
+        {
+          "order": 6,
+          "text": "Once a container image is signed by a CA, its runtime privileges cannot be escalated",
+          "is_correct": false
+        }
+      ],
+      "hint": "Containers trade isolation for density — they share the kernel. VMs do not.",
+      "explanation": "SY0-701 Objective 3.1 lists Containerization and Virtualization side by side. NIST SP 800-190 (Application Container Security Guide) §2.3 explicitly notes that containers share the host kernel, so kernel vulnerabilities and misconfigured runtime privileges can break isolation between containers. NIST SP 800-125 describes type-1 hypervisor isolation, where each guest has its own kernel — a stronger boundary at higher resource cost. Image scanning (SP 800-190 §4.1) is a standard mitigation. Containers are NOT immune to supply-chain attacks (SolarWinds, malicious Docker Hub images), signing addresses provenance but not runtime privilege escalation, and VM and container isolation are not equivalent."
+    },
+    {
+      "objective_code": "3.1",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "question_text": "True or False: Infrastructure as Code (IaC) improves security primarily because the templates can be version-controlled, peer-reviewed, and scanned for misconfigurations before any cloud resource is provisioned.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "True",
+          "is_correct": true
+        },
+        {
+          "order": 2,
+          "text": "False",
+          "is_correct": false
+        }
+      ],
+      "hint": "Think about why a Terraform pull request is safer than clicking through the AWS console.",
+      "explanation": "TRUE. SY0-701 Objective 3.1 lists Infrastructure as Code under Architecture. NIST SP 800-204C (Implementation of DevSecOps for a Microservices-based Application with Service Mesh) §3.2 identifies IaC as a key control point because declarative templates (Terraform, CloudFormation, ARM, Pulumi) are subject to source-control review, policy-as-code scanning (Checkov, tfsec, Open Policy Agent), and automated drift detection BEFORE resources exist. This shifts misconfiguration discovery left from runtime to design time, which is the primary security benefit cited in CIS and CSA cloud security guidance."
+    },
+    {
+      "objective_code": "3.1",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "question_text": "True or False: Because an air-gapped network has no physical or wireless connection to other networks, malware introduced via removable media (USB drives, optical media, or maintenance laptops) is not a meaningful threat to such systems.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "True",
+          "is_correct": false
+        },
+        {
+          "order": 2,
+          "text": "False",
+          "is_correct": true
+        }
+      ],
+      "hint": "Stuxnet.",
+      "explanation": "FALSE. SY0-701 Objective 3.1 lists Physical isolation / Air-gapped under Architecture. Air gaps prevent network-borne attacks but the dominant residual threat vector is removable media. Stuxnet (2010), documented by Symantec and ICS-CERT advisory ICSA-10-238-01, propagated specifically across air-gapped ICS networks via infected USB drives carrying Windows LNK and print-spooler exploits. NIST SP 800-82r3 (Guide to Operational Technology Security) §6.2.4 explicitly warns that air-gapping must be paired with strict removable-media controls because the gap does nothing to stop a malicious USB walked into the facility."
+    },
+    {
+      "objective_code": "3.1",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "Order the following cloud deployment options from the model where the CUSTOMER carries the LEAST security responsibility to the model where the customer carries the MOST.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Software as a Service (SaaS)"
+        },
+        {
+          "order": 2,
+          "text": "Platform as a Service (PaaS)"
+        },
+        {
+          "order": 3,
+          "text": "Infrastructure as a Service (IaaS)"
+        },
+        {
+          "order": 4,
+          "text": "On-premises (self-hosted)"
+        }
+      ],
+      "hint": "The more layers the CSP runs for you, the less you own.",
+      "explanation": "SY0-701 Objective 3.1 lists the cloud responsibility matrix. NIST SP 800-145 §2 defines the three cloud service models, and the canonical shared-responsibility diagrams (AWS, Azure, CSA Cloud Controls Matrix) order responsibility as follows: in SaaS the CSP runs everything from facility through application, leaving the customer responsible only for data, identities, and tenant config — the smallest customer footprint. In PaaS the customer additionally owns the application code and runtime configuration. In IaaS the customer owns the OS, middleware, runtime, and applications on top of CSP-provided compute, storage, and network. On-premises means the customer owns the entire stack including the physical facility — the largest customer footprint."
+    },
+    {
+      "objective_code": "3.1",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "An enterprise is executing a multi-year cloud-migration program. Order the following phases in the sequence they should be performed.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Plan — define business drivers, target operating model, and success criteria"
+        },
+        {
+          "order": 2,
+          "text": "Assess — inventory existing workloads, dependencies, and cloud-readiness"
+        },
+        {
+          "order": 3,
+          "text": "Migrate — rehost, refactor, or rebuild workloads in the target cloud"
+        },
+        {
+          "order": 4,
+          "text": "Optimize — right-size resources, automate, and tune cost and performance"
+        },
+        {
+          "order": 5,
+          "text": "Govern — enforce ongoing security, compliance, and FinOps controls"
+        }
+      ],
+      "hint": "You cannot optimize what you have not migrated, and you cannot migrate what you have not assessed.",
+      "explanation": "SY0-701 Objective 3.1 covers cloud architecture lifecycle decisions. The Plan-Assess-Migrate-Optimize-Govern sequence is the model published by the major CSPs (AWS Cloud Adoption Framework v3, Microsoft Cloud Adoption Framework, Google Cloud Adoption Framework) and aligned with NIST SP 800-146 §6. Planning establishes the why; assessment produces the workload inventory and the 6 Rs (Rehost, Replatform, Refactor, Repurchase, Retire, Retain); migration executes the move; optimization right-sizes after stabilization; governance becomes the steady-state control layer that enforces policy continuously."
+    },
+    {
+      "objective_code": "3.1",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "question_text": "Order the following network-segmentation approaches from LEAST granular (largest blast radius) to MOST granular (smallest blast radius).",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Single flat Layer-2 broadcast domain"
+        },
+        {
+          "order": 2,
+          "text": "VLAN-based segmentation"
+        },
+        {
+          "order": 3,
+          "text": "Subnet / security-zone separation enforced by a firewall"
+        },
+        {
+          "order": 4,
+          "text": "SDN-enforced micro-segmentation between individual workloads"
+        },
+        {
+          "order": 5,
+          "text": "Zero-Trust per-flow authorization with continuous policy evaluation"
+        }
+      ],
+      "hint": "Each step shrinks what a compromised host can reach laterally.",
+      "explanation": "SY0-701 Objective 3.1 lists Logical segmentation and SDN; the progression from flat networks to Zero Trust is one of the core architecture themes. NIST SP 800-207 (Zero Trust Architecture) §2 contrasts traditional perimeter models with micro-segmentation and per-request authorization. A flat network gives any compromised host direct Layer-2 reach to all peers. VLANs partition broadcast domains but typically span trusted subnets. Subnet/zone separation introduces a stateful firewall between zones. Micro-segmentation (NSX, Illumio, security groups) enforces policy between individual workloads. Zero Trust adds continuous, identity- and context-aware authorization on every flow — the smallest possible implicit trust boundary."
+    },
+    {
+      "objective_code": "3.2",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "A security architect is documenting failure-mode behavior for several inline devices. Which statements correctly describe when fail-open versus fail-closed is the APPROPRIATE choice? (Select THREE.)",
+      "choices": [
+        {
+          "order": 1,
+          "text": "A perimeter firewall protecting confidential data should fail-closed so that a device fault does not silently expose the network",
+          "is_correct": true
+        },
+        {
+          "order": 2,
+          "text": "An inline IPS in front of a public e-commerce site is often configured fail-open so a sensor crash does not take revenue traffic offline",
+          "is_correct": true
+        },
+        {
+          "order": 3,
+          "text": "A physical access control system on an emergency egress door should fail-open (unlocked) on power loss to satisfy life-safety codes",
+          "is_correct": true
+        },
+        {
+          "order": 4,
+          "text": "Fail-open and fail-closed describe identical behaviors and the choice is purely cosmetic",
+          "is_correct": false
+        },
+        {
+          "order": 5,
+          "text": "A network device that fails closed continues forwarding traffic without enforcement",
+          "is_correct": false
+        },
+        {
+          "order": 6,
+          "text": "Life-safety systems should always fail-closed regardless of code requirements",
+          "is_correct": false
+        }
+      ],
+      "hint": "Confidentiality and integrity want fail-closed. Availability and life safety usually want fail-open.",
+      "explanation": "SY0-701 Objective 3.2 lists Failure modes (Fail-open, Fail-closed) under Infrastructure considerations. NIST SP 800-53r5 control SC-24 (Fail in Known State) requires the choice to be deliberate and tied to the protected security objective. For data-protection devices (firewalls, encryption gateways), fail-closed prevents silent bypass — confidentiality wins. For high-availability inline inspection in front of revenue traffic, operators frequently configure fail-open or use hardware bypass so the IPS itself does not become the outage. For physical egress, NFPA 101 Life Safety Code and most building codes REQUIRE doors to fail unlocked on power loss so occupants can evacuate. Fail-closed devices stop forwarding, not continue."
+    },
+    {
+      "objective_code": "3.2",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "A network team is selecting between a next-generation firewall (NGFW), a unified threat management (UTM) appliance, and a web application firewall (WAF). Which statements accurately differentiate these products? (Select THREE.)",
+      "choices": [
+        {
+          "order": 1,
+          "text": "An NGFW adds application-awareness, integrated IPS, and user-identity policy to a traditional stateful firewall",
+          "is_correct": true
+        },
+        {
+          "order": 2,
+          "text": "A UTM bundles multiple security functions (firewall, IPS, antimalware, URL filtering, antispam) into a single appliance, typically targeting small and mid-sized organizations",
+          "is_correct": true
+        },
+        {
+          "order": 3,
+          "text": "A WAF inspects HTTP/HTTPS application-layer traffic and is designed to block attacks such as SQL injection and cross-site scripting",
+          "is_correct": true
+        },
+        {
+          "order": 4,
+          "text": "A WAF is a drop-in replacement for an NGFW because it inspects all Layer 3 and Layer 4 traffic",
+          "is_correct": false
+        },
+        {
+          "order": 5,
+          "text": "UTM appliances operate purely at Layer 2 and do not perform stateful inspection",
+          "is_correct": false
+        },
+        {
+          "order": 6,
+          "text": "An NGFW makes a separate WAF unnecessary for any web-facing application",
+          "is_correct": false
+        }
+      ],
+      "hint": "WAF = HTTP attacks only. NGFW = broad enterprise firewall + app-ID + IPS. UTM = everything-in-a-box for smaller deployments.",
+      "explanation": "SY0-701 Objective 3.2 explicitly enumerates Firewall types: WAF, UTM, NGFW, and Layer 4/Layer 7. NIST SP 800-41r1 (Guidelines on Firewalls and Firewall Policy) §2.4 distinguishes application-layer firewalls, stateful inspection, and unified appliances. NGFWs (Palo Alto, Fortinet, Check Point) integrate App-ID, User-ID, and IPS into a Layer 3-7 firewall. UTMs target SMB use cases by consolidating multiple functions in one box (Gartner UTM definition). WAFs (OWASP CRS, ModSecurity, AWS WAF) sit in front of web servers and inspect HTTP semantics specifically — they do not replace a perimeter firewall, and an NGFW does not provide the HTTP-specific virtual patching and rule sets that a WAF does."
+    },
+    {
+      "objective_code": "3.2",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "question_text": "True or False: An intrusion detection system (IDS) deployed on a span/tap port can BLOCK a malicious packet in real time before it reaches the target, while an inline intrusion prevention system (IPS) only generates alerts.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "True",
+          "is_correct": false
+        },
+        {
+          "order": 2,
+          "text": "False",
+          "is_correct": true
+        }
+      ],
+      "hint": "Which device sits in the data path?",
+      "explanation": "FALSE. The statement reverses the roles. SY0-701 Objective 3.2 lists IPS/IDS under Network appliances and specifically calls out the Device attribute distinction 'Inline vs. tap/monitor.' NIST SP 800-94 (Guide to Intrusion Detection and Prevention Systems) §2.2-2.3 defines an IDS as passive — it observes a copy of traffic from a SPAN port or network tap and generates alerts, but the packet has already passed. An IPS sits inline in the forwarding path, so it can drop, reset, or otherwise block malicious traffic before delivery. The trade-off is that an inline IPS becomes a potential single point of failure and a latency source."
+    },
+    {
+      "objective_code": "3.2",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "question_text": "True or False: Secure Access Service Edge (SASE) is defined as the convergence of SD-WAN with cloud-delivered network security services such as SWG, CASB, ZTNA, and FWaaS.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "True",
+          "is_correct": true
+        },
+        {
+          "order": 2,
+          "text": "False",
+          "is_correct": false
+        }
+      ],
+      "hint": "SASE = network (SD-WAN) plus security (SSE) delivered from the cloud.",
+      "explanation": "TRUE. SY0-701 Objective 3.2 lists SASE under Secure communication/access. Gartner's original 2019 definition (and the 2021 SSE refinement) frames SASE as the convergence of WAN edge networking — primarily SD-WAN — with cloud-delivered security services: Secure Web Gateway (SWG), Cloud Access Security Broker (CASB), Zero Trust Network Access (ZTNA), and Firewall as a Service (FWaaS). NIST SP 800-207 §3.4 references the same model when describing cloud-delivered ZTA enforcement. The 'security' half of SASE is now often marketed separately as Security Service Edge (SSE)."
+    },
+    {
+      "objective_code": "3.2",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "question_text": "A packet from the public internet is destined for an internal web application. Order the perimeter defense-in-depth layers in the sequence the packet traverses on its way to the server.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Edge router with ingress ACL (basic Layer-3/4 filtering and bogon/anti-spoofing rules)"
+        },
+        {
+          "order": 2,
+          "text": "Inline IDS/IPS sensor"
+        },
+        {
+          "order": 3,
+          "text": "Stateful perimeter firewall enforcing zone policy"
+        },
+        {
+          "order": 4,
+          "text": "Web application firewall / reverse proxy performing HTTP inspection"
+        },
+        {
+          "order": 5,
+          "text": "Internal web server in the application zone"
+        }
+      ],
+      "hint": "Start with the cheapest, coarsest filter at the edge and move inward toward application-aware inspection.",
+      "explanation": "SY0-701 Objective 3.2 covers Device placement, Security zones, and the network appliance catalog (IDS/IPS, firewall, WAF, proxy). NIST SP 800-41r1 §3 and NIST SP 800-44v2 describe a defense-in-depth layering where the edge router applies coarse ACLs and anti-spoofing first, an IDS/IPS performs signature and behavior inspection, the stateful firewall enforces inter-zone policy, and a WAF/reverse proxy applies HTTP-aware rules immediately in front of the application server. Each layer narrows the attack surface and is cheaper to operate earlier in the chain."
+    },
+    {
+      "objective_code": "3.2",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "question_text": "A laptop connects to a corporate switch port configured for IEEE 802.1X with EAP-TLS. Order the high-level steps of the authentication exchange.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Supplicant (laptop) sends EAPOL-Start to the authenticator"
+        },
+        {
+          "order": 2,
+          "text": "Authenticator (switch) responds with EAP-Request Identity"
+        },
+        {
+          "order": 3,
+          "text": "Supplicant returns EAP-Response Identity, which the authenticator encapsulates in a RADIUS Access-Request to the authentication server"
+        },
+        {
+          "order": 4,
+          "text": "Authentication server (RADIUS) performs EAP-TLS mutual certificate validation with the supplicant"
+        },
+        {
+          "order": 5,
+          "text": "Authentication server returns RADIUS Access-Accept; the authenticator transitions the port from unauthorized to authorized"
+        }
+      ],
+      "hint": "Supplicant talks to authenticator, authenticator relays to RADIUS, RADIUS decides, authenticator opens the port.",
+      "explanation": "SY0-701 Objective 3.2 lists 802.1X and EAP under Port security. IEEE 802.1X-2020 defines the three roles — Supplicant, Authenticator, Authentication Server — and the EAPOL/EAP/RADIUS interaction. RFC 3748 (EAP) and RFC 5216 (EAP-TLS) describe the carried authentication exchange. The port stays in 'unauthorized' state passing only EAPOL until the RADIUS server returns Access-Accept, after which the authenticator transitions the port to 'authorized' and normal data traffic is permitted. This sequence is the canonical NAC flow tested by SY0-701."
+    },
+    {
+      "objective_code": "3.2",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "question_text": "A browser establishes a TLS 1.3 session with a web server. Order the high-level steps of the handshake from first to last.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Client sends ClientHello containing supported cipher suites, key shares, and the SNI"
+        },
+        {
+          "order": 2,
+          "text": "Server sends ServerHello selecting the cipher suite and its key share, then encrypted Certificate and CertificateVerify"
+        },
+        {
+          "order": 3,
+          "text": "Both sides derive the shared traffic secrets via HKDF and the negotiated (EC)DHE key exchange"
+        },
+        {
+          "order": 4,
+          "text": "Server sends Finished; client validates the server's certificate and sends its own Finished"
+        },
+        {
+          "order": 5,
+          "text": "Both sides exchange application data encrypted with the derived traffic keys"
+        }
+      ],
+      "hint": "TLS 1.3 collapses the old handshake into one round trip: hellos, key derivation, finished, data.",
+      "explanation": "SY0-701 Objective 3.2 lists TLS under Tunneling. RFC 8446 (The Transport Layer Security Protocol Version 1.3) §2 documents the 1-RTT handshake. The client sends ClientHello with key shares (RFC 8446 §4.1.2). The server responds with ServerHello selecting parameters and includes encrypted Certificate and CertificateVerify (§4.1.3, §4.4). Both sides derive handshake and application traffic secrets via HKDF (§7.1). Server Finished and then Client Finished authenticate the handshake (§4.4.4). Application data then flows under the derived AEAD keys. TLS 1.3 also deprecates static-RSA key exchange (RFC 8446 §1.2) in favor of forward-secret (EC)DHE."
+    },
+    {
+      "objective_code": "3.3",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "A payments team is choosing between tokenization, data masking, and field-level encryption for credit card numbers. Which statements about these techniques are TRUE? (Select THREE.)",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Tokenization replaces a sensitive value with a non-sensitive token; the mapping is held in a separate, controlled token vault",
+          "is_correct": true
+        },
+        {
+          "order": 2,
+          "text": "Data masking irreversibly obscures part of a value (e.g., showing only the last four digits of a PAN) for display or non-production use",
+          "is_correct": true
+        },
+        {
+          "order": 3,
+          "text": "Tokenization can reduce PCI DSS scope because tokens stored in downstream systems are not cardholder data",
+          "is_correct": true
+        },
+        {
+          "order": 4,
+          "text": "Tokenization is a form of encryption that uses AES-256 with the cardholder's PAN as the key",
+          "is_correct": false
+        },
+        {
+          "order": 5,
+          "text": "Static data masking and encryption produce ciphertext that can be reversed with the original key",
+          "is_correct": false
+        },
+        {
+          "order": 6,
+          "text": "Tokenization requires the original PAN to be embedded in the token so the token can be decoded by any application",
+          "is_correct": false
+        }
+      ],
+      "hint": "Tokens are random surrogates with no math relationship to the original value; masks usually cannot be reversed.",
+      "explanation": "SY0-701 Objective 3.3 lists Tokenization, Masking, and Encryption under Methods to secure data. PCI DSS Tokenization Guidelines (PCI SSC, August 2011, §2.1) define tokenization as the replacement of cardholder data with a surrogate that has no exploitable mathematical relationship to the original; the mapping lives only in the token vault. Properly scoped tokenization can REDUCE PCI DSS scope because downstream systems handling only tokens are out of scope (PCI SSC FAQ 1091). NIST SP 800-188 and NIST IR 8053 describe masking as typically irreversible obfuscation for display or non-production data. Tokenization is NOT encryption — there is no key, no algorithm relationship, and no decryption operation."
+    },
+    {
+      "objective_code": "3.3",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "A data-protection officer is mapping controls to the three states of data. Which statements are TRUE about protecting data at rest, in transit, and in use? (Select THREE.)",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Full-disk encryption (e.g., BitLocker, LUKS) protects data at rest but provides no protection once the system is booted and unlocked",
+          "is_correct": true
+        },
+        {
+          "order": 2,
+          "text": "TLS 1.3 with forward secrecy is an appropriate control for protecting data in transit between a web client and a web server",
+          "is_correct": true
+        },
+        {
+          "order": 3,
+          "text": "Confidential computing / trusted execution environments (Intel SGX, AMD SEV, AWS Nitro Enclaves) are designed to protect data in use by isolating it within the CPU even from the host OS",
+          "is_correct": true
+        },
+        {
+          "order": 4,
+          "text": "Data in use refers exclusively to data being transmitted over the network",
+          "is_correct": false
+        },
+        {
+          "order": 5,
+          "text": "Encrypting data at rest with FDE also automatically encrypts the same data while it is being processed in RAM",
+          "is_correct": false
+        },
+        {
+          "order": 6,
+          "text": "IPSec is the standard control for data at rest in cloud object storage",
+          "is_correct": false
+        }
+      ],
+      "hint": "At rest = on disk. In transit = on the wire. In use = in memory or being processed.",
+      "explanation": "SY0-701 Objective 3.3 explicitly enumerates the three Data states: at rest, in transit, in use. NIST SP 800-111 (Guide to Storage Encryption Technologies for End User Devices) §2.1 covers FDE for data at rest and notes that it provides no protection while the system is running unlocked. NIST SP 800-52r2 mandates TLS 1.2+ (TLS 1.3 preferred) for federal data in transit. NIST IR 8320 (Hardware-Enabled Security: Container Platform Security Prototype) and the Confidential Computing Consortium define data-in-use protection via TEEs such as Intel SGX, AMD SEV-SNP, and AWS Nitro Enclaves. Data in use is in-memory/in-processor, not network traffic; FDE does not protect RAM; IPSec is a transit-layer control."
+    },
+    {
+      "objective_code": "3.3",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "question_text": "True or False: Hashing user passwords with a salted, slow algorithm such as Argon2id provides confidentiality of the original password — meaning the hash can be safely shown to any user without risk of recovering the password.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "True",
+          "is_correct": false
+        },
+        {
+          "order": 2,
+          "text": "False",
+          "is_correct": true
+        }
+      ],
+      "hint": "Hashing protects against trivial recovery, but a leaked hash can still be cracked.",
+      "explanation": "FALSE. SY0-701 Objective 3.3 lists Hashing under Methods to secure data, but hashes provide INTEGRITY and a one-way transformation, not confidentiality in the strict sense. NIST SP 800-63B §5.1.1.2 requires password verifiers to be salted and processed with a memory-hard function such as Argon2 or balloon hashing, but the same section warns that hashes are still subject to offline cracking if exposed. Industry breach data (LinkedIn 2012, Adobe 2013, Yahoo 2013) shows leaked hashes routinely yield large numbers of recovered passwords. Hashes are sensitive material and must be protected as such — they cannot be displayed publicly without risk."
+    },
+    {
+      "objective_code": "3.3",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "question_text": "True or False: 'Data sovereignty' and 'geolocation' mean the same thing — both describe the physical country where a server is located and impose no legal obligations on the data owner.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "True",
+          "is_correct": false
+        },
+        {
+          "order": 2,
+          "text": "False",
+          "is_correct": true
+        }
+      ],
+      "hint": "One is a physical fact, the other is a legal consequence.",
+      "explanation": "FALSE. SY0-701 Objective 3.3 lists Data sovereignty and Geolocation as distinct items under General data considerations. Geolocation is the physical place where data is stored or processed. Data sovereignty is the legal principle — articulated in regimes such as GDPR (EU 2016/679 Art. 44-49 on transfers), China's PIPL, Russia's Federal Law 242-FZ, and various Canadian provincial public-sector laws — that data is subject to the laws of the country where it physically resides AND, in some regimes, where the data subject is located. Geolocation is a fact; sovereignty is the legal consequence of that fact and absolutely imposes obligations on the controller."
+    },
+    {
+      "objective_code": "3.3",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "Order the phases of the data lifecycle from origin to terminal phase.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Create — data is generated, captured, or acquired"
+        },
+        {
+          "order": 2,
+          "text": "Store — data is committed to persistent storage with appropriate protections"
+        },
+        {
+          "order": 3,
+          "text": "Use — data is processed by authorized applications or users"
+        },
+        {
+          "order": 4,
+          "text": "Share — data is transmitted to authorized internal or external recipients"
+        },
+        {
+          "order": 5,
+          "text": "Archive — data moves to long-term, lower-cost retention"
+        },
+        {
+          "order": 6,
+          "text": "Destroy — data is sanitized so it cannot be reconstructed"
+        }
+      ],
+      "hint": "Generate it, save it, work with it, hand it off, retire it, sanitize it.",
+      "explanation": "SY0-701 Objective 3.3 frames data protection across the lifecycle and explicitly lists Methods to secure data at each phase. The Create-Store-Use-Share-Archive-Destroy progression is the canonical Data Security Lifecycle published by the Cloud Security Alliance (Security Guidance for Critical Areas of Focus in Cloud Computing v4 §11) and aligns with NIST SP 800-88r1 §2.3, which addresses sanitization at end-of-life. ISO/IEC 27040 (Storage security) also references this sequence. Each phase has matching controls: encryption at rest at Store, TLS at Share, immutable storage at Archive, crypto-erase or physical destruction at Destroy."
+    },
+    {
+      "objective_code": "3.3",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "question_text": "Order the phases of a symmetric cryptographic key's lifecycle as defined by NIST SP 800-57 Part 1.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Pre-activation — key has been generated but is not yet authorized for use"
+        },
+        {
+          "order": 2,
+          "text": "Activation — key becomes valid and may be used to protect information"
+        },
+        {
+          "order": 3,
+          "text": "Operational use — key is actively used within its cryptoperiod"
+        },
+        {
+          "order": 4,
+          "text": "Deactivation / suspension — key is no longer used to protect new data but may verify or decrypt existing data"
+        },
+        {
+          "order": 5,
+          "text": "Compromise or archive — compromised keys are revoked; non-compromised keys may be archived for legacy decryption"
+        },
+        {
+          "order": 6,
+          "text": "Destruction — key material is erased so it cannot be recovered"
+        }
+      ],
+      "hint": "Generated but not yet active, then active, then retired, then either compromised or archived, then destroyed.",
+      "explanation": "SY0-701 Objective 3.3 lists Encryption as a method to secure data. NIST SP 800-57 Part 1 Rev. 5 §7.2 defines the formal key states: Pre-activation, Active, Suspended (optional), Deactivated, Compromised, Destroyed, and Destroyed-Compromised. The lifecycle progression is generation → pre-activation → activation → operational use within the cryptoperiod → deactivation when the cryptoperiod ends → either compromise (with revocation) or archival of still-valid keys for legacy access → final destruction. Industry KMS implementations (AWS KMS, Azure Key Vault, HashiCorp Vault) implement the same state machine, which is why SP 800-57 is the canonical reference."
+    },
+    {
+      "objective_code": "3.4",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "question_text": "A continuity-of-operations planner is documenting capacity-planning requirements. According to the SY0-701 objectives, which dimensions MUST be addressed by a capacity plan? (Select THREE.)",
+      "choices": [
+        {
+          "order": 1,
+          "text": "People — staffing levels, on-call coverage, cross-training, and succession",
+          "is_correct": true
+        },
+        {
+          "order": 2,
+          "text": "Technology — compute, storage, network, and software license headroom",
+          "is_correct": true
+        },
+        {
+          "order": 3,
+          "text": "Infrastructure — facilities, power, cooling, and physical workspace",
+          "is_correct": true
+        },
+        {
+          "order": 4,
+          "text": "Marketing — brand awareness and customer-acquisition cost",
+          "is_correct": false
+        },
+        {
+          "order": 5,
+          "text": "Compensation — the executive bonus structure for the year",
+          "is_correct": false
+        },
+        {
+          "order": 6,
+          "text": "Procurement — the legal terms of vendor master service agreements",
+          "is_correct": false
+        }
+      ],
+      "hint": "The SY0-701 objectives list three explicit dimensions under Capacity planning.",
+      "explanation": "SY0-701 Objective 3.4 lists Capacity planning with three bulleted sub-items: People, Technology, Infrastructure. NIST SP 800-34r1 (Contingency Planning Guide for Federal Information Systems) §3.4.1 and ISO 22301 §8.2.2 (Business Continuity Management) both reinforce the same three dimensions — a plan that addresses only servers and bandwidth but ignores staffing or facility power will fail under a real disruption. The other options are general business concerns but are not the SY0-701 capacity-planning dimensions."
+    },
+    {
+      "objective_code": "3.4",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "question_text": "Order the steps of selecting a recovery strategy for a critical business application.",
+      "choices": [
+        {
+          "order": 1,
+          "text": "Determine RPO and RTO from the business impact analysis"
+        },
+        {
+          "order": 2,
+          "text": "Identify the critical processes and underlying systems those targets apply to"
+        },
+        {
+          "order": 3,
+          "text": "Choose a recovery strategy (snapshots, replication, backups, clustering, hot/warm/cold site) that meets the RPO/RTO at acceptable cost"
+        },
+        {
+          "order": 4,
+          "text": "Implement the chosen strategy in the technology environment"
+        },
+        {
+          "order": 5,
+          "text": "Test the strategy through tabletop, simulation, parallel, and failover exercises"
+        },
+        {
+          "order": 6,
+          "text": "Maintain the strategy — update runbooks, refresh capacity, and re-test on a defined cadence"
+        }
+      ],
+      "hint": "You cannot pick a strategy until you know the targets, and you cannot trust a strategy you have not tested.",
+      "explanation": "SY0-701 Objective 3.4 covers resilience and recovery, including site types, platform diversity, capacity planning, testing, and backups. NIST SP 800-34r1 §3.4 prescribes this exact workflow: the BIA establishes RPO/RTO (§3.2), critical processes and systems are mapped to those targets (§3.3), candidate strategies are evaluated against cost and acceptable risk (§3.4), the selected strategy is implemented (§4), tested (§5, aligned with SP 800-84), and maintained (§6). Selecting a strategy before RPO/RTO are known leads to over- or under-investment, and an untested plan cannot be relied upon."
+    }
+  ]
+}

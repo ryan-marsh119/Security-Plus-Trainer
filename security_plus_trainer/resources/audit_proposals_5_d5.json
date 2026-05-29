@@ -1,0 +1,836 @@
+{
+  "new_questions": [
+    {
+      "objective_code": "5.1",
+      "question_text": "An organization is drafting an Acceptable Use Policy (AUP) for employees. Which elements are appropriate to include in the AUP itself? (Select all that apply.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "Permitted and prohibited uses of company-issued devices, email, and internet access."
+        },
+        {
+          "text": "Notice that activity on company systems may be monitored and logged."
+        },
+        {
+          "text": "Consequences (disciplinary action, termination, legal referral) for violation of the policy."
+        },
+        {
+          "text": "The exact firewall rules and IDS signatures used to enforce the policy."
+        },
+        {
+          "text": "The recovery time objective (RTO) and recovery point objective (RPO) for each business application."
+        }
+      ],
+      "correct_choice_texts": [
+        "Permitted and prohibited uses of company-issued devices, email, and internet access.",
+        "Notice that activity on company systems may be monitored and logged.",
+        "Consequences (disciplinary action, termination, legal referral) for violation of the policy."
+      ],
+      "hint": "An AUP is a high-level user-facing policy about behavior, not a technical configuration document and not a continuity plan.",
+      "explanation": "SY0-701 Objectives §5.1 lists the AUP under Policies and frames it as an employee-facing governance document. NIST SP 800-100 §2.2 describes acceptable-use policies as defining authorized behavior, providing notice of monitoring, and stating consequences for violation. Firewall rules and IDS signatures are technical standards or procedures (not policy content), and RTO/RPO belong in the BCP/DR plan (also §5.1, but a different document).",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.1 (Policies — Acceptable use policy); NIST SP 800-100 §2.2"
+    },
+    {
+      "objective_code": "5.1",
+      "question_text": "A multinational company is mapping data-handling roles to its GDPR program. Which statements about owners, controllers, processors, and custodians/stewards are correct? (Choose THREE.)",
+      "question_type": "multi_select",
+      "difficulty": "hard",
+      "choices": [
+        {
+          "text": "A data controller determines the purposes and means of processing personal data."
+        },
+        {
+          "text": "A data processor processes personal data on behalf of, and under the instructions of, a controller."
+        },
+        {
+          "text": "A data custodian/steward is responsible for the day-to-day technical handling of the data (storage, backups, access enforcement) on the owner's behalf."
+        },
+        {
+          "text": "A data processor and a data controller are interchangeable terms for the same role under GDPR."
+        },
+        {
+          "text": "The data owner is always the same person as the data custodian, because both are accountable for the data."
+        }
+      ],
+      "correct_choice_texts": [
+        "A data controller determines the purposes and means of processing personal data.",
+        "A data processor processes personal data on behalf of, and under the instructions of, a controller.",
+        "A data custodian/steward is responsible for the day-to-day technical handling of the data (storage, backups, access enforcement) on the owner's behalf."
+      ],
+      "hint": "Controller decides WHY and HOW. Processor acts on those instructions. Custodian/steward implements the controls. Owner is accountable, custodian is operational.",
+      "explanation": "SY0-701 Objectives §5.1 (Roles and responsibilities for systems and data) lists Owners, Controllers, Processors, and Custodians/stewards as distinct roles. GDPR Article 4(7) defines a controller as the entity that determines the purposes and means of processing; Article 4(8) defines a processor as one who processes personal data on behalf of the controller. The owner is accountable for classification and risk decisions, while the custodian/steward implements controls operationally — they are not the same role.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.1 (Roles and responsibilities — Owners, Controllers, Processors, Custodians/stewards); GDPR Articles 4(7) and 4(8); NIST SP 800-18r1 §1.6"
+    },
+    {
+      "objective_code": "5.1",
+      "question_text": "True or False: In a governance hierarchy, guidelines carry the same mandatory force as standards and must be followed exactly.",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "choices": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "correct_choice_text": "False",
+      "hint": "One of these terms is explicitly recommended-but-not-required; the other is binding.",
+      "explanation": "SY0-701 Objectives §5.1 explicitly lists Guidelines as a separate category from Policies, Standards, and Procedures. Per NIST SP 800-100 §2.4 and ISO/IEC 27002, guidelines are recommended practices that provide flexibility — they are advisory, not mandatory. Standards are mandatory specifications that interpret policy (e.g., a password standard mandating minimum length). Confusing the two leads either to over-rigid enforcement of optional advice or to under-enforcement of binding requirements.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.1 (Guidelines vs. Standards); NIST SP 800-100 §2.4; ISO/IEC 27002:2022 §5.1"
+    },
+    {
+      "objective_code": "5.1",
+      "question_text": "True or False: A decentralized governance structure can still operate under a single enterprise-wide information-security policy maintained by a central authority.",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "correct_choice_text": "True",
+      "hint": "Decentralization is about where day-to-day decisions are made, not whether a common policy exists.",
+      "explanation": "SY0-701 Objectives §5.1 lists Centralized/decentralized among governance-structure types. Per NIST SP 800-100 §2.3, decentralization refers to where operational security decisions are made (often pushed to business units), but enterprise-wide policy can still be set centrally and adopted by each unit. ISO/IEC 27001:2022 Clause 5.2 likewise treats top-management policy as a single artifact even when execution is federated. A decentralized model is not 'every unit invents its own policy'; it is 'units interpret and apply the central policy to fit local context.'",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.1 (Types of governance structures — Centralized/decentralized); NIST SP 800-100 §2.3; ISO/IEC 27001:2022 Clause 5.2"
+    },
+    {
+      "objective_code": "5.1",
+      "question_text": "An organization is documenting its governance hierarchy from highest authority to most operational detail. Order the following from the TOP of the hierarchy (broadest, most authoritative) to the BOTTOM (most specific, least authoritative).",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "Mission statement"
+        },
+        {
+          "text": "Policy"
+        },
+        {
+          "text": "Standard"
+        },
+        {
+          "text": "Procedure"
+        },
+        {
+          "text": "Guideline"
+        }
+      ],
+      "ordered_choice_texts": [
+        "Mission statement",
+        "Policy",
+        "Standard",
+        "Procedure",
+        "Guideline"
+      ],
+      "hint": "Mission frames intent. Policy states the rule. Standard makes it measurable. Procedure says how to execute it. Guideline is optional advice.",
+      "explanation": "SY0-701 Objectives §5.1 lists Guidelines, Policies, Standards, and Procedures as the four core artifacts of governance and frames mission/charter as the strategic context above them. NIST SP 800-100 §2.1 and ISO/IEC 27002:2022 §5.1 present the same top-down hierarchy: the mission/charter sets enterprise intent; policies are mandatory rules authorized by senior management; standards are mandatory specifications that operationalize the policy (e.g., 'passwords must be at least 14 characters'); procedures are the step-by-step actions that implement the standard; and guidelines are non-binding recommended practices. The hierarchy reflects authority and specificity simultaneously.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.1 (Guidelines, Policies, Standards, Procedures); NIST SP 800-100 §2.1; ISO/IEC 27002:2022 §5.1"
+    },
+    {
+      "objective_code": "5.2",
+      "question_text": "A CISO is reviewing risk-register entries for completeness before the quarterly risk committee meeting. Which fields belong in a well-formed risk-register row? (Select all that apply.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "A named risk owner accountable for the risk."
+        },
+        {
+          "text": "The key risk indicator (KRI) or threshold that would trigger escalation."
+        },
+        {
+          "text": "The current risk-treatment decision (transfer, accept, avoid, or mitigate) and target residual risk."
+        },
+        {
+          "text": "The make and model of every firewall in the production environment."
+        },
+        {
+          "text": "The personal mobile phone numbers of all employees who use the affected system."
+        }
+      ],
+      "correct_choice_texts": [
+        "A named risk owner accountable for the risk.",
+        "The key risk indicator (KRI) or threshold that would trigger escalation.",
+        "The current risk-treatment decision (transfer, accept, avoid, or mitigate) and target residual risk."
+      ],
+      "hint": "A risk register tracks the risk, who owns it, how it is being treated, and what would change the answer — not asset inventories or PII.",
+      "explanation": "SY0-701 Objectives §5.2 lists Risk register sub-bullets as Key risk indicators, Risk owners, and Risk threshold, and lists Risk management strategies (Transfer, Accept, Avoid, Mitigate) as the treatment decision recorded against each risk. NIST SP 800-39 §2.4 and ISO 31000:2018 §6.5 describe the risk register as the artifact that tracks identified risks with their owner, current treatment, and trigger conditions for reassessment. Asset inventories and personnel directories are separate artifacts and storing PII in a risk register would itself create privacy risk.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.2 (Risk register — Key risk indicators, Risk owners, Risk threshold); NIST SP 800-39 §2.4; ISO 31000:2018 §6.5"
+    },
+    {
+      "objective_code": "5.2",
+      "question_text": "An auditor is comparing qualitative and quantitative risk analysis. Which statements correctly distinguish the two approaches? (Select all that apply.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "Quantitative analysis uses numeric values such as SLE, ARO, and ALE to express risk in monetary terms."
+        },
+        {
+          "text": "Qualitative analysis uses descriptive categories such as low/medium/high or red/amber/green to rank risk."
+        },
+        {
+          "text": "Qualitative analysis is faster and useful when reliable historical loss data is not available."
+        },
+        {
+          "text": "Quantitative analysis eliminates subjectivity entirely because all inputs are objective measurements."
+        },
+        {
+          "text": "Qualitative analysis is the only method endorsed by ISO 31000."
+        }
+      ],
+      "correct_choice_texts": [
+        "Quantitative analysis uses numeric values such as SLE, ARO, and ALE to express risk in monetary terms.",
+        "Qualitative analysis uses descriptive categories such as low/medium/high or red/amber/green to rank risk.",
+        "Qualitative analysis is faster and useful when reliable historical loss data is not available."
+      ],
+      "hint": "Numbers vs. categories; both have limits, and both are recognized in the standards.",
+      "explanation": "SY0-701 Objectives §5.2 lists Qualitative and Quantitative as the two risk-analysis approaches and lists SLE, ALE, ARO, and Exposure factor as the quantitative components. NIST SP 800-30r1 §3.2 (Step 3, Determine Likelihood and Impact) explicitly supports both qualitative (ordinal categories) and quantitative (monetary) approaches and warns that quantitative inputs (ARO, EF) are themselves estimates and therefore not free of subjectivity. ISO 31000:2018 §6.4.3 likewise recognizes both methods. The judgment calls in calibrating SLE, ARO, and impact mean quantitative analysis reduces — but does not eliminate — subjectivity.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.2 (Risk analysis — Qualitative, Quantitative, SLE, ALE, ARO, Exposure factor); NIST SP 800-30r1 §3.2; ISO 31000:2018 §6.4.3"
+    },
+    {
+      "objective_code": "5.2",
+      "question_text": "True or False: A proposed annual security control whose recurring cost exceeds the calculated ALE for the risk it addresses generally fails a cost-benefit test, all else being equal.",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "correct_choice_text": "True",
+      "hint": "ALE is the expected annual loss; if the control costs more than that every year, the math does not work — barring qualitative reasons (safety, compliance).",
+      "explanation": "Per SY0-701 Objectives §5.2 (Risk analysis — SLE, ALE, ARO), ALE = SLE x ARO is the expected annual loss from the risk. NIST SP 800-30r1 §3.4 (Communicate Results) and SP 800-39 §3.3 frame the standard cost-benefit comparison as control cost vs. expected loss reduction (the difference between current ALE and residual ALE after the control). If a control's annual cost exceeds the ALE it can reduce, it fails a pure financial test — though regulatory, safety, or reputational drivers can still justify it qualitatively.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.2 (Risk analysis — SLE, ALE, ARO); NIST SP 800-30r1 §3.4; NIST SP 800-39 §3.3"
+    },
+    {
+      "objective_code": "5.2",
+      "question_text": "True or False: 'Risk acceptance' means the organization ignores the risk and removes it from the risk register.",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "choices": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "correct_choice_text": "False",
+      "hint": "Accepting a risk is a formal documented decision — including any exemption or exception — not deletion.",
+      "explanation": "SY0-701 Objectives §5.2 lists Accept as one of the four risk-management strategies and explicitly includes Exemption and Exception as sub-bullets — both of which are documented, time-bound acceptance decisions. NIST SP 800-39 §3.3.3 and ISO 31000:2018 §6.5.3 describe risk acceptance as a knowing, documented decision by the risk owner that the residual risk is within appetite/tolerance; the risk stays in the register and is reviewed on a defined cadence. Removing it would defeat the purpose of the register and the audit trail.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.2 (Risk management strategies — Accept (Exemption, Exception)); NIST SP 800-39 §3.3.3; ISO 31000:2018 §6.5.3"
+    },
+    {
+      "objective_code": "5.2",
+      "question_text": "An organization is adopting the NIST Risk Management Framework (NIST SP 800-37r2) for a new federal information system. Order the seven RMF steps in their canonical execution sequence.",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "Prepare"
+        },
+        {
+          "text": "Categorize"
+        },
+        {
+          "text": "Select"
+        },
+        {
+          "text": "Implement"
+        },
+        {
+          "text": "Assess"
+        },
+        {
+          "text": "Authorize"
+        },
+        {
+          "text": "Monitor"
+        }
+      ],
+      "ordered_choice_texts": [
+        "Prepare",
+        "Categorize",
+        "Select",
+        "Implement",
+        "Assess",
+        "Authorize",
+        "Monitor"
+      ],
+      "hint": "Prepare the org and system, categorize impact, pick controls, build them, test them, get an authorizing official to sign, then watch continuously.",
+      "explanation": "NIST SP 800-37r2 §3 defines the seven RMF steps in order: (1) Prepare — establish context and priorities at the organization and system level; (2) Categorize — classify the system by impact (FIPS 199); (3) Select — choose a baseline of controls from NIST SP 800-53; (4) Implement — deploy the selected controls and document the configuration; (5) Assess — test that controls are implemented correctly and operating as intended; (6) Authorize — the authorizing official makes a risk-based decision to operate (ATO); (7) Monitor — perform ongoing assessment, configuration management, and reauthorization. SY0-701 Objectives §5.1 references the NIST RMF/CSF families as authoritative governance frameworks.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.1 (Frameworks — NIST); NIST SP 800-37r2 §3 (RMF Steps Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor)"
+    },
+    {
+      "objective_code": "5.2",
+      "question_text": "A risk analyst is performing a quantitative risk assessment per NIST SP 800-30 for a single asset. Order the calculation steps from FIRST to LAST.",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "Determine the asset value (AV)"
+        },
+        {
+          "text": "Determine the exposure factor (EF) for the threat"
+        },
+        {
+          "text": "Calculate the single loss expectancy (SLE = AV x EF)"
+        },
+        {
+          "text": "Determine the annualized rate of occurrence (ARO)"
+        },
+        {
+          "text": "Calculate the annualized loss expectancy (ALE = SLE x ARO)"
+        },
+        {
+          "text": "Compare ALE to the annual cost of proposed controls"
+        }
+      ],
+      "ordered_choice_texts": [
+        "Determine the asset value (AV)",
+        "Determine the exposure factor (EF) for the threat",
+        "Calculate the single loss expectancy (SLE = AV x EF)",
+        "Determine the annualized rate of occurrence (ARO)",
+        "Calculate the annualized loss expectancy (ALE = SLE x ARO)",
+        "Compare ALE to the annual cost of proposed controls"
+      ],
+      "hint": "Value the asset, decide how much of it would be lost in one event, multiply for SLE, then annualize via ARO, then compare to control cost.",
+      "explanation": "SY0-701 Objectives §5.2 (Risk analysis — SLE, ALE, ARO, Exposure factor) lists the quantitative inputs in this exact dependency chain. NIST SP 800-30r1 §3.2 (Step 3: Determine Likelihood and Impact) describes the canonical quantitative sequence: establish asset value, determine the exposure factor (the percentage of the asset value lost per event), compute SLE = AV x EF, estimate ARO (events per year), compute ALE = SLE x ARO, and then compare ALE to the annualized cost of the proposed countermeasure as the basis for the risk-treatment recommendation.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.2 (Risk analysis — Quantitative, SLE, ALE, ARO, Exposure factor); NIST SP 800-30r1 §3.2"
+    },
+    {
+      "objective_code": "5.3",
+      "question_text": "A procurement team is negotiating a right-to-audit clause into a SaaS vendor contract. Which statements about the clause are correct? (Select all that apply.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "It permits the customer (or an agent on the customer's behalf) to examine vendor controls, evidence, and documentation relevant to the contracted services."
+        },
+        {
+          "text": "It is most useful when paired with acceptance of independent third-party reports (e.g., SOC 2 Type II, ISO 27001 certificate) as alternative evidence."
+        },
+        {
+          "text": "It typically specifies notice period, frequency, scope, confidentiality, and cost allocation for an audit."
+        },
+        {
+          "text": "It guarantees the right to perform a penetration test against shared multi-tenant infrastructure without any prior coordination."
+        },
+        {
+          "text": "It eliminates the need for any other third-party risk-management activity once signed."
+        }
+      ],
+      "correct_choice_texts": [
+        "It permits the customer (or an agent on the customer's behalf) to examine vendor controls, evidence, and documentation relevant to the contracted services.",
+        "It is most useful when paired with acceptance of independent third-party reports (e.g., SOC 2 Type II, ISO 27001 certificate) as alternative evidence.",
+        "It typically specifies notice period, frequency, scope, confidentiality, and cost allocation for an audit."
+      ],
+      "hint": "The clause is a written examination right with practical bounds; it does not authorize unilateral pentests against shared infrastructure or replace ongoing vendor monitoring.",
+      "explanation": "SY0-701 Objectives §5.3 lists Right-to-audit clause alongside Evidence of internal audits and Independent assessments under Vendor assessment, signaling that the clause and third-party attestations are complementary tools. ISO/IEC 27036-2:2022 §6.4 and NIST SP 800-161r1 §3.4 (Supplier Relationships) describe the right-to-audit clause as a bounded contractual examination right that must specify scope, notice, frequency, confidentiality, and cost. For multi-tenant SaaS, penetration testing is normally governed by a separate rules-of-engagement document and the provider's testing policy, not by the audit clause; the clause also does not replace continuous vendor monitoring and questionnaires.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.3 (Vendor assessment — Right-to-audit clause, Evidence of internal audits, Independent assessments); NIST SP 800-161r1 §3.4; ISO/IEC 27036-2:2022 §6.4"
+    },
+    {
+      "objective_code": "5.3",
+      "question_text": "A legal team is mapping vendor-agreement types to their canonical purposes. Which statements correctly describe the named agreement types? (Choose THREE.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "An SLA defines measurable performance metrics (uptime, response time) and the credits or penalties that apply when they are missed."
+        },
+        {
+          "text": "An MSA establishes the overarching legal and commercial terms between two parties, under which individual work orders or statements of work (SOWs) define each specific engagement."
+        },
+        {
+          "text": "An NDA protects confidential information that the parties share with one another, independent of any commercial work."
+        },
+        {
+          "text": "An MOU is a legally binding contract that supersedes any SLA or MSA in the relationship."
+        },
+        {
+          "text": "A BPA is identical in purpose to an NDA and the two terms are interchangeable."
+        }
+      ],
+      "correct_choice_texts": [
+        "An SLA defines measurable performance metrics (uptime, response time) and the credits or penalties that apply when they are missed.",
+        "An MSA establishes the overarching legal and commercial terms between two parties, under which individual work orders or statements of work (SOWs) define each specific engagement.",
+        "An NDA protects confidential information that the parties share with one another, independent of any commercial work."
+      ],
+      "hint": "SLA = metrics. MSA = umbrella terms with SOW/WO underneath. NDA = confidentiality. MOU = non-binding intent. BPA = partner relationship.",
+      "explanation": "SY0-701 Objectives §5.3 lists SLA, MOA, MOU, MSA, WO/SOW, NDA, and BPA as the agreement types. NIST SP 800-47r1 §3 and the canonical Sybex SY0-701 study guide define them as follows: an SLA is the measurable performance contract; an MSA is the overarching framework agreement that SOWs or work orders sit beneath; an NDA is a confidentiality contract; an MOU records mutual intent and is typically non-binding (or weakly binding) and does not supersede a signed SLA or MSA; a BPA governs the broader business-partner relationship (often profit/loss sharing) and is distinct from confidentiality agreements.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.3 (Agreement types — SLA, MOA, MOU, MSA, WO/SOW, NDA, BPA); NIST SP 800-47r1 §3"
+    },
+    {
+      "objective_code": "5.3",
+      "question_text": "True or False: A customer may lawfully launch a penetration test against a SaaS vendor's production environment whenever a right-to-audit clause exists, without separately agreeing on rules of engagement.",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "correct_choice_text": "False",
+      "hint": "Right-to-audit and rules-of-engagement are different documents serving different controls — one authorizes examination of records, the other authorizes active testing.",
+      "explanation": "SY0-701 Objectives §5.3 lists Penetration testing, Right-to-audit clause, and Rules of engagement as separate items under Vendor assessment. NIST SP 800-115 §3.2 and the Cloud Security Alliance Pentest Guidance require a documented rules-of-engagement (ROE) artifact for any active testing — defining authorized targets, time windows, allowed techniques, escalation contacts, and stop conditions. Without an ROE, a 'pentest' against a SaaS provider's shared infrastructure can violate the provider's terms of service and applicable computer-misuse laws even if a right-to-audit clause is in place.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.3 (Penetration testing, Right-to-audit clause, Rules of engagement); NIST SP 800-115 §3.2"
+    },
+    {
+      "objective_code": "5.3",
+      "question_text": "A company is establishing a vendor-management process for a new critical SaaS provider. Order the major vendor-lifecycle stages from FIRST to LAST.",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "Due diligence and risk assessment"
+        },
+        {
+          "text": "Vendor selection"
+        },
+        {
+          "text": "Contract negotiation (SLA, MSA, SOW, NDA, BPA)"
+        },
+        {
+          "text": "Onboarding"
+        },
+        {
+          "text": "Ongoing performance and security monitoring"
+        },
+        {
+          "text": "Renewal or offboarding"
+        }
+      ],
+      "ordered_choice_texts": [
+        "Due diligence and risk assessment",
+        "Vendor selection",
+        "Contract negotiation (SLA, MSA, SOW, NDA, BPA)",
+        "Onboarding",
+        "Ongoing performance and security monitoring",
+        "Renewal or offboarding"
+      ],
+      "hint": "Investigate before you choose, choose before you sign, sign before you onboard, monitor after onboarding, and eventually renew or exit.",
+      "explanation": "SY0-701 Objectives §5.3 lists Vendor assessment, Vendor selection, Agreement types, Vendor monitoring, and Questionnaires under Third-party risk assessment and management. NIST SP 800-161r1 §3 (Supply Chain Risk Management Practices) and ISO/IEC 27036-2:2022 §6 align on the same lifecycle: perform due diligence and risk assessment, select the vendor on the basis of that evidence, negotiate the contract suite (MSA/SLA/SOW/NDA/BPA), onboard the vendor (provision access, integrate security controls), monitor performance and security continuously, and then renew under updated terms or off-board (revoke access, recover data, decommission accounts).",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.3 (Vendor assessment, Vendor selection, Agreement types, Vendor monitoring); NIST SP 800-161r1 §3; ISO/IEC 27036-2:2022 §6"
+    },
+    {
+      "objective_code": "5.3",
+      "question_text": "A compliance director is ranking assurance activities by increasing tester independence and depth of evidence. Order the following from LOWEST independence/depth to HIGHEST.",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "choices": [
+        {
+          "text": "Self-assessment / management attestation"
+        },
+        {
+          "text": "Internal audit"
+        },
+        {
+          "text": "External regulatory examination"
+        },
+        {
+          "text": "Independent third-party assessment (e.g., SOC 2 Type II)"
+        },
+        {
+          "text": "Penetration test"
+        }
+      ],
+      "ordered_choice_texts": [
+        "Self-assessment / management attestation",
+        "Internal audit",
+        "External regulatory examination",
+        "Independent third-party assessment (e.g., SOC 2 Type II)",
+        "Penetration test"
+      ],
+      "hint": "Self-rating is least independent; an adversarial active test against the running systems is the deepest evidence.",
+      "explanation": "SY0-701 Objectives §5.5 lists Attestation, Internal (compliance, audit committee, self-assessments), External (regulatory, examinations, assessment, independent third-party), and Penetration testing as a deliberate progression of audits and assessments. Per AICPA SSAE 18 (which governs SOC 2) and NIST SP 800-115 §1.3, the assurance progression by independence and depth runs from self-attestation (signed by management, no third party), to internal audit (independent of the function being audited but not of the organization), to external regulatory examination (independent of the organization but driven by a specific compliance scope), to an independent third-party assessment such as SOC 2 Type II (broad scope, full independence), to a penetration test (active adversarial validation of the deployed controls — the deepest practical evidence).",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.5 (Attestation, Internal, External, Independent third-party audit, Penetration testing); NIST SP 800-115 §1.3; AICPA SSAE 18"
+    },
+    {
+      "objective_code": "5.4",
+      "question_text": "A privacy officer is documenting consequences if the company is found materially non-compliant with GDPR. Which of the following are recognized consequences of non-compliance? (Select all that apply.)",
+      "question_type": "multi_select",
+      "difficulty": "easy",
+      "choices": [
+        {
+          "text": "Administrative fines (up to 4% of annual global turnover or EUR 20 million, whichever is higher, for the most serious infringements)."
+        },
+        {
+          "text": "Reputational damage and loss of customer trust."
+        },
+        {
+          "text": "Contractual impacts such as breach of customer DPAs (data-processing agreements) and indemnity claims."
+        },
+        {
+          "text": "Automatic criminal conviction of every employee in the affected department, with no judicial process."
+        },
+        {
+          "text": "Permanent global ban on operating any IT system in any jurisdiction."
+        }
+      ],
+      "correct_choice_texts": [
+        "Administrative fines (up to 4% of annual global turnover or EUR 20 million, whichever is higher, for the most serious infringements).",
+        "Reputational damage and loss of customer trust.",
+        "Contractual impacts such as breach of customer DPAs (data-processing agreements) and indemnity claims."
+      ],
+      "hint": "Fines, reputation, contract impacts, and possible loss of license are textbook. Mass criminal conviction and global IT bans are not.",
+      "explanation": "SY0-701 Objectives §5.4 lists Consequences of non-compliance as Fines, Sanctions, Reputational damage, Loss of license, and Contractual impacts. GDPR Article 83(5) specifies the upper administrative-fine tier of up to 4% of total worldwide annual turnover or EUR 20 million, whichever is higher, for the most serious infringements. Breach of customer DPAs (required by GDPR Article 28) can trigger contractual indemnity claims. Criminal liability under GDPR is bounded, jurisdiction-specific, and follows due process; there is no provision for global IT bans.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.4 (Consequences of non-compliance — Fines, Sanctions, Reputational damage, Loss of license, Contractual impacts); GDPR Articles 28 and 83(5)"
+    },
+    {
+      "objective_code": "5.4",
+      "question_text": "Under GDPR, which of the following correctly describe the roles of data subject, controller, and processor? (Choose THREE.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "The data subject is the identified or identifiable natural person to whom the personal data relates."
+        },
+        {
+          "text": "The controller determines the purposes and means of processing the personal data."
+        },
+        {
+          "text": "The processor processes personal data on behalf of the controller and only on the controller's documented instructions."
+        },
+        {
+          "text": "Controllers and processors share the same legal accountability for determining processing purposes."
+        },
+        {
+          "text": "Data subjects under GDPR include legal entities such as corporations and partnerships."
+        }
+      ],
+      "correct_choice_texts": [
+        "The data subject is the identified or identifiable natural person to whom the personal data relates.",
+        "The controller determines the purposes and means of processing the personal data.",
+        "The processor processes personal data on behalf of the controller and only on the controller's documented instructions."
+      ],
+      "hint": "Subject = the human. Controller = decides the why. Processor = follows controller instructions. GDPR applies only to natural persons.",
+      "explanation": "SY0-701 Objectives §5.4 lists Data subject, Controller vs. processor, and Ownership under Privacy. GDPR Article 4(1) defines a data subject as an identified or identifiable natural person — legal entities are out of scope. Article 4(7) defines the controller as the entity determining purposes and means; Article 4(8) defines the processor as one who processes on behalf of the controller. Article 28 requires the processor to act only on the controller's documented instructions. Accountability for choosing purposes lies with the controller, not jointly with the processor (except in narrow joint-controller arrangements under Article 26).",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.4 (Privacy — Data subject, Controller vs. processor); GDPR Articles 4(1), 4(7), 4(8), 26, 28"
+    },
+    {
+      "objective_code": "5.4",
+      "question_text": "True or False: A merchant that fully outsources its payment-card processing to a PCI-DSS-validated third party may still have PCI DSS obligations of its own, even though its scope is reduced.",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "correct_choice_text": "True",
+      "hint": "Outsourcing shrinks scope, but it does not transfer the merchant's underlying compliance obligation away entirely.",
+      "explanation": "SY0-701 Objectives §5.4 lists Compliance reporting and Due diligence/care under Compliance monitoring. PCI DSS v4.0 §4 and the PCI SSC's 'Information Supplement: Third-Party Security Assurance' make clear that even a merchant who outsources card processing remains the entity that accepts the cards and must (a) maintain vendor due-diligence evidence (e.g., the processor's AOC), (b) complete an appropriate SAQ (typically SAQ-A or SAQ-A-EP) attesting to its remaining responsibilities, and (c) ensure that any systems on its own premises that touch cardholder data or its environment remain in scope. The merchant's obligation is reduced, not eliminated.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.4 (Compliance reporting, Compliance monitoring — Due diligence/care); PCI DSS v4.0 §4; PCI SSC 'Third-Party Security Assurance' Information Supplement"
+    },
+    {
+      "objective_code": "5.4",
+      "question_text": "True or False: GDPR Article 33 requires a data controller to notify the competent supervisory authority of a personal-data breach without undue delay and, where feasible, not later than 72 hours after becoming aware of it.",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "choices": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "correct_choice_text": "True",
+      "hint": "72 hours is the canonical GDPR breach-notification window for notifying the supervisory authority.",
+      "explanation": "SY0-701 Objectives §5.4 lists Legal implications (Local/regional, National, Global) under Privacy. GDPR Article 33(1) states verbatim that 'in the case of a personal data breach, the controller shall without undue delay and, where feasible, not later than 72 hours after having become aware of it, notify the personal data breach to the supervisory authority competent in accordance with Article 55.' Article 34 separately governs notification to affected data subjects when the breach is likely to result in a high risk to their rights and freedoms.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.4 (Privacy — Legal implications, Data subject); GDPR Articles 33(1) and 34"
+    },
+    {
+      "objective_code": "5.4",
+      "question_text": "A controller has just confirmed a personal-data breach affecting EU residents. Order the canonical compliance breach-notification steps from FIRST to LAST.",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "choices": [
+        {
+          "text": "Detect and triage the incident"
+        },
+        {
+          "text": "Validate that personal data is actually involved"
+        },
+        {
+          "text": "Classify the breach and engage legal / privacy office"
+        },
+        {
+          "text": "Notify the competent supervisory authority (GDPR Article 33: within 72 hours)"
+        },
+        {
+          "text": "Notify affected data subjects where required (GDPR Article 34)"
+        },
+        {
+          "text": "Document the breach, response, and remediation actions"
+        }
+      ],
+      "ordered_choice_texts": [
+        "Detect and triage the incident",
+        "Validate that personal data is actually involved",
+        "Classify the breach and engage legal / privacy office",
+        "Notify the competent supervisory authority (GDPR Article 33: within 72 hours)",
+        "Notify affected data subjects where required (GDPR Article 34)",
+        "Document the breach, response, and remediation actions"
+      ],
+      "hint": "Detect, confirm scope, loop in legal, notify the regulator within 72h, notify data subjects when the risk is high, then document.",
+      "explanation": "SY0-701 Objectives §5.4 frames Privacy and Compliance reporting (Internal/External) as requiring formal notification workflows. NIST SP 800-61r2 §3 outlines the detection / containment / eradication / recovery cycle, while GDPR Articles 33 and 34 add explicit external-notification obligations. The accepted compliance sequence is: detect and triage, validate that personal data is in scope (separating an event from a notifiable breach), classify the breach and engage legal/privacy counsel, notify the supervisory authority within 72 hours per Article 33, notify affected data subjects under Article 34 if the risk to their rights is high, and finally document the breach and remediation actions under Article 33(5) (the controller's breach register).",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.4 (Privacy, Compliance reporting); GDPR Articles 33 and 34; NIST SP 800-61r2 §3"
+    },
+    {
+      "objective_code": "5.5",
+      "question_text": "An audit committee is differentiating internal audits from external audits. Which statements are correct? (Select all that apply.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "Internal audits are performed by employees of the organization (or a function reporting to it), typically reporting to an audit committee of the board."
+        },
+        {
+          "text": "External audits are performed by parties independent of the organization, such as regulators or independent third-party firms."
+        },
+        {
+          "text": "Self-assessments are a recognized form of internal evaluation but provide less assurance than an internal audit or external audit."
+        },
+        {
+          "text": "An external regulatory examination and an independent third-party assessment are identical activities with the same scope."
+        },
+        {
+          "text": "Internal audits cannot legally exist in regulated industries; only external regulators may audit."
+        }
+      ],
+      "correct_choice_texts": [
+        "Internal audits are performed by employees of the organization (or a function reporting to it), typically reporting to an audit committee of the board.",
+        "External audits are performed by parties independent of the organization, such as regulators or independent third-party firms.",
+        "Self-assessments are a recognized form of internal evaluation but provide less assurance than an internal audit or external audit."
+      ],
+      "hint": "Internal vs. external is about WHO performs it. Self-assessment is the least independent. Regulators and independent firms are different external types.",
+      "explanation": "SY0-701 Objectives §5.5 lists Internal (Compliance, Audit committee, Self-assessments) and External (Regulatory, Examinations, Assessment, Independent third-party audit) as distinct buckets. The Institute of Internal Auditors (IIA) International Professional Practices Framework (Standard 1110) requires internal audit to report functionally to the audit committee for independence within the organization. AICPA SSAE 18 (SOC) and ISACA frameworks treat independent third-party assessments and regulatory examinations as different external activities with different scopes and authority. Self-assessment is a recognized but lowest-assurance technique because the assessor is not independent of the function being assessed.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.5 (Internal — Compliance, Audit committee, Self-assessments; External — Regulatory, Examinations, Assessment, Independent third-party audit); IIA IPPF Standard 1110; AICPA SSAE 18"
+    },
+    {
+      "objective_code": "5.5",
+      "question_text": "True or False: A management-signed self-assessment provides the same level of assurance as an independent third-party assessment.",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "choices": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "correct_choice_text": "False",
+      "hint": "Who performs the assessment changes how much weight an external party gives it.",
+      "explanation": "SY0-701 Objectives §5.5 lists Self-assessments under Internal and Independent third-party audit under External, signaling distinct categories. Per AICPA SSAE 18 and IIA IPPF Standard 1100 (Independence and Objectivity), assurance depends on the assessor's independence from the function being assessed. A self-assessment is signed by management on its own controls and has the lowest independence; an independent third-party assessment is performed by a firm with no operational, financial, or reporting relationship to the function under review and is therefore considered substantially higher assurance by regulators, customers, and insurers.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.5 (Self-assessments vs. Independent third-party audit); AICPA SSAE 18; IIA IPPF Standard 1100"
+    },
+    {
+      "objective_code": "5.5",
+      "question_text": "True or False: The reconnaissance phase of a penetration test includes both passive techniques (such as OSINT and DNS lookups) and active techniques (such as port scanning).",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "choices": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "correct_choice_text": "True",
+      "hint": "Check the bullet structure under Penetration testing — Reconnaissance in the SY0-701 objectives.",
+      "explanation": "SY0-701 Objectives §5.5 lists Reconnaissance as a sub-bullet under Penetration testing and breaks it explicitly into Passive and Active. NIST SP 800-115 §5.1 (Information Security Assessment Methodology) and the PTES Pre-engagement / Intelligence Gathering phases describe passive reconnaissance as collecting information without interacting with target systems (OSINT, public DNS records, certificate-transparency logs, search-engine artifacts) and active reconnaissance as direct interaction such as port scans, banner grabs, and service fingerprinting. Both are reconnaissance and both occur before the attack phase.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.5 (Penetration testing — Reconnaissance: Passive, Active); NIST SP 800-115 §5.1"
+    },
+    {
+      "objective_code": "5.5",
+      "question_text": "A penetration tester is following the four-phase methodology described in NIST SP 800-115. Order the phases from FIRST to LAST.",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "Planning"
+        },
+        {
+          "text": "Discovery (reconnaissance and scanning)"
+        },
+        {
+          "text": "Attack (gaining access, escalating privilege, system browsing, installing additional tools)"
+        },
+        {
+          "text": "Reporting"
+        }
+      ],
+      "ordered_choice_texts": [
+        "Planning",
+        "Discovery (reconnaissance and scanning)",
+        "Attack (gaining access, escalating privilege, system browsing, installing additional tools)",
+        "Reporting"
+      ],
+      "hint": "Scope and rules first, then learn the target, then exploit, then write it up.",
+      "explanation": "NIST SP 800-115 §5 defines the four canonical penetration-testing phases: Planning (scope, rules of engagement, authorization), Discovery (reconnaissance and vulnerability scanning to identify targets), Attack (gaining access, escalating privilege, system browsing, and installing additional tools as documented in §5.2), and Reporting (writing up findings, evidence, and remediation recommendations). SY0-701 Objectives §5.5 lists Penetration testing among Audits and Assessments and includes Reconnaissance as the discovery activity within that lifecycle. Skipping or reordering these phases (for example, attacking before establishing rules of engagement) makes the engagement legally and operationally indefensible.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.5 (Penetration testing — Reconnaissance); NIST SP 800-115 §5 (Planning, Discovery, Attack, Reporting)"
+    },
+    {
+      "objective_code": "5.5",
+      "question_text": "An engagement manager is choosing among penetration-test environment types. Order them from LEAST tester knowledge of the target environment to MOST tester knowledge.",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "Unknown environment (black box)"
+        },
+        {
+          "text": "Partially known environment (gray box)"
+        },
+        {
+          "text": "Known environment (white box)"
+        }
+      ],
+      "ordered_choice_texts": [
+        "Unknown environment (black box)",
+        "Partially known environment (gray box)",
+        "Known environment (white box)"
+      ],
+      "hint": "Black, gray, white correspond to none, some, full knowledge.",
+      "explanation": "SY0-701 Objectives §5.5 explicitly lists Known environment, Partially known environment, and Unknown environment under Penetration testing. Per NIST SP 800-115 §3.1, an unknown-environment (black-box) test gives the tester little or no information beyond targets — closest to an external adversary; a partially known (gray-box) test gives limited information such as user-level credentials or network diagrams; a known-environment (white-box) test gives the tester full architecture, source code, and credentials, allowing the deepest and most efficient coverage. The progression LEAST -> MOST knowledge is therefore unknown -> partially known -> known.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.5 (Penetration testing — Known environment, Partially known environment, Unknown environment); NIST SP 800-115 §3.1"
+    },
+    {
+      "objective_code": "5.6",
+      "question_text": "A security-awareness lead is designing a phishing-simulation campaign. Which elements are appropriate to include in the campaign design? (Select all that apply.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "A baseline measurement of click rate before any new training is delivered."
+        },
+        {
+          "text": "Just-in-time training delivered to users who fall for a simulated phish."
+        },
+        {
+          "text": "A tracked 'report phishing' button so that recognition AND reporting are both measured."
+        },
+        {
+          "text": "Public posting of the names of every employee who clicked, to shame them in front of peers."
+        },
+        {
+          "text": "Termination of any first-time clicker immediately, with no remediation."
+        }
+      ],
+      "correct_choice_texts": [
+        "A baseline measurement of click rate before any new training is delivered.",
+        "Just-in-time training delivered to users who fall for a simulated phish.",
+        "A tracked 'report phishing' button so that recognition AND reporting are both measured."
+      ],
+      "hint": "Baseline, teach the clickers, track both recognition and reporting. Public shaming and first-strike termination are out of bounds.",
+      "explanation": "SY0-701 Objectives §5.6 lists Phishing (Campaigns, Recognizing a phishing attempt, Responding to reported suspicious messages) and Reporting and monitoring (Initial, Recurring) under Security awareness practices. NIST SP 800-50r1 (Building a Cybersecurity and Privacy Learning Program) frames effective awareness as positive-reinforcement: a baseline, targeted just-in-time training for affected users, and metrics for both recognition (recognizing the lure) and reporting (using the report button). Public shaming and first-strike termination are documented anti-patterns — they suppress reporting (the very behavior the program wants to grow) and create morale and legal exposure.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.6 (Phishing — Campaigns, Recognizing, Responding; Reporting and monitoring); NIST SP 800-50r1 §3"
+    },
+    {
+      "objective_code": "5.6",
+      "question_text": "True or False: Anomalous behavior recognition in a security-awareness program is concerned only with detecting malicious insider activity.",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "True"
+        },
+        {
+          "text": "False"
+        }
+      ],
+      "correct_choice_text": "False",
+      "hint": "Look at the explicit sub-bullets under Anomalous behavior recognition in the SY0-701 objectives.",
+      "explanation": "SY0-701 Objectives §5.6 lists Anomalous behavior recognition with three explicit sub-bullets: Risky, Unexpected, and Unintentional. Only one of those (Risky) maps cleanly to malicious intent; Unexpected covers actions that deviate from established baselines (e.g., a finance user pulling HR data) without implying malice, and Unintentional covers user errors such as misdirected email or downloading a personal app on a corporate device. Per NIST SP 800-50r1 and CISA's Insider Threat Mitigation Guide, awareness programs train users to recognize and report all three categories, not just malicious behavior.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.6 (Anomalous behavior recognition — Risky, Unexpected, Unintentional); NIST SP 800-50r1 §3; CISA Insider Threat Mitigation Guide"
+    },
+    {
+      "objective_code": "5.6",
+      "question_text": "A CISO is establishing a new enterprise security-awareness program. Order the canonical program-lifecycle phases from FIRST to LAST.",
+      "question_type": "ordering",
+      "difficulty": "medium",
+      "choices": [
+        {
+          "text": "Identify needs and target audiences (risk-based analysis)"
+        },
+        {
+          "text": "Develop content and training materials"
+        },
+        {
+          "text": "Communicate and deliver training (execution)"
+        },
+        {
+          "text": "Measure outcomes (phishing simulation results, recognized/reported rates)"
+        },
+        {
+          "text": "Iterate and update the program"
+        }
+      ],
+      "ordered_choice_texts": [
+        "Identify needs and target audiences (risk-based analysis)",
+        "Develop content and training materials",
+        "Communicate and deliver training (execution)",
+        "Measure outcomes (phishing simulation results, recognized/reported rates)",
+        "Iterate and update the program"
+      ],
+      "hint": "Analyze, design, deliver, measure, improve — the textbook awareness-program cycle.",
+      "explanation": "SY0-701 Objectives §5.6 lists Development, Execution, and Reporting and monitoring (Initial, Recurring) under Security awareness practices, signaling a lifecycle rather than a one-time event. NIST SP 800-50r1 §3 defines the canonical security-awareness program lifecycle as: (1) Identify needs through a risk-based analysis of the workforce and threats, (2) Develop content tailored to roles and identified gaps, (3) Communicate and deliver training (execution), (4) Measure effectiveness using phishing simulations, recognition/reporting rates, and knowledge checks, and (5) Iterate — feeding the metrics back into the next round of needs analysis. Skipping the measurement step leaves the program unable to demonstrate value and unable to improve.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.6 (Development, Execution, Reporting and monitoring); NIST SP 800-50r1 §3"
+    },
+    {
+      "objective_code": "5.6",
+      "question_text": "A SOC analyst observes a credible indicator of an insider threat. Order the typical insider-threat response actions from FIRST to LAST, per a coordinated security-awareness and insider-threat program.",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "choices": [
+        {
+          "text": "Recognize the anomalous behavior (risky / unexpected / unintentional)"
+        },
+        {
+          "text": "Report through the established channel (security, HR, or trusted hotline)"
+        },
+        {
+          "text": "Triage and validate the report by the insider-threat program team"
+        },
+        {
+          "text": "Coordinate response with HR, Legal, and management"
+        },
+        {
+          "text": "Contain (revoke access, preserve evidence, monitor activity)"
+        },
+        {
+          "text": "Conduct post-incident review and update awareness training"
+        }
+      ],
+      "ordered_choice_texts": [
+        "Recognize the anomalous behavior (risky / unexpected / unintentional)",
+        "Report through the established channel (security, HR, or trusted hotline)",
+        "Triage and validate the report by the insider-threat program team",
+        "Coordinate response with HR, Legal, and management",
+        "Contain (revoke access, preserve evidence, monitor activity)",
+        "Conduct post-incident review and update awareness training"
+      ],
+      "hint": "Recognize, report, validate, coordinate with HR/Legal, contain, then close the loop into training.",
+      "explanation": "SY0-701 Objectives §5.6 lists Insider threat and Anomalous behavior recognition (Risky, Unexpected, Unintentional) under User guidance and training, and Reporting and monitoring (Initial, Recurring) as a separate sub-area — implying a feedback loop. NIST SP 800-53r5 control PM-12 (Insider Threat Program) and the CISA Insider Threat Mitigation Guide define the canonical workflow: a coworker or analyst recognizes the behavior; the observation is reported through a defined channel (security, HR, or an anonymous hotline); the insider-threat team triages and validates the report; HR, Legal, and management are formally engaged before any adverse action against the employee; containment actions (access revocation, evidence preservation, targeted monitoring) follow; and the post-incident review feeds back into awareness content so future incidents are caught earlier. Acting on a single SOC alert before HR/Legal coordination is a recurring program failure mode.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §5.6 (Insider threat, Anomalous behavior recognition, Reporting and monitoring); NIST SP 800-53r5 PM-12; CISA Insider Threat Mitigation Guide"
+    }
+  ]
+}

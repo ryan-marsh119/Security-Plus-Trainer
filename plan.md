@@ -208,8 +208,10 @@ question type. The platform must include a dedicated `/pbq` practice area with:
   - **Fill-in-the-blank** — command syntax completion (nmap flags, ACL syntax, cipher names)
 - Separate progress tracking for PBQs vs. standard MC questions
 - No timer in practice mode; show domain objective tag after each attempt
-- Phase 5 content note: PBQ questions are currently low in the question bank — Phase 5
-  must add ≥ 5 PBQ questions per domain before go-live
+- **PBQ work deferred** — the original ≥ 5-PBQ-per-domain go-live requirement is on hold.
+  Phase 5 has been refocused on diversifying standard question types (multi-select, true/false,
+  ordering) and closing objective-level coverage gaps. Revisit the PBQ requirement when PBQs
+  are reactivated.
 
 **Deliverables** (all saved to `security_plus_trainer/resources/`):
 - [ ] `architecture.md` — Django app structure, React component tree (including PBQ components), API spec, dashboard design, answer-key strategy
@@ -290,43 +292,62 @@ Follow all rules strictly. Show your detailed plan before writing any code.
 
 ---
 
-## Phase 5: Content Import & Validation
+## Phase 5: Content Diversification & Gap-Fill
 
 **Agent Name:** `SecurityPlusExaminer`
 
-**Goal:** Import extracted questions from Phase 2 CSVs into the Django app. Validate all questions against exam standards and objectives. Flag issues; add corrected versions. Identify coverage gaps.
+**Status of upstream phases:** Phase 4 imported all 248 questions; Phase 4.5 audited every key and applied 73 fixes — see `resources/audit_summary.md`. Phase 5 builds on that clean baseline.
 
-**Starting Prompt:**
-```
-Activate as SecurityPlusExaminer.
+**Goal:** Two parallel content efforts:
+1. **Fill the Domain 3 § 3.4 coverage gap** flagged in the Phase 4.5 audit. Currently only 3 questions (Q82, Q83, Q84). Author additional items covering HA/clustering, geographic dispersion, replication modes, backup types (full/incremental/differential/snapshot), power resilience (UPS/generator/dual power), and the full exercise spectrum (walkthrough → tabletop → simulation → parallel → full failover). Target ≥ 10 questions on § 3.4.
+2. **Diversify question types** across the entire bank. The existing 248 questions are almost entirely `multiple_choice`. Bring the question mix up to **at least 20 questions per type per domain** for these four types:
+   - `multiple_choice`
+   - `multi_select`
+   - `true_false`
+   - `ordering`
 
-You are a senior cybersecurity professional and former CompTIA exam item writer. You are
-extremely strict about accuracy and alignment with SY0-701 standards.
+**PBQ work is on hold.** The original "≥ 5 PBQ per domain before go-live" requirement is deferred. `pbq_simulation`, `drag_drop`, and `fill_blank` are out of scope for this phase.
 
-Review all questions in the database using the built-in get_answer_key(), show_correct_answers(),
-and get_answer_explanation() methods.
+**Volume note:** 4 types × 5 domains × 20 questions = **400 minimum**. Current bank is 248 (and overwhelmingly MC). Expect Phase 5 to roughly double the question bank and rebalance the type distribution.
 
-For each question:
-- Validate both the answer_key and the answer_explanation against industry standards, official
-  objectives, best practices, and provided resources.
-- Flag any issues with answers or explanations.
-- Provide corrected versions with improved answer_key and detailed answer_explanation.
+**Before Starting:** Enter plan mode. Use the `security-plus-trainer` MCP tools (`list_domains`, `list_questions`) to produce the baseline distribution table — that is the gap you are closing.
 
-Also identify coverage gaps and add new high-quality questions (especially PBQs) with complete
-answer_key and answer_explanation fields where needed.
-```
+**Workflow (in order):**
+
+1. **Survey current state.** Use `mcp__security-plus-trainer__list_questions` to count existing questions by `(domain, question_type)` and by `(objective_code, question_type)`. Output `resources/question_type_gaps.md` with three sections:
+   - Current distribution table (rows = domain, columns = type, cell = count).
+   - Target distribution (20 per cell for the four in-scope types).
+   - Gap-per-cell = `max(0, 20 - current)` plus a callout for Domain 3 § 3.4.
+
+2. **Mine local resources first.** Re-read the CompTIA materials in `resources/` (Exam Objectives 7.0 PDF, Study Guide PDF, Study Plan PDF) plus the existing `extraction_log.txt` and `coverage_map.md` for content that fits the non-MC formats but was previously extracted as MC or skipped entirely. Examples of what to look for:
+   - **Ordering candidates:** sequenced lists in the source — IR lifecycle (Preparation → Detection → Analysis → Containment → Eradication → Recovery → Lessons Learned), RMF steps, NIST CSF function order, TCP three-way handshake, kill chain, change-management process.
+   - **True/false candidates:** unambiguous declarative statements in the objectives ("Symmetric encryption uses the same key for encryption and decryption", "TLS 1.0 is deprecated by RFC 8996").
+   - **Multi-select candidates:** any source bullet that lists multiple defenses for a single attack, multiple indicators for one threat, or multiple controls in a family (preventive/detective/corrective for a given risk).
+   
+   Append findings to `resources/question_type_gaps.md` under a "Local source candidates" section. **Be specific** — quote the source line and cite the page/objective. Report the count of candidates found per (type, domain) so we know what's left for step 3.
+
+3. **External free sources + generation.** For any gap remaining after step 2:
+   - First look at the CompTIA-aligned free sites already in scope (lognpacific.com, examcompass.com, comptia.org practice tests) for non-MC items. Cite the source URL on every imported question.
+   - If still short, **generate** questions using the `question-researcher` agent against the SY0-701 Exam Objectives PDF. Researcher produces drafts with full citations; the `question-db-admin` agent applies them to CSV + DB. Same pipeline as Phase 4.5.
+
+4. **Author and import.** New questions go into the existing `domain_<n>_*.csv` files following the established format. The `question_type` column supports `multiple_choice`, `multi_select`, `true_false`, `ordering`. Run `python manage.py import_questions` to load. (`import_questions` skips on `(objective, question_text)` match, so re-imports are safe.)
+
+5. **Audit pass v2.** Once the new content is loaded, re-run the 5-parallel-agent audit (one per domain via the MCP) the same way Phase 4.5 did — but scoped to **only the new questions added in steps 2–4**. Produce `resources/audit_summary_v2.md`. Apply any flagged fixes via the `question-db-admin` agent.
 
 **Validation Checklist:**
-- [ ] All multiple-choice questions have exactly one correct answer and plausible distractors
-- [ ] Multi-select questions are clearly marked; answers validated
-- [ ] PBQ descriptions are actionable (not just generic scenarios)
-- [ ] Explanations are accurate and reference domain objectives
-- [ ] Coverage: no single objective has fewer than 3 questions
+- [ ] All `multiple_choice` questions: exactly one correct answer, plausible distractors.
+- [ ] All `multi_select` questions: stem explicitly says "Select all that apply" or "Select TWO/THREE"; `answer_data.correct_ids` contains every correct choice.
+- [ ] All `true_false` questions: stem is an unambiguous declarative; not a trick negation or compound statement.
+- [ ] All `ordering` questions: every step is necessary and order-dependent; explanation cites the canonical sequence source (NIST publication, CompTIA objective text, RFC).
+- [ ] **Type coverage:** every (domain × {multiple_choice, multi_select, true_false, ordering}) cell has ≥ 20 questions.
+- [ ] **Objective coverage:** every `objective_code` has ≥ 3 questions; Domain 3 § 3.4 lifted from 3 → ≥ 10.
+- [ ] Every new explanation cites an authoritative source (SY0-701 objectives PDF section, NIST publication, RFC, vendor doc).
 
-**Deliverables:**
-- [ ] All Phase 2 questions imported into Django
-- [ ] `security_plus_trainer/resources/validation_report.md` — questions flagged, corrections applied, updated coverage map
-- [ ] Updated CLAUDE.md with question count and coverage stats
+**Deliverables** (all saved to `security_plus_trainer/resources/`):
+- [ ] `question_type_gaps.md` — baseline distribution, target, gap-per-cell, local source candidates with citations, and final sourcing plan.
+- [ ] Updated `domain_<n>_*.csv` files containing the new questions.
+- [ ] `audit_summary_v2.md` — v2 audit results scoped to the new content, with any fixes applied.
+- [ ] Updated CLAUDE.md with: new total question count, new per-domain counts, and per-type distribution table.
 
 ---
 

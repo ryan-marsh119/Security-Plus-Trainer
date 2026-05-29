@@ -1,0 +1,132 @@
+{
+  "new_questions": [
+    {
+      "objective_code": "3.4",
+      "question_text": "An architect is choosing between load balancing and clustering to provide high availability for a stateful application. Which statements correctly distinguish the two approaches? (Select all that apply.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {"text": "Load balancing distributes incoming requests across independent servers that do not share runtime state with each other."},
+        {"text": "Clustering presents multiple nodes as a single logical system and typically shares state (e.g., quorum, heartbeat, shared storage) so that a surviving node can resume work from a failed node."},
+        {"text": "Load balancing requires shared storage between the participating nodes in order to function."},
+        {"text": "Clustering is primarily a request-distribution technique and has no role in failover."},
+        {"text": "An active/passive cluster keeps a standby node idle until the active node fails, while an active/active cluster has all nodes serving traffic simultaneously."}
+      ],
+      "correct_choice_texts": [
+        "Load balancing distributes incoming requests across independent servers that do not share runtime state with each other.",
+        "Clustering presents multiple nodes as a single logical system and typically shares state (e.g., quorum, heartbeat, shared storage) so that a surviving node can resume work from a failed node.",
+        "An active/passive cluster keeps a standby node idle until the active node fails, while an active/active cluster has all nodes serving traffic simultaneously."
+      ],
+      "hint": "Load balancers spread requests; clusters coordinate nodes so one can take over for another.",
+      "explanation": "Per SY0-701 Objectives §3.4 (High availability — Load balancing vs. clustering), load balancing is a traffic-distribution mechanism across independent servers, while clustering is a coordination/failover mechanism in which nodes share state (heartbeat, quorum, often shared storage) so that one node can assume the workload of another. Active/passive and active/active are the two standard cluster configurations. Load balancing does not inherently require shared storage; clustering is not merely request distribution.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §3.4 (High availability — Load balancing vs. clustering); NIST SP 800-34r1 §3.4.3"
+    },
+    {
+      "objective_code": "3.4",
+      "question_text": "A disaster-recovery planner is documenting alternate site options. Which statements about cold, warm, and geographically dispersed sites are correct? (Choose THREE.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {"text": "A cold site provides physical space, power, and environmental controls but no pre-installed servers or current data, so it has the longest recovery time."},
+        {"text": "A warm site has hardware and connectivity in place but typically requires the most recent backups to be restored before it can take production traffic."},
+        {"text": "Geographic dispersion places recovery sites far enough from the primary that a single regional event (e.g., hurricane, grid failure, earthquake) is unlikely to take out both."},
+        {"text": "A cold site supports near-zero RTO because the hardware is already configured and continuously replicated."},
+        {"text": "Geographic dispersion is unnecessary when the primary site already has redundant power and network feeds."}
+      ],
+      "correct_choice_texts": [
+        "A cold site provides physical space, power, and environmental controls but no pre-installed servers or current data, so it has the longest recovery time.",
+        "A warm site has hardware and connectivity in place but typically requires the most recent backups to be restored before it can take production traffic.",
+        "Geographic dispersion places recovery sites far enough from the primary that a single regional event (e.g., hurricane, grid failure, earthquake) is unlikely to take out both."
+      ],
+      "hint": "Rank the three site types by how much equipment and data is already on site; geographic dispersion is about distance, not redundancy at one site.",
+      "explanation": "Per SY0-701 Objectives §3.4 (Site considerations — Hot, Cold, Warm, Geographic dispersion) and NIST SP 800-34r1 §3.4.1, a cold site supplies only facilities (space/power/HVAC), a warm site supplies facilities plus hardware but needs data restoration, and geographic dispersion separates sites by enough distance that a single regional disaster cannot affect both. Cold sites cannot achieve near-zero RTO (that is a hot-site property), and redundant feeds at a single site do not protect against regional events such as hurricanes or grid blackouts.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §3.4 (Site considerations); NIST SP 800-34r1 §3.4.1"
+    },
+    {
+      "objective_code": "3.4",
+      "question_text": "An architecture review is evaluating platform diversity and multi-cloud strategies for resilience. Which statements are correct? (Select all that apply.)",
+      "question_type": "multi_select",
+      "difficulty": "medium",
+      "choices": [
+        {"text": "Platform diversity reduces the blast radius of a single vendor's vulnerability or zero-day by running critical workloads on heterogeneous platforms."},
+        {"text": "Multi-cloud distributes workloads across two or more cloud providers so that an outage at one provider does not take down the whole service."},
+        {"text": "Multi-cloud and platform diversity eliminate the need for backups because workloads are already replicated."},
+        {"text": "Multi-cloud increases operational complexity (identity, networking, monitoring) and that trade-off must be weighed against the resilience benefit."},
+        {"text": "Platform diversity has no security value as long as each platform is patched."}
+      ],
+      "correct_choice_texts": [
+        "Platform diversity reduces the blast radius of a single vendor's vulnerability or zero-day by running critical workloads on heterogeneous platforms.",
+        "Multi-cloud distributes workloads across two or more cloud providers so that an outage at one provider does not take down the whole service.",
+        "Multi-cloud increases operational complexity (identity, networking, monitoring) and that trade-off must be weighed against the resilience benefit."
+      ],
+      "hint": "Both strategies trade complexity for reduced single-vendor / single-provider exposure; neither replaces backups.",
+      "explanation": "Per SY0-701 Objectives §3.4 (Platform diversity, Multi-cloud systems), platform diversity limits the blast radius of vendor-specific flaws and multi-cloud limits the blast radius of a provider-level outage. Both add operational complexity that must be managed. Replication across providers does not replace backups: replication propagates corruption and ransomware encryption to the replica, while immutable, versioned backups protect against logical (not just physical) loss. Patching alone does not eliminate the risk of an unpatched zero-day common to a single platform.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §3.4 (Platform diversity; Multi-cloud systems); NIST SP 800-204 §5"
+    },
+    {
+      "objective_code": "3.4",
+      "question_text": "True or False: Capacity planning for continuity of operations must address people, technology, and infrastructure — not just compute and storage.",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "choices": [
+        {"text": "True"},
+        {"text": "False"}
+      ],
+      "correct_choice_text": "True",
+      "hint": "Look at the explicit sub-bullets under Capacity planning in the SY0-701 objectives.",
+      "explanation": "The SY0-701 Objectives §3.4 explicitly lists Capacity planning sub-bullets as People, Technology, and Infrastructure. NIST SP 800-34r1 §3.4 likewise frames continuity-of-operations planning around staffing (people available to run the recovery), technology (systems and licenses), and infrastructure (facilities, power, network). Treating capacity as a compute/storage-only concern overlooks the people and facility constraints that most often delay actual recovery.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §3.4 (Continuity of operations; Capacity planning — People, Technology, Infrastructure); NIST SP 800-34r1 §3.4"
+    },
+    {
+      "objective_code": "3.4",
+      "question_text": "True or False: Asynchronous replication of a production database to a remote site is, by itself, a sufficient substitute for taking periodic backups.",
+      "question_type": "true_false",
+      "difficulty": "medium",
+      "choices": [
+        {"text": "True"},
+        {"text": "False"}
+      ],
+      "correct_choice_text": "False",
+      "hint": "What happens to the replica when a row is maliciously deleted or encrypted by ransomware on the primary?",
+      "explanation": "Replication is a resilience control against site or hardware loss, but it propagates logical corruption — accidental deletes, application bugs, and ransomware encryption — to the replica, usually within seconds. Per SY0-701 Objectives §3.4 (Backups: Frequency, Snapshots, Replication, Journaling) and NIST SP 800-209 §3.6, replication and point-in-time backups (including immutable snapshots and journaling) serve distinct purposes and must be used together. Backups provide the recoverable history that replication alone cannot.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §3.4 (Backups — Replication, Snapshots, Journaling); NIST SP 800-209 §3.6"
+    },
+    {
+      "objective_code": "3.4",
+      "question_text": "True or False: An uninterruptible power supply (UPS) and a backup generator serve interchangeable roles and deploying either one is sufficient for sustained power resilience.",
+      "question_type": "true_false",
+      "difficulty": "easy",
+      "choices": [
+        {"text": "True"},
+        {"text": "False"}
+      ],
+      "correct_choice_text": "False",
+      "hint": "How long can a battery-based UPS carry the load, and how long does a generator take to start?",
+      "explanation": "Per SY0-701 Objectives §3.4 (Power — Generators, Uninterruptible power supply) and NIST SP 800-34r1 §3.4.2, a UPS is a battery-backed bridge designed to carry the load for seconds to minutes — long enough to ride through transients and to allow a generator to start and stabilize. A generator provides long-duration power but cannot respond instantaneously. The two are complementary: the UPS covers the gap until the generator is online, and the generator covers the long outage that exceeds battery runtime.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §3.4 (Power — Generators, UPS); NIST SP 800-34r1 §3.4.2"
+    },
+    {
+      "objective_code": "3.4",
+      "question_text": "A continuity-of-operations program uses the NIST SP 800-84 progression of test types. Order the following exercises from LEAST disruptive to production systems to MOST disruptive.",
+      "question_type": "ordering",
+      "difficulty": "hard",
+      "choices": [
+        {"text": "Tabletop exercise"},
+        {"text": "Walkthrough"},
+        {"text": "Simulation"},
+        {"text": "Parallel test"},
+        {"text": "Full failover (full-interruption) test"}
+      ],
+      "ordered_choice_texts": [
+        "Tabletop exercise",
+        "Walkthrough",
+        "Simulation",
+        "Parallel test",
+        "Full failover (full-interruption) test"
+      ],
+      "hint": "Discussion-only first, then a step-by-step walk of the plan, then a scripted scenario, then run recovery in parallel with production, and finally cut production over to the recovery site.",
+      "explanation": "NIST SP 800-84 §3.4 lays out the canonical progression of continuity exercises from least to most disruptive. A Tabletop exercise is purely discussion-based around a hypothetical scenario. A Walkthrough (sometimes 'structured walkthrough') steps line-by-line through the documented plan to validate completeness. A Simulation introduces a scripted incident and has staff execute response actions in a controlled environment. A Parallel test stands up the recovery systems and runs them alongside production without taking production offline. A Full failover (full-interruption) test cuts production over to the recovery environment and is the most disruptive — and the most realistic — form of test. SY0-701 Objectives §3.4 (Testing) lists Tabletop, Simulation, Parallel processing, and Fail over; walkthrough fits between tabletop and simulation in the NIST progression.",
+      "source": "CompTIA Security+ SY0-701 Exam Objectives (7.0) §3.4 (Testing — Tabletop, Simulation, Parallel processing, Fail over); NIST SP 800-84 §3.4"
+    }
+  ]
+}
