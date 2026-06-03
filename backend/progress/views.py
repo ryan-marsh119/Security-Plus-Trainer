@@ -88,6 +88,12 @@ class SessionAnswerView(APIView):
         attempt_number (int)       -- 1 or 2 (two-strike max)
         hint           (str|null)  -- populated only on first wrong attempt
         explanation    (str|null)  -- populated on correct answer or second wrong attempt
+        correct_ids    (int[])     -- choice types only; correct AnswerChoice pks.
+                                      Present ONLY once the question is resolved
+                                      (correct, 2nd attempt, or exam session), so the
+                                      answer can't be read before the second attempt.
+        correct_order  (int[])     -- ordering type only; correct AnswerChoice pk
+                                      sequence. Same resolved-only gating as correct_ids.
     """
     def post(self, request, pk):
         session = ExamSession.objects.get(pk=pk, user=request.user)
@@ -123,6 +129,19 @@ class SessionAnswerView(APIView):
             response_data['hint'] = question.get_hint()
         elif is_correct or attempt_number >= 2:
             response_data['explanation'] = question.get_answer_explanation()
+
+        # Correct-answer reveal — only once the question is RESOLVED, so a
+        # study/pbq user can't read the answer off the network response before
+        # their second attempt. Exam sessions are single-attempt, so always
+        # resolved. The frontend highlights the correct option(s) green from
+        # this data; its mere presence is the gate (absent → no reveal).
+        resolved = is_correct or attempt_number >= 2 or session.session_type == 'exam'
+        if resolved:
+            key = question.get_answer_key()
+            if question.question_type in ('multiple_choice', 'multi_select', 'true_false'):
+                response_data['correct_ids'] = key.get('correct_ids', [])
+            elif question.question_type == 'ordering':
+                response_data['correct_order'] = key.get('ordered_ids', [])
 
         # SM-2 update only happens in study mode (not exam mode)
         if session.session_type == 'study':

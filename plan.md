@@ -369,6 +369,46 @@ Follow all rules strictly. Show your detailed plan before writing any code.
 
 **Security+ tie-in:** Deploying to production touches Domain 5 (Governance, Risk, and Compliance) and Domain 4 (Security Operations): secret rotation, audit logging, compliance with data residency.
 
+### Agreed Phase 6 Plan (decided 2026-05-31)
+
+**Decisions locked in:**
+- **Topology: single combined service.** One Railway web service runs gunicorn → Django, which serves the API/admin **and** the pre-built React bundle (via whitenoise) from the same origin. Same-origin keeps the session-cookie + CSRF auth working with zero CORS config. Plus one Railway-managed Postgres. (The two-service nginx-proxy topology was considered and dropped.)
+- **Deploy trigger: GitHub Actions runs the whole pipeline.** `pytest` + frontend build run first; **if any stage fails the deploy job never runs** (`deploy` job has `needs: test`). Deploy is `railway up` via the Railway CLI using a `RAILWAY_TOKEN` GitHub secret.
+
+```
+git push main ─► GitHub Actions
+                   ├─ job: test   (postgres service, migrate, pytest, npm build)
+                   └─ job: deploy (needs: test ✓) ─► railway up ─► Railway web service ─► Postgres
+```
+
+**Part A — Code & config changes (Claude does these):**
+1. Fix blocking dependency gap: add `gunicorn`, `whitenoise`, `dj-database-url` to `backend/requirements.txt`. (Both gunicorn and whitenoise are referenced by entrypoint/settings today but are NOT installed — the committed prod image would crash on boot.)
+2. Production-harden `backend/securityplus/settings.py`: parse `DATABASE_URL` (fallback to existing `DB_*` for local dev); `SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')`; `SESSION_COOKIE_SECURE`/`CSRF_COOKIE_SECURE = not DEBUG`; auto-add `RAILWAY_PUBLIC_DOMAIN` to `ALLOWED_HOSTS` + `CSRF_TRUSTED_ORIGINS`; whitenoise compressed/manifest static storage.
+3. New combined `Dockerfile` (repo root), multi-stage: Stage 1 `node:20-alpine` builds React `dist/`; Stage 2 `python:3.12-slim` installs backend reqs, copies backend + `resources/` + `dist/`, runs `collectstatic`, starts gunicorn bound to `$PORT`.
+4. SPA fallback route in Django so React Router deep links return `index.html` (while `/api/`, `/admin/`, `/static/` route normally).
+5. `railway.json` pinning the Dockerfile builder + start command.
+6. Unauthenticated `/api/v1/healthz` endpoint for Railway/CI health checks.
+7. Real smoke tests (current `tests.py` files are empty stubs): health 200, questions API rejects anonymous, login→session→submit-answer happy path.
+8. `.github/workflows/ci.yml`: `test` job (Postgres service container, migrate, run tests, `npm run build`) + `deploy` job with `needs: test` that runs `railway up` only on push to `main`.
+9. Update combined entrypoint to bind `$PORT`; keep migrate/seed/import idempotent on boot.
+10. Docs: README ops section (run locally, deploy, read logs, rollback) + CLAUDE.md Phase 6 log + ops notes.
+11. Local verification: build the combined image, run against local Postgres, confirm app serves + login + questions load BEFORE any push.
+
+**Part B — 🧑 User steps (only the user can do these):**
+1. Create a Railway account at railway.app (sign in with GitHub).
+2. Create a Railway project → Add PostgreSQL plugin.
+3. Create the web service / link the repo (or via CLI on first deploy).
+4. Generate a Railway API token (Account → Tokens) → add to GitHub repo Secrets as `RAILWAY_TOKEN`.
+5. Set service env vars in Railway: `SECRET_KEY` (generated), `DEBUG=False`, reference Postgres `DATABASE_URL`.
+6. Approve the commit & push (project rule: no commit/push without explicit approval).
+7. After first deploy: create admin superuser via `railway run`, then smoke-test the live URL.
+
+**Sequencing:** (A) Claude makes all Part-A changes + verifies image locally (no account needed) → (B) user does Part-B 1–5 → (C) approve push → CI runs → deploys → (D) user does Part-B 6–7; debug first prod issue together.
+
+**Out of scope (deferred):** Phase 5.1 question expansion (10→20) paused until deployed; two-service/nginx topology dropped.
+
+> **Blocker before Phase 6 starts:** a batch of cross-stack bugs was found during manual testing on 2026-05-31 (screenshots + notes in `security_plus_trainer/bugs/`). These must be fixed first — see the bug-fix plan / CLAUDE.md.
+
 ---
 
 ## Phase 7: Evals & Quality Assurance (Optional but High-Value)

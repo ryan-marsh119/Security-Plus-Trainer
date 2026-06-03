@@ -53,8 +53,14 @@ const useUserStore = create((set) => ({
    */
   login: async (username, password) => {
     set({ isLoading: true })
-    const { data } = await client.post('/auth/login/', { username, password })
-    set({ user: data, isLoading: false })
+    try {
+      const { data } = await client.post('/auth/login/', { username, password })
+      set({ user: data })
+    } finally {
+      // Always clear the loading flag, even on a 401 — otherwise the Login
+      // button stays disabled and stuck on "Signing in…" after a failed attempt.
+      set({ isLoading: false })
+    }
   },
 
   /**
@@ -76,8 +82,13 @@ const useUserStore = create((set) => ({
    */
   register: async (username, email, password) => {
     set({ isLoading: true })
-    const { data } = await client.post('/auth/register/', { username, email, password })
-    set({ user: data, isLoading: false })
+    try {
+      const { data } = await client.post('/auth/register/', { username, email, password })
+      set({ user: data })
+    } finally {
+      // Clear loading on validation errors (400) too, so the button recovers.
+      set({ isLoading: false })
+    }
   },
 }))
 
