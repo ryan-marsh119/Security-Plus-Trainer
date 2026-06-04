@@ -81,3 +81,8 @@ desktop.ini
 
 # Obsidian (already exists in security_plus_trainer/)
 security_plus_trainer/.obsidian/
+
+# Copyrighted CompTIA PDFs + personal email export — keep local, don't commit
+security_plus_trainer/resources/*.pdf
+# Bug screenshots may contain personal info
+security_plus_trainer/bugs/screenshots/

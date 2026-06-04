@@ -69,6 +69,22 @@ openssl rand -base64 48
 
 ## 4. Create the Railway API token for CI
 
+> **First decide HOW you want to deploy — you have two mechanisms, pick one.**
+> When you create the web service from a GitHub repo (Step 2), Railway's own
+> **GitHub integration** starts auto-deploying on every push to `main` — *without*
+> GitHub Actions and *without* `RAILWAY_TOKEN`. That path ignores CI, so it'll ship
+> a commit even if `test` fails. The `deploy` job in `ci.yml` exists precisely to
+> gate the deploy on passing tests. Running both means double deploys and a
+> meaningless gate. Choose:
+>
+> | Option | What to do | Token needed? | Test gate? |
+> |--------|-----------|---------------|------------|
+> | **A — Drop the gate (simplest)** | Keep Railway's auto-deploy; delete the `deploy` job from `ci.yml`. | No | ❌ |
+> | **B — CI owns deploy (original plan)** | Turn OFF Railway auto-deploy (Service → Settings → disconnect repo / disable auto-deploy); do the token steps below. | Yes | ✅ |
+> | **C — Best of both (recommended)** | Keep Railway's integration but enable **"Wait for CI"** in the service's GitHub trigger settings; delete the `deploy` job. | No | ✅ |
+>
+> The token steps below are **only needed for Option B.** For A/C, skip to Step 5.
+
 1. Railway → **Account Settings** → **Tokens** → **Create Token** (name it e.g. `github-actions`).
    - A **project token** scoped to this project/environment is preferred.
 2. Copy the token value.
@@ -99,11 +115,23 @@ Per the project rule, Claude has **not** committed/pushed. When you're ready:
 
 ## 6. First-deploy admin user + live smoke test
 
-1. Create a superuser against the live DB:
+1. Create a superuser against the live DB. **Run it inside the deployed
+   container**, not locally:
    ```bash
-   railway run python manage.py createsuperuser
+   railway ssh
+   # then, inside the container (cd to the backend dir if manage.py isn't at the cwd):
+   python manage.py createsuperuser
    ```
-   (Or use the service's **Shell** in the Railway dashboard.)
+   (Or use the service's **Shell** in the Railway dashboard — same effect.)
+
+   > ⚠️ **Why not `railway run python manage.py createsuperuser` from your laptop?**
+   > `railway run` executes the command **locally** with Railway's env vars injected,
+   > but the injected `DATABASE_URL` points at the **internal** host
+   > (`*.railway.internal`), which only resolves *inside* Railway's network — so the
+   > DB connection hangs/fails from your machine. Running inside the container
+   > (`railway ssh` / dashboard Shell) uses the deployed code and the internal DB
+   > connection that actually resolves. If you must do it locally, point it at the
+   > **public** DB URL (`DATABASE_PUBLIC_URL` / the TCP proxy) instead.
 2. Open your public URL (Railway → service → **Settings** → **Domains**, or click the
    generated `*.up.railway.app` URL). Verify:
    - `https://<your-domain>/api/v1/healthz` → `{"status": "ok"}`
@@ -121,8 +149,11 @@ Per the project rule, Claude has **not** committed/pushed. When you're ready:
 - **Redeploy / rollback:** service → **Deployments** → redeploy a previous build,
   or `git revert <bad commit>` + push (CI redeploys the reverted state).
 - **Config change:** edit **Variables** → Railway re-releases automatically.
-- **Run a one-off command:** `railway run <command>` (e.g. another `createsuperuser`,
-  or `python manage.py shell`).
+- **Run a one-off command:** for commands that touch the **database**, use
+  `railway ssh` (runs *in* the container, internal `DATABASE_URL` resolves) — e.g.
+  `createsuperuser`, `manage.py shell`, data migrations. `railway run <command>`
+  runs **locally** with env vars injected and won't reach the internal DB from your
+  laptop (see the caveat in Step 6).
 
 ---
 
@@ -132,7 +163,7 @@ Per the project rule, Claude has **not** committed/pushed. When you're ready:
 |---------|--------------------|
 | Deploy job fails: `Unauthorized` / `Project Token not found` | `RAILWAY_TOKEN` secret missing or wrong; regenerate + re-add. |
 | Deploy job fails: `Multiple services found` / wrong service | Set the `RAILWAY_SERVICE` repo **variable** to your service name. |
-| App returns `400 Bad Request` (DisallowedHost) | `RAILWAY_PUBLIC_DOMAIN` not present — confirm it's a Railway-managed service (it's auto-injected); a custom domain must also be added in Railway's Domains tab. |
+| App returns `400 Bad Request` (DisallowedHost) | The request's `Host` isn't in `ALLOWED_HOSTS`. `settings.py` reads `RAILWAY_PUBLIC_DOMAIN` **at boot only**, so a **just-generated or changed domain 400s until you redeploy/restart** the service (the running container predates the var). Fix: redeploy. If it persists, the var is genuinely missing — set `ALLOWED_HOSTS` (and `CSRF_TRUSTED_ORIGINS` / `CORS_ALLOWED_ORIGINS`) explicitly in Variables to your domain. **Confirmed fix on 2026-06-04: redeploy resolved it.** |
 | Login works but session/CSRF fails over HTTPS | Confirm `DEBUG=False` and that you did **not** override the secure-cookie vars; Railway terminates TLS and `SECURE_PROXY_SSL_HEADER` is already set. |
 | Boot crashes on DB connect | `DATABASE_URL` not referenced from the Postgres plugin; re-add the reference. |
 | Static/SPA assets 404 | Build issue — check the Deployments build log; `collectstatic` runs on boot and the SPA is baked into the image at `/app/frontend_build`. |
