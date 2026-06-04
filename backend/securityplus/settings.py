@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import dj_database_url
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent.parent.parent / '.env')
@@ -15,6 +16,14 @@ CSRF_TRUSTED_ORIGINS = os.environ.get(
     'CORS_ALLOWED_ORIGINS',
     'http://localhost:5173,http://localhost:3000'
 ).split(',')
+
+# Railway injects RAILWAY_PUBLIC_DOMAIN with the service's public hostname.
+# Add it to the allowed hosts and CSRF trusted origins so the deployed app
+# accepts requests to its own domain without hard-coding it here.
+RAILWAY_PUBLIC_DOMAIN = os.environ.get('RAILWAY_PUBLIC_DOMAIN')
+if RAILWAY_PUBLIC_DOMAIN:
+    ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RAILWAY_PUBLIC_DOMAIN}')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -61,16 +70,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'securityplus.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.environ.get('DB_NAME', 'securityplus'),
-        'USER': os.environ.get('DB_USER', 'secplus_user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'secplus_dev_password'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+# Database: Railway provides a single DATABASE_URL connection string; local
+# dev uses the discrete DB_* variables (see docker-compose.yml / .env).
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600),
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),
+            'NAME': os.environ.get('DB_NAME', 'securityplus'),
+            'USER': os.environ.get('DB_USER', 'secplus_user'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', 'secplus_dev_password'),
+            'HOST': os.environ.get('DB_HOST', 'localhost'),
+            'PORT': os.environ.get('DB_PORT', '5432'),
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -86,6 +103,23 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# The combined production image builds the React SPA and drops it here (see the
+# root Dockerfile, which copies the Vite dist/ to /app/frontend_build). When the
+# dir is present we serve its hashed assets via whitenoise under /static/ and the
+# index.html via the SPA fallback view (securityplus.views.spa_index).
+FRONTEND_BUILD_DIR = BASE_DIR.parent / 'frontend_build'
+STATICFILES_DIRS = [FRONTEND_BUILD_DIR] if FRONTEND_BUILD_DIR.exists() else []
+
+# Whitenoise: compress static files at collectstatic time. We intentionally do
+# NOT use the *Manifest* variant — Vite already content-hashes its asset
+# filenames, and manifest storage would re-hash them without rewriting the
+# references inside index.html, breaking the SPA. Compression alone is safe.
+STORAGES = {
+    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+    'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage'},
+}
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
@@ -111,3 +145,14 @@ CORS_ALLOW_CREDENTIALS = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
+
+# Secure cookies default ON in production (DEBUG=False) and OFF in dev. They are
+# env-overridable so the converged local docker-compose stack can run DEBUG=False
+# while still serving cookies over plain HTTP (it sets both to 'False').
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', str(not DEBUG)) == 'True'
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', str(not DEBUG)) == 'True'
+
+# Railway terminates TLS at its edge proxy and forwards plain HTTP with an
+# X-Forwarded-Proto header. Trust it so Django knows the original request was
+# HTTPS (required for secure cookies and correct scheme detection).
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

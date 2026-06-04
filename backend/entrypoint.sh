@@ -16,4 +16,5 @@ echo "Importing questions..."
 python manage.py import_questions
 
 echo "Starting gunicorn..."
-exec gunicorn securityplus.wsgi:application --bind 0.0.0.0:8000 --workers 3
+# Railway injects $PORT; default to 8000 for local docker-compose.
+exec gunicorn securityplus.wsgi:application --bind "0.0.0.0:${PORT:-8000}" --workers 3

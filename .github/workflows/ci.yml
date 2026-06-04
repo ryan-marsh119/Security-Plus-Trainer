@@ -1,0 +1,84 @@
+name: CI
+
+# Run tests + frontend build on every push and PR. On a push to main, deploy to
+# Railway — but only if the `test` job passed (deploy `needs: test`), so a failing
+# test or build blocks the deploy.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: securityplus
+          POSTGRES_USER: secplus_user
+          POSTGRES_PASSWORD: secplus_dev_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U secplus_user -d securityplus"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    env:
+      DEBUG: "False"
+      SECRET_KEY: "ci-test-secret-key-not-used-in-prod"
+      SESSION_COOKIE_SECURE: "False"
+      CSRF_COOKIE_SECURE: "False"
+      DB_HOST: "127.0.0.1"
+      DB_PORT: "5432"
+      DB_NAME: "securityplus"
+      DB_USER: "secplus_user"
+      DB_PASSWORD: "secplus_dev_password"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install backend dependencies
+        run: pip install -r backend/requirements.txt
+
+      - name: Run migrations
+        working-directory: backend
+        run: python manage.py migrate --noinput
+
+      - name: Run tests
+        working-directory: backend
+        run: python manage.py test
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+  deploy:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway
+        run: railway up --service "${{ vars.RAILWAY_SERVICE || 'web' }}" --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
