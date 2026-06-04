@@ -25,6 +25,12 @@ if RAILWAY_PUBLIC_DOMAIN:
     ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
     CSRF_TRUSTED_ORIGINS.append(f'https://{RAILWAY_PUBLIC_DOMAIN}')
 
+# Railway's deploy healthcheck probes the container internally with
+# Host: healthcheck.railway.app, which is neither localhost nor the public
+# domain. Allow it so the healthcheck (and therefore the deploy) passes.
+if os.environ.get('RAILWAY_ENVIRONMENT'):
+    ALLOWED_HOSTS.append('healthcheck.railway.app')
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
