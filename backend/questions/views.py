@@ -8,6 +8,7 @@ URL prefix: /api/v1/   (see securityplus/urls.py)
 """
 
 from rest_framework import generics
+from rest_framework.exceptions import ValidationError
 from .models import Domain, Objective, Question
 from .serializers import DomainSerializer, ObjectiveSerializer, QuestionSerializer
 
@@ -80,8 +81,14 @@ class QuestionListView(generics.ListAPIView):
         q_type = self.request.query_params.get('question_type')
         domain = self.request.query_params.get('domain')
         if q_type:
-            types = q_type.split(',')
+            # Unknown types simply match nothing (→ empty list), so no error is
+            # raised here; only a non-integer domain is a hard client error.
+            types = [t for t in q_type.split(',') if t]
             qs = qs.filter(question_type__in=types)
         if domain:
-            qs = qs.filter(objective__domain_id=domain)
+            try:
+                domain_id = int(domain)
+            except (TypeError, ValueError):
+                raise ValidationError({'domain': 'Must be an integer domain id.'})
+            qs = qs.filter(objective__domain_id=domain_id)
         return qs

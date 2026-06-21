@@ -17,13 +17,26 @@ Progress queries:
   GET /progress/objectives/ → per-objective coverage
 """
 
+import logging
+
+from django.db import IntegrityError, transaction
+from django.db.models import Count, F, Q
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import ExamSession, SessionAnswer, UserQuestionProgress, UserDomainProgress
-from .serializers import ExamSessionSerializer, SessionAnswerSerializer, UserDomainProgressSerializer
+from .serializers import (
+    AnswerSubmitSerializer,
+    ExamSessionSerializer,
+    SessionAnswerSerializer,
+    UserDomainProgressSerializer,
+)
+from questions.models import Objective, Question
 from questions.serializers import QuestionSerializer
+
+logger = logging.getLogger(__name__)
 
 
 class SessionCreateView(generics.CreateAPIView):
@@ -61,7 +74,7 @@ class SessionNextQuestionView(APIView):
         204 -- {'detail': 'No more questions.'} when the session queue is exhausted
     """
     def get(self, request, pk):
-        session = ExamSession.objects.get(pk=pk, user=request.user)
+        session = get_object_or_404(ExamSession, pk=pk, user=request.user)
         question = session.get_next_question()
         if not question:
             return Response({'detail': 'No more questions.'}, status=status.HTTP_204_NO_CONTENT)
@@ -96,25 +109,86 @@ class SessionAnswerView(APIView):
                                       sequence. Same resolved-only gating as correct_ids.
     """
     def post(self, request, pk):
-        session = ExamSession.objects.get(pk=pk, user=request.user)
-        question_id = request.data.get('question_id')
-        submitted = request.data.get('answer', {})
+        # Session must exist and belong to the caller → 404, not 500 (BE-02).
+        session = get_object_or_404(ExamSession, pk=pk, user=request.user)
 
-        from questions.models import Question
-        question = Question.objects.get(pk=question_id)
+        # Request-shape validation → 400 on missing/non-int question_id or a
+        # non-dict answer, rather than a downstream 500 (BE-03). Per Contract
+        # Decision A1 this validates shape only, never per-type answer contents.
+        serializer = AnswerSubmitSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        question_id = serializer.validated_data['question_id']
+        submitted = serializer.validated_data['answer']
 
-        prior_attempts = SessionAnswer.objects.filter(
-            session=session, question=question
-        ).count()
-        attempt_number = prior_attempts + 1
+        question = get_object_or_404(Question, pk=question_id)
         is_correct = question.check_answer(submitted)
 
-        SessionAnswer.objects.create(
-            session=session,
-            question=question,
-            submitted_answer=submitted,
-            is_correct=is_correct,
-            attempt_number=attempt_number,
+        # Everything that writes (the SessionAnswer, the SM-2 card, and the
+        # denormalised domain counter) happens atomically so a failure can't
+        # leave them desynced (BE-01). select_for_update serialises concurrent
+        # submits for the same (session, question) so attempt_number can't race;
+        # the unique_together still backstops it via IntegrityError → 409.
+        try:
+            with transaction.atomic():
+                prior = (
+                    SessionAnswer.objects
+                    .select_for_update()
+                    .filter(session=session, question=question)
+                )
+                attempt_number = prior.count() + 1
+
+                # First-ever answer to this question by this user (across all
+                # their sessions) → count it once toward domain "seen" (W5/BE-05
+                # persisted counter). Checked before the insert below.
+                is_first_ever = not SessionAnswer.objects.filter(
+                    session__user=request.user, question=question
+                ).exists()
+
+                SessionAnswer.objects.create(
+                    session=session,
+                    question=question,
+                    submitted_answer=submitted,
+                    is_correct=is_correct,
+                    attempt_number=attempt_number,
+                )
+
+                # SM-2 update only happens in study mode (not exam/pbq).
+                if session.session_type == 'study':
+                    rating = 2 if is_correct else 0  # Good (2) or Again (0)
+                    progress, _ = UserQuestionProgress.objects.get_or_create(
+                        user=request.user, question=question,
+                    )
+                    progress.update_sm2(rating)
+
+                # Denormalised per-domain accuracy: total_seen counts distinct
+                # questions ever answered; total_correct counts those right on
+                # the first attempt. F() expressions keep the increment atomic.
+                if is_first_ever:
+                    dp, _ = UserDomainProgress.objects.get_or_create(
+                        user=request.user,
+                        domain=question.objective.domain,
+                        is_pbq=(session.session_type == 'pbq'),
+                    )
+                    dp.total_seen = F('total_seen') + 1
+                    if is_correct:
+                        dp.total_correct = F('total_correct') + 1
+                    dp.save(update_fields=['total_seen', 'total_correct'])
+        except IntegrityError:
+            # A concurrent/duplicate submit hit the (session, question,
+            # attempt_number) uniqueness constraint. Treat as a conflict rather
+            # than a 500 — the earlier write already recorded the attempt.
+            logger.warning(
+                'Duplicate answer submit for session=%s question=%s user=%s',
+                session.pk, question_id, request.user.pk,
+            )
+            return Response(
+                {'detail': 'Answer already submitted for this attempt.'},
+                status=status.HTTP_409_CONFLICT,
+            )
+
+        logger.info(
+            'Answer submitted: user=%s session=%s question=%s attempt=%s correct=%s',
+            request.user.pk, session.pk, question_id, attempt_number, is_correct,
         )
 
         response_data = {
@@ -143,14 +217,6 @@ class SessionAnswerView(APIView):
             elif question.question_type == 'ordering':
                 response_data['correct_order'] = key.get('ordered_ids', [])
 
-        # SM-2 update only happens in study mode (not exam mode)
-        if session.session_type == 'study':
-            rating = 2 if is_correct else 0  # Good (2) or Again (0)
-            progress, _ = UserQuestionProgress.objects.get_or_create(
-                user=request.user, question=question,
-            )
-            progress.update_sm2(rating)
-
         return Response(response_data)
 
 
@@ -167,7 +233,7 @@ class SessionResultsView(APIView):
         {correct, total, percent, by_domain: {domain_id: {correct, total}}}
     """
     def get(self, request, pk):
-        session = ExamSession.objects.get(pk=pk, user=request.user)
+        session = get_object_or_404(ExamSession, pk=pk, user=request.user)
         return Response(session.calculate_score())
 
 
@@ -184,7 +250,7 @@ class SessionCompleteView(APIView):
     Response: {'detail': 'Session completed.'}
     """
     def post(self, request, pk):
-        session = ExamSession.objects.get(pk=pk, user=request.user)
+        session = get_object_or_404(ExamSession, pk=pk, user=request.user)
         session.completed_at = timezone.now()
         session.save()
         return Response({'detail': 'Session completed.'})
@@ -206,7 +272,6 @@ class ProgressOverviewView(APIView):
     def get(self, request):
         user = request.user
         progress_qs = UserQuestionProgress.objects.filter(user=user)
-        from questions.models import Question
         total_questions = Question.objects.count()
         total_seen = progress_qs.count()
         total_mastered = progress_qs.filter(card_state='mastered').count()
@@ -250,20 +315,38 @@ class ObjectiveProgressView(APIView):
         correct         (int) -- how many are in 'review' or 'mastered' state
     """
     def get(self, request):
-        from questions.models import Objective
-        objectives = Objective.objects.prefetch_related('questions').all()
         user = request.user
+
+        # Three aggregated queries total instead of 2-per-objective (BE-04):
+        #   1. per-objective question counts
+        #   2+3. the user's progress rows grouped by objective (seen / correct)
+        # assembled in Python below.
+        question_counts = dict(
+            Objective.objects
+            .annotate(n=Count('questions'))
+            .values_list('id', 'n')
+        )
+        progress_rows = (
+            UserQuestionProgress.objects
+            .filter(user=user)
+            .values('question__objective_id')
+            .annotate(
+                seen=Count('id'),
+                correct=Count('id', filter=Q(card_state__in=['review', 'mastered'])),
+            )
+        )
+        progress_by_obj = {
+            row['question__objective_id']: (row['seen'], row['correct'])
+            for row in progress_rows
+        }
+
         data = []
-        for obj in objectives:
-            q_ids = list(obj.questions.values_list('id', flat=True))
-            seen = UserQuestionProgress.objects.filter(user=user, question_id__in=q_ids).count()
-            correct = UserQuestionProgress.objects.filter(
-                user=user, question_id__in=q_ids, card_state__in=['review', 'mastered']
-            ).count()
+        for obj in Objective.objects.all():
+            seen, correct = progress_by_obj.get(obj.id, (0, 0))
             data.append({
                 'objective_code': obj.code,
                 'objective_title': obj.title,
-                'total_questions': len(q_ids),
+                'total_questions': question_counts.get(obj.id, 0),
                 'seen': seen,
                 'correct': correct,
             })

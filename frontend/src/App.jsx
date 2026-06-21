@@ -22,6 +22,7 @@ import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import useUserStore from './store/userStore'
 import client from './api/client'
+import ErrorBoundary from './components/ErrorBoundary'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
@@ -57,13 +58,16 @@ function RequireAuth({ children }) {
 export default function App() {
   const { user, fetchMe } = useUserStore()
 
-  // On every full page load: seed the CSRF cookie, then restore session from cookie.
+  // On every full page load: seed the CSRF cookie, then restore session from
+  // cookie. Mount-only; fetchMe is a stable Zustand action.
   useEffect(() => {
     client.get('/auth/csrf/').finally(fetchMe)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -76,6 +80,7 @@ export default function App() {
         <Route path="/results" element={<RequireAuth><Results /></RequireAuth>} />
         <Route path="*" element={<Navigate to={user ? '/dashboard' : '/login'} replace />} />
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }

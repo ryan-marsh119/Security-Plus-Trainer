@@ -26,7 +26,7 @@ already exists, so the command is safe to re-run.
 import csv
 import json
 from pathlib import Path
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from questions.models import Domain, Objective, Question, AnswerChoice, AnswerKey
 
 
@@ -126,9 +126,19 @@ class Command(BaseCommand):
                 answer_data = json.loads(row['correct_answer_key_json'])
                 for id_field in ('correct_ids', 'ordered_ids'):
                     if id_field in answer_data:
-                        answer_data[id_field] = [
-                            csv_id_to_pk.get(cid, cid) for cid in answer_data[id_field]
-                        ]
+                        remapped = []
+                        for cid in answer_data[id_field]:
+                            if cid not in csv_id_to_pk:
+                                # Silently falling back to the raw CSV id would
+                                # store a wrong AnswerChoice PK (the defect
+                                # repair_answer_keys exists to undo). Fail loudly.
+                                raise CommandError(
+                                    f'{csv_path.name}: answer key {id_field} references '
+                                    f'choice id {cid!r} with no matching answer choice '
+                                    f'for question {question_text[:60]!r}'
+                                )
+                            remapped.append(csv_id_to_pk[cid])
+                        answer_data[id_field] = remapped
 
                 AnswerKey.objects.create(
                     question=question,

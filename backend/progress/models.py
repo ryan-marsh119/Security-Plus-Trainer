@@ -47,21 +47,33 @@ class ExamSession(models.Model):
 
     def calculate_score(self) -> dict:
         """
-        Aggregates all answers in this session into a score summary.
+        Aggregates the session into a per-question accuracy summary.
+
+        Scores DISTINCT questions on their FIRST attempt only (BE-13). A study
+        question missed then re-answered correctly counts once, as wrong — so
+        `percent` is a true accuracy rather than a fraction-of-attempts diluted
+        by two-strike retries. Exam sessions are single-attempt, so this is
+        identical to counting all rows for them. The first attempt is always
+        attempt_number == 1 (assigned as prior_count + 1 at submission), and
+        there is exactly one such row per question.
 
         Returns:
             dict with keys:
-                correct  (int)   -- total correct answers
-                total    (int)   -- total answers submitted
-                percent  (float) -- correct / total * 100, rounded to 1 dp; 0 if no answers
+                correct  (int)   -- distinct questions correct on first attempt
+                total    (int)   -- distinct questions attempted
+                percent  (float) -- correct / total * 100, rounded to 1 dp; 0 if none
                 by_domain (dict) -- {domain_id: {'correct': int, 'total': int}}
         """
-        answers = self.session_answers.select_related('question__objective__domain')
-        total = answers.count()
-        correct = answers.filter(is_correct=True).count()
+        first_attempts = (
+            self.session_answers
+            .filter(attempt_number=1)
+            .select_related('question__objective__domain')
+        )
+        total = first_attempts.count()
+        correct = first_attempts.filter(is_correct=True).count()
 
         by_domain: dict = {}
-        for ans in answers:
+        for ans in first_attempts:
             domain_id = ans.question.objective.domain_id
             bucket = by_domain.setdefault(domain_id, {'correct': 0, 'total': 0})
             bucket['total'] += 1
@@ -145,6 +157,11 @@ class SessionAnswer(models.Model):
 
     class Meta:
         unique_together = [('session', 'question', 'attempt_number')]
+        indexes = [
+            # Hot path: attempt_number lookups and first-ever-answer checks
+            # filter on (session, question); the answer counter joins on these.
+            models.Index(fields=['session', 'question']),
+        ]
 
     def __str__(self):
         return f'Session {self.session_id} Q{self.question_id} attempt {self.attempt_number}'
@@ -190,6 +207,12 @@ class UserQuestionProgress(models.Model):
 
     class Meta:
         unique_together = [('user', 'question')]
+        indexes = [
+            # SM-2 due-card lookup (get_next_question) filters user + due_date;
+            # dashboard counts filter user + card_state.
+            models.Index(fields=['user', 'due_date']),
+            models.Index(fields=['user', 'card_state']),
+        ]
 
     def update_sm2(self, rating: int) -> None:
         """
@@ -210,7 +233,15 @@ class UserQuestionProgress(models.Model):
             interval_days >= 21 → 'mastered'
             repetitions > 0     → 'review'
             otherwise           → 'learning'
+
+        Raises:
+            ValueError: if rating is outside the supported 0–3 range. The SM-2
+                ease-factor formula is only defined for 0–3; an out-of-range
+                value would silently corrupt the card's scheduling.
         """
+        if not isinstance(rating, int) or not 0 <= rating <= 3:
+            raise ValueError(f'rating must be an int in 0..3, got {rating!r}')
+
         if rating < 2:
             self.repetitions = 0
             self.interval_days = 1

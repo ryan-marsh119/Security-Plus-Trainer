@@ -68,8 +68,14 @@ const useUserStore = create((set) => ({
    * the local user state.
    */
   logout: async () => {
-    await client.post('/auth/logout/')
-    set({ user: null })
+    try {
+      await client.post('/auth/logout/')
+    } finally {
+      // Always clear local user state, even if the logout request fails —
+      // otherwise a network hiccup leaves the UI in a logged-in state with a
+      // dead session. Clearing locally is the safe default.
+      set({ user: null })
+    }
   },
 
   /**

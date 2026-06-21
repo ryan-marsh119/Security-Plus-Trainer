@@ -6,7 +6,16 @@ export default function PBQHub() {
   const [domains, setDomains] = useState([])
 
   useEffect(() => {
-    client.get('/domains/').then(({ data }) => setDomains(data)).catch(() => {})
+    let cancelled = false
+    client
+      .get('/domains/')
+      .then(({ data }) => {
+        if (!cancelled) setDomains(data)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   return (

@@ -24,6 +24,15 @@ const useSessionStore = create((set, get) => ({
   currentQuestion: null,
   attemptNumber: 0,
   lastResult: null,
+  // questionsServed: how many questions this session has served (powers the
+  // exam "Question N" counter). Reset on startSession.
+  questionsServed: 0,
+  // error: a user-facing message set when an API call fails, so session pages
+  // can show a retry affordance instead of an infinite loading spinner.
+  error: null,
+
+  /** Clears the current error (call before retrying a failed action). */
+  clearError: () => set({ error: null }),
 
   /**
    * Creates a new session on the server and immediately fetches the first question.
@@ -34,9 +43,20 @@ const useSessionStore = create((set, get) => ({
   startSession: async (sessionType, domainId = null) => {
     const payload = { session_type: sessionType }
     if (domainId) payload.domain_filter = domainId
-    const { data } = await client.post('/sessions/', payload)
-    set({ session: data, currentQuestion: null, attemptNumber: 0, lastResult: null })
-    await get().fetchNextQuestion()
+    try {
+      const { data } = await client.post('/sessions/', payload)
+      set({
+        session: data,
+        currentQuestion: null,
+        attemptNumber: 0,
+        lastResult: null,
+        questionsServed: 0,
+        error: null,
+      })
+      await get().fetchNextQuestion()
+    } catch {
+      set({ error: 'Could not start the session. Please try again.' })
+    }
   },
 
   /**
@@ -47,8 +67,18 @@ const useSessionStore = create((set, get) => ({
   fetchNextQuestion: async () => {
     const { session } = get()
     if (!session) return
-    const { data } = await client.get(`/sessions/${session.id}/next/`)
-    set({ currentQuestion: data, attemptNumber: 0, lastResult: null })
+    try {
+      const { data } = await client.get(`/sessions/${session.id}/next/`)
+      set((s) => ({
+        currentQuestion: data,
+        attemptNumber: 0,
+        lastResult: null,
+        questionsServed: s.questionsServed + 1,
+        error: null,
+      }))
+    } catch {
+      set({ error: 'Could not load the next question. Please try again.' })
+    }
   },
 
   /**
@@ -67,12 +97,17 @@ const useSessionStore = create((set, get) => ({
    */
   submitAnswer: async (answer) => {
     const { session, currentQuestion } = get()
-    const { data } = await client.post(`/sessions/${session.id}/answers/`, {
-      question_id: currentQuestion.id,
-      answer,
-    })
-    set({ lastResult: data, attemptNumber: data.attempt_number })
-    return data
+    try {
+      const { data } = await client.post(`/sessions/${session.id}/answers/`, {
+        question_id: currentQuestion.id,
+        answer,
+      })
+      set({ lastResult: data, attemptNumber: data.attempt_number, error: null })
+      return data
+    } catch {
+      set({ error: 'Could not submit your answer. Please try again.' })
+      return null
+    }
   },
 
   /**
@@ -86,10 +121,18 @@ const useSessionStore = create((set, get) => ({
   completeSession: async () => {
     const { session } = get()
     if (!session) return null
-    await client.post(`/sessions/${session.id}/complete/`)
-    const { data } = await client.get(`/sessions/${session.id}/results/`)
-    set({ session: null, currentQuestion: null })
-    return data
+    const sessionId = session.id
+    try {
+      await client.post(`/sessions/${sessionId}/complete/`)
+      const { data } = await client.get(`/sessions/${sessionId}/results/`)
+      set({ session: null, currentQuestion: null, error: null })
+      // Return the results plus the id so the Results page can re-fetch on a
+      // refresh / direct navigation (it no longer relies solely on router state).
+      return { ...data, sessionId }
+    } catch {
+      set({ error: 'Could not finish the session. Please try again.' })
+      return null
+    }
   },
 }))
 

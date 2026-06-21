@@ -9,12 +9,24 @@ export default function Dashboard() {
   const [overview, setOverview] = useState(null)
 
   useEffect(() => {
-    client.get('/progress/').then(({ data }) => setOverview(data)).catch(() => {})
+    let cancelled = false
+    client
+      .get('/progress/')
+      .then(({ data }) => {
+        if (!cancelled) setOverview(data)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const handleLogout = async () => {
-    await logout()
-    navigate('/login')
+    try {
+      await logout()
+    } finally {
+      navigate('/login')
+    }
   }
 
   return (

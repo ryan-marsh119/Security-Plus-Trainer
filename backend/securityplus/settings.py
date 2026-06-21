@@ -161,4 +161,60 @@ CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', str(not DEBUG)) == 'Tr
 # Railway terminates TLS at its edge proxy and forwards plain HTTP with an
 # X-Forwarded-Proto header. Trust it so Django knows the original request was
 # HTTPS (required for secure cookies and correct scheme detection).
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#
+# Only trust this header when actually running behind that proxy. If we trusted
+# it unconditionally, a client hitting the app directly could spoof
+# X-Forwarded-Proto: https and defeat scheme detection. Gate on the Railway
+# environment marker (or an explicit opt-in for other reverse proxies). (BE-16)
+TRUST_PROXY_SSL_HEADER = bool(os.environ.get('RAILWAY_ENVIRONMENT')) or \
+    os.environ.get('TRUST_PROXY_SSL_HEADER') == 'True'
+if TRUST_PROXY_SSL_HEADER:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Fail fast rather than silently shipping insecure defaults to production. If
+# DEBUG is off we must have a real SECRET_KEY and a non-default DB password.
+# (BE-10) Catches a misconfigured deploy at boot instead of at exploit time.
+if not DEBUG:
+    from django.core.exceptions import ImproperlyConfigured
+
+    if SECRET_KEY == 'django-insecure-dev-only-change-in-production':
+        raise ImproperlyConfigured(
+            'SECRET_KEY must be set to a real secret when DEBUG=False.'
+        )
+    _db_password = DATABASES['default'].get('PASSWORD')
+    if not DATABASE_URL and _db_password == 'secplus_dev_password':
+        raise ImproperlyConfigured(
+            'DB_PASSWORD must not be the dev default when DEBUG=False.'
+        )
+
+# Logging: a dependency-free console config so request errors and app-level
+# audit lines (answer submissions, login failures) are visible in the Railway
+# logs. Level is env-overridable via LOG_LEVEL. (BE-09 / W9)
+LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '[{asctime}] {levelname} {name}: {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': LOG_LEVEL,
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+    },
+}

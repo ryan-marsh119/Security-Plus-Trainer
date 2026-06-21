@@ -11,18 +11,25 @@ export default function Domains() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    let cancelled = false
     Promise.all([
       client.get('/domains/'),
       client.get('/progress/domains/').catch(() => ({ data: [] })),
     ])
       .then(([domainsRes, progressRes]) => {
+        if (cancelled) return
         setDomains(domainsRes.data)
         // Index per-domain progress by domain id for quick lookup.
         const byId = {}
         for (const row of progressRes.data) byId[row.domain] = row
         setProgress(byId)
       })
-      .finally(() => setLoading(false))
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const accuracy = (domainId) => {

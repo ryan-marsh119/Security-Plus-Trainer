@@ -2,23 +2,33 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useSessionStore from '../store/sessionStore'
 import QuestionWrapper from '../components/questions/QuestionWrapper'
+import StatusScreen from '../components/StatusScreen'
 
 export default function PBQSession() {
   const { domainId } = useParams()
-  const { session, currentQuestion, startSession } = useSessionStore()
+  const { currentQuestion, error, startSession, clearError } = useSessionStore()
   const navigate = useNavigate()
 
+  // Restart the session whenever the domain changes. startSession is a stable
+  // Zustand action, intentionally omitted from deps.
   useEffect(() => {
     const id = domainId === 'all' ? null : Number(domainId)
     startSession('pbq', id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [domainId])
 
+  const retry = () => {
+    clearError()
+    const id = domainId === 'all' ? null : Number(domainId)
+    startSession('pbq', id)
+  }
+
+  if (error) {
+    return <StatusScreen message={error} onRetry={retry} tone="error" />
+  }
+
   if (!currentQuestion) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">Loading PBQ…</p>
-      </div>
-    )
+    return <StatusScreen message="Loading PBQ…" />
   }
 
   return (

@@ -1,8 +1,39 @@
+import { useEffect, useState } from 'react'
 import { useLocation, Link } from 'react-router-dom'
+import client from '../api/client'
 
 export default function Results() {
   const { state } = useLocation()
-  const results = state?.results
+  const sessionId = state?.sessionId ?? state?.results?.sessionId
+  const [results, setResults] = useState(state?.results ?? null)
+  // Only show a loading state if we have an id to fetch but no results yet
+  // (i.e. a refresh / direct navigation, where router state was lost).
+  const [loading, setLoading] = useState(!state?.results && !!sessionId)
+
+  useEffect(() => {
+    if (results || !sessionId) return
+    let cancelled = false
+    client
+      .get(`/sessions/${sessionId}/results/`)
+      .then(({ data }) => {
+        if (!cancelled) setResults(data)
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [sessionId, results])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500">Loading results…</p>
+      </div>
+    )
+  }
 
   if (!results) {
     return (

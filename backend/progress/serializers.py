@@ -8,6 +8,25 @@ from rest_framework import serializers
 from .models import ExamSession, SessionAnswer, UserQuestionProgress, UserDomainProgress
 
 
+class AnswerSubmitSerializer(serializers.Serializer):
+    """
+    Validates the SHAPE of an answer-submission request body
+    (POST /sessions/<id>/answers/). Request-shape validation only — it does NOT
+    validate per-question-type answer contents, because Question.check_answer()
+    already tolerates missing/extra keys via .get(default). Adding per-type
+    validation here could reject a payload the frontend legitimately emits and
+    would couple this serializer to the answer-key shapes; keep it generic.
+
+    Fields:
+        question_id (int)  -- pk of the question being answered (required).
+        answer      (dict) -- the type-specific answer payload; defaults to {}
+                              so a malformed/absent body fails cleanly at
+                              check_answer rather than 500-ing.
+    """
+    question_id = serializers.IntegerField()
+    answer = serializers.DictField(required=False, default=dict)
+
+
 class ExamSessionSerializer(serializers.ModelSerializer):
     """
     Used for both creating sessions (POST /sessions/) and returning session data.
