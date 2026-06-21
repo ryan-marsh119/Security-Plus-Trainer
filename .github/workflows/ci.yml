@@ -18,7 +18,7 @@ jobs:
         env:
           POSTGRES_DB: securityplus
           POSTGRES_USER: secplus_user
-          POSTGRES_PASSWORD: secplus_dev_password
+          POSTGRES_PASSWORD: ci_test_password_not_default
         ports:
           - 5432:5432
         options: >-
@@ -36,7 +36,7 @@ jobs:
       DB_PORT: "5432"
       DB_NAME: "securityplus"
       DB_USER: "secplus_user"
-      DB_PASSWORD: "secplus_dev_password"
+      DB_PASSWORD: "ci_test_password_not_default"
 
     steps:
       - uses: actions/checkout@v4
